@@ -1,6 +1,9 @@
 import { motion } from "motion/react";
 import { Play, TrendingUp, Sparkles, Award, ShieldCheck, ArrowDownCircle, Flame, Star } from "lucide-react";
 
+import premiumAbstractData from "../assets/images/premium_abstract_data_1780311877428.png";
+import luxuryAgencyWorkspace from "../assets/images/luxury_agency_workspace_1780311831201.png";
+
 export default function Hero() {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -25,7 +28,7 @@ export default function Hero() {
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full orange-glow translate-x-1/2 translate-y-1/2 z-0" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[95rem] opacity-15 pointer-events-none z-0">
         <img
-          src="/src/assets/images/premium_abstract_data_1780311877428.png"
+          src={premiumAbstractData}
           alt="Atmosphere background"
           className="w-full h-full object-cover rounded-[40px] blur-xl"
           referrerPolicy="no-referrer"
@@ -145,7 +148,7 @@ export default function Hero() {
             className="relative w-80 h-[400px] rounded-3xl glass-effect shadow-[0_30px_100px_rgba(0,0,0,0.8)] border border-white/10 overflow-hidden group"
           >
             <img 
-              src="/src/assets/images/luxury_agency_workspace_1780311831201.png" 
+              src={luxuryAgencyWorkspace} 
               alt="Workspace visual mockup" 
               className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700" 
               referrerPolicy="no-referrer"

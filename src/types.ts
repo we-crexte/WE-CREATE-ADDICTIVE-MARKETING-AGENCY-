@@ -1,5 +1,12 @@
 // types.ts for Addictive Marketing Agency Website
 
+import aeNotificationMockup from "./assets/images/ae_notification_mockup_1780316409386.png";
+import buriedVideosMockup from "./assets/images/buried_videos_mockup_1780316859908.png";
+import iosConceptMockup from "./assets/images/ios_concept_mockup_1780317348378.png";
+import shopifyScaleMockup from "./assets/images/shopify_scale_mockup_1780317375611.png";
+import agencySystemMockup from "./assets/images/agency_system_mockup_1780317406987.png";
+import ishowspeedJourneyMockup from "./assets/images/ishowspeed_journey_mockup_1780317433540.png";
+
 export interface CaseStudy {
   id: string;
   clientName: string;
@@ -125,7 +132,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "w-0",
     title: "After Effects — Better than DaVinci",
     category: "shorts",
-    thumbnail: "/src/assets/images/ae_notification_mockup_1780316409386.png",
+    thumbnail: aeNotificationMockup,
     videoUrl: "/AFTER EFFECTS.mp4",
     description: "Our signature App Store conversion funnel concept. Utilizes highly persuasive UI notification mechanics, pattern-interrupt screenshots, and high-velocity pacing to maximize installation intent.",
     metrics: "140K+ Reach & Conversion Boost"
@@ -134,7 +141,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "w-0-2",
     title: "90% of Videos Get Buried Instantly",
     category: "shorts",
-    thumbnail: "/src/assets/images/buried_videos_mockup_1780316859908.png",
+    thumbnail: buriedVideosMockup,
     videoUrl: "/BURIED.mp4",
     description: "An aggressive pattern-interrupt sequence combatting instant dropoffs. Structured using premium custom visual icons, auditory triggers, and cognitive open loops.",
     metrics: "+92% Audited Watch-Time Boost"
@@ -143,7 +150,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "w-0-3",
     title: "Apple Concept — iOS 26 New Look",
     category: "shorts",
-    thumbnail: "/src/assets/images/ios_concept_mockup_1780317348378.png",
+    thumbnail: iosConceptMockup,
     videoUrl: "/IOS VIDEO.mp4",
     description: "A highly cinematic user-interface reveal conceptualizing the next iOS flight notification and mapping integration under high-energy transition effects.",
     metrics: "2.1M+ Volatile Impressions"
@@ -152,8 +159,8 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "w-0-4",
     title: "Prosper Scale — $10K/Month to $10K/Day",
     category: "shorts",
-    thumbnail: "/src/assets/images/shopify_scale_mockup_1780317375611.png",
-    videoUrl: "PROSPER.mp4",
+    thumbnail: shopifyScaleMockup,
+    videoUrl: "/PROSPER.mp4",
     description: "A financial performance review video detailing Shopify e-commerce scaling secrets. Blends high-pace talking head footage with sleek custom Shopify analytics screenshots.",
     metrics: "+1,077% Sales Velocity Lift"
   },
@@ -161,7 +168,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "w-0-5",
     title: "Agency Blueprint — Over $10,000/Month",
     category: "shorts",
-    thumbnail: "/src/assets/images/agency_system_mockup_1780317406987.png",
+    thumbnail: agencySystemMockup,
     videoUrl: "/AGENCY BLUEPRINT 10k $.mp4",
     description: "An elite strategic consulting program sequence showing briefcase stacks and problem-solving puzzles to command premium client retainers.",
     metrics: "$84K MRR Deployed Pipeline"
@@ -170,7 +177,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "w-0-6",
     title: "IShowSpeed — From Nothing to Global Icon",
     category: "shorts",
-    thumbnail: "/src/assets/images/ishowspeed_journey_mockup_1780317433540.png",
+    thumbnail: ishowspeedJourneyMockup,
     videoUrl: "/ISHOWSPEED.mp4",
     description: "A comprehensive motivational storytelling documentary short tracking IShowSpeed from a zero-viewer streamer into a global icon.",
     metrics: "+3.2M Fan Retention Velocity"

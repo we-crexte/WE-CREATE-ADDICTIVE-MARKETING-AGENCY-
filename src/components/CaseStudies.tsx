@@ -13,8 +13,8 @@ import {
 } from "lucide-react";
 import { CASE_STUDIES } from "../types";
 
-const tiktokFlowDiagram = "/src/assets/images/tiktok_flow_diagram_1780314827690.png";
-const podcastFlowDiagram = "/src/assets/images/podcast_growth_flow_1780315200_1780315180803.png";
+import tiktokFlowDiagram from "../assets/images/tiktok_flow_diagram_1780314827690.png";
+import podcastFlowDiagram from "../assets/images/podcast_growth_flow_1780315200_1780315180803.png";
 
 const TABS_DATA = [
   {

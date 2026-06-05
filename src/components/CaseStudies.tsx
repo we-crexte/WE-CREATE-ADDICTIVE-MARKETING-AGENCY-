@@ -80,7 +80,7 @@ export default function CaseStudies() {
   const activeObj = TABS_DATA[activeTab];
 
   return (
-    <section id="case-studies" className="relative py-28 bg-[#070708] overflow-hidden border-t border-b border-neutral-900">
+    <section id="case-studies" className="relative py-16 sm:py-28 bg-dark-bg overflow-hidden border-t border-b border-white/5">
       {/* Background decoration elements */}
       <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[140px] pointer-events-none" />
@@ -88,33 +88,33 @@ export default function CaseStudies() {
       {/* Grid backing layout overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:40px_40px] opacity-25 [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-[95rem] mx-auto px-6 md:px-12 relative z-10">
         
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center mb-12 animate-[fadeIn_0.5s_ease-out]">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full mb-4 text-xs font-mono font-bold text-blue-400 uppercase tracking-widest">
+        <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-16 animate-[fadeIn_0.5s_ease-out]">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full mb-4 text-xs font-mono font-bold text-blue-400 uppercase tracking-widest">
             <TrendingUp className="w-3.5 h-3.5" />
             <span>METRIC PROOF: PERFORMANCE LEDGERS</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-display font-extrabold tracking-tight text-white mb-4 leading-tight">
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-display font-black tracking-tight text-white mb-4 sm:mb-6 leading-tight">
             Proof of Work. <br />
             <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-sky-400 bg-clip-text text-transparent">
               Defying Algorithm Limits.
             </span>
           </h2>
-          <p className="mt-4 text-neutral-400 text-sm md:text-base font-light max-w-xl mx-auto">
+          <p className="mt-3 sm:mt-6 text-neutral-300 text-sm sm:text-base md:text-lg font-light max-w-2xl mx-auto">
             Actual metrics from real creator dashboards. No generic mock placeholder metrics. Clean, traceable audience retention.
           </p>
         </div>
 
         {/* Tab switcher buttons under section header */}
-        <div className="flex justify-center mb-16">
-          <div className="inline-flex bg-zinc-950 p-1 rounded-xl border border-white/5 relative">
+        <div className="flex justify-center mb-10 sm:mb-16">
+          <div className="inline-flex bg-zinc-950 p-1 rounded-xl border border-white/5 relative max-w-full overflow-x-auto whitespace-nowrap scrollbar-none">
             {TABS_DATA.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative px-5 py-2.5 text-xs font-mono uppercase tracking-wider rounded-lg transition-all duration-300 z-10 ${
+                className={`relative px-4 sm:px-5 py-2 sm:py-2.5 text-[10px] sm:text-xs font-mono uppercase tracking-wider rounded-lg transition-all duration-300 z-10 ${
                   activeTab === tab.id 
                     ? "text-white font-bold" 
                     : "text-neutral-500 hover:text-neutral-300"
@@ -141,7 +141,7 @@ export default function CaseStudies() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.4 }}
-            className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start"
+            className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-16 items-start"
           >
             
             {/* LEFT SIDE: Narrative breakdown & Custom Graph */}
@@ -153,33 +153,31 @@ export default function CaseStudies() {
                   <span className="text-neutral-400 flex items-center gap-1">
                     <Calendar className="w-3 h-3 text-indigo-400" /> {activeObj.campaign}
                   </span>
-                </div>
-
-                <h3 className="text-2xl md:text-3.5xl font-display font-black text-white tracking-tight leading-tight">
+                </div>                 <h3 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-black text-white tracking-tight leading-tight">
                   From <span className="text-neutral-500 line-through">{activeObj.headingFrom}</span> to <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">{activeObj.headingTo}</span>
                 </h3>
 
-                <p className="text-neutral-400 text-sm md:text-base font-light leading-relaxed">
+                <p className="text-neutral-300 text-sm sm:text-base md:text-lg font-light leading-relaxed">
                   {activeObj.description}
                 </p>
               </div>
 
               {/* Metrics Snapshot block */}
-              <div className="grid grid-cols-2 gap-4 p-5 rounded-2xl bg-white/[0.02] border border-white/5 backdrop-blur-sm">
+              <div className="grid grid-cols-2 gap-4 p-4 sm:p-5 rounded-2xl bg-white/[0.02] border border-white/5 backdrop-blur-sm">
                 <div>
-                  <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest block mb-1">{activeObj.baselineLabel}</span>
-                  <p className="text-base font-bold text-neutral-500 line-through">{activeObj.baselineValue}</p>
+                  <span className="text-[10px] sm:text-xs font-mono text-neutral-500 uppercase tracking-widest block mb-1 font-extrabold">{activeObj.baselineLabel}</span>
+                  <p className="text-base sm:text-xl font-bold text-neutral-500 line-through">{activeObj.baselineValue}</p>
                 </div>
                 <div>
-                  <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest block mb-1">{activeObj.scaleLabel}</span>
-                  <p className="text-base font-bold text-emerald-400 flex items-center gap-1 font-mono">
+                  <span className="text-[10px] sm:text-xs font-mono text-emerald-400 uppercase tracking-widest block mb-1 font-extrabold">{activeObj.scaleLabel}</span>
+                  <p className="text-base sm:text-xl font-bold text-emerald-400 flex items-center gap-1 font-mono">
                     <CheckCircle className="w-4 h-4" /> {activeObj.scaleValue}
                   </p>
                 </div>
               </div>
 
               {/* Highly customized interactive SVG retention graph */}
-              <div className="p-6 rounded-2xl bg-[#09090c]/90 border border-white/5 relative overflow-hidden shadow-2xl">
+              <div className="p-6 rounded-2xl bg-dark-card/90 border border-white/5 relative overflow-hidden shadow-2xl">
                 <div className="flex items-center justify-between mb-4">
                   <div>
                     <span className="text-[9px] font-mono text-neutral-500 uppercase block tracking-wider">MOMENTUM VELOCITY CURVE</span>
@@ -260,7 +258,7 @@ export default function CaseStudies() {
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6 }}
-                className="relative p-2.5 rounded-3xl bg-[#0c0c0e] border border-white/10 overflow-hidden shadow-[0_25px_60px_-15px_rgba(59,130,246,0.15)] group"
+                className="relative p-2.5 rounded-3xl bg-dark-card border border-white/10 overflow-hidden shadow-[0_25px_60px_-15px_rgba(59,130,246,0.15)] group"
               >
                 <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/5 via-transparent to-purple-500/5 opacity-100 pointer-events-none" />
                 

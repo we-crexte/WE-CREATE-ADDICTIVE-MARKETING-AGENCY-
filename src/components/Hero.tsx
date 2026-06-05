@@ -19,11 +19,11 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center pt-28 pb-16 overflow-hidden bg-grid">
+    <section id="hero" className="relative min-h-screen flex items-center justify-center pt-24 sm:pt-32 pb-12 sm:pb-20 overflow-hidden bg-grid">
       {/* Background radial atmosphere */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full purple-glow -translate-x-1/2 -translate-y-1/2 z-0" />
       <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full orange-glow translate-x-1/2 translate-y-1/2 z-0" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-7xl opacity-15 pointer-events-none z-0">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-[95rem] opacity-15 pointer-events-none z-0">
         <img
           src="/src/assets/images/premium_abstract_data_1780311877428.png"
           alt="Atmosphere background"
@@ -32,7 +32,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10 w-full">
+      <div className="max-w-[95rem] mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-16 items-center relative z-10 w-full">
         
         {/* Left Side: Editorial Messaging */}
         <motion.div
@@ -41,24 +41,36 @@ export default function Hero() {
           animate="visible"
           className="lg:col-span-7 flex flex-col justify-center text-left"
         >
-          {/* Trust Badge */}
+          {/* Brand Presentation & Trust Badge */}
           <motion.div 
             variants={itemVariants}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 w-fit mb-6 shadow-indigo-500/10 shadow-sm"
+            className="inline-flex flex-wrap items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-purple-500/5 border border-purple-500/20 w-fit mb-4 sm:mb-8 shadow-[0_0_20px_rgba(168,85,247,0.05)] backdrop-blur-md"
           >
-            <Sparkles className="w-4 h-4 text-amber-400 fill-amber-400/20" />
-            <span className="text-xs font-semibold uppercase tracking-wider text-neutral-300">
-              The Attention Oligarchy Engine
-            </span>
+            <div className="flex items-center gap-2.5">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-purple-500"></span>
+              </span>
+              <span className="font-mono text-[9px] sm:text-sm text-purple-300 uppercase tracking-[0.25em] font-extrabold">
+                ADDICTIVE MARKETING
+              </span>
+            </div>
+            <span className="hidden sm:inline text-purple-500/40 font-bold">|</span>
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-amber-400 fill-amber-400/20" />
+              <span className="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-neutral-300">
+                The Attention Oligarchy Engine
+              </span>
+            </div>
           </motion.div>
 
           {/* Majestic Hero Headline */}
           <motion.h1
             variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-6xl font-display font-extrabold tracking-tight leading-[1.05] text-white"
+            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-black tracking-tight leading-[1.15] sm:leading-[1.05] text-white"
           >
             Your Brand Deserves <br />
-            <span className="relative inline-block mt-1">
+            <span className="relative inline-block mt-2">
               <span className="absolute inset-x-0 bottom-2 h-4 bg-gradient-to-r from-purple-600/30 via-rose-500/30 to-amber-500/30 filter blur-sm" />
               <span className="relative bg-gradient-to-r from-purple-400 via-rose-400 to-amber-300 bg-clip-text text-transparent font-black">
                 More Than Just Content.
@@ -69,7 +81,7 @@ export default function Hero() {
           {/* Subheading */}
           <motion.p
             variants={itemVariants}
-            className="mt-6 text-lg md:text-xl text-neutral-400 font-sans max-w-xl leading-relaxed font-light"
+            className="mt-4 sm:mt-8 text-sm sm:text-lg lg:text-2xl text-neutral-300 font-sans max-w-3xl leading-relaxed font-light"
           >
             We build content systems that generate attention, authority, and revenue. Convert cold scrollers into high-paying advocates.
           </motion.p>
@@ -77,27 +89,27 @@ export default function Hero() {
           {/* Call to Actions */}
           <motion.div
             variants={itemVariants}
-            className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-4"
+            className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4"
           >
-            {/* Showreel Primary */}
+            {/* VSL Primary */}
             <a
-              href="#showreel"
-              className="relative group flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 via-rose-500 to-amber-500 rounded-xl text-white font-semibold text-base transition-all duration-300 hover:shadow-[0_0_30px_rgba(244,63,94,0.35)] shadow-md"
+              href="#vsl"
+              className="relative group flex items-center justify-center gap-3 px-6 sm:px-8 py-3.5 sm:py-4 bg-gradient-to-r from-purple-600 via-rose-500 to-amber-500 rounded-xl text-white font-semibold text-sm sm:text-base transition-all duration-300 hover:shadow-[0_0_30px_rgba(244,63,94,0.35)] shadow-md animate-pulse"
             >
               <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-purple-700 via-rose-600 to-amber-400 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative flex items-center gap-2">
                 <Play className="w-4 h-4 fill-white" />
-                View Showreel
+                Watch Masterclass (VSL)
               </span>
             </a>
 
-            {/* VSL Secondary */}
+            {/* Contact Secondary */}
             <a
-              href="#vsl"
-              className="flex items-center justify-center gap-2.5 px-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 rounded-xl text-white font-medium transition-colors duration-300"
+              href="#contact"
+              className="flex items-center justify-center gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 bg-white/5 border border-white/10 hover:bg-white/10 rounded-xl text-white font-medium text-sm sm:text-base transition-colors duration-300"
             >
-              <TrendingUp className="w-4 h-4 text-emerald-400" />
-              <span>Watch process (VSL)</span>
+              <Flame className="w-4 h-4 text-rose-500" />
+              <span>Start Your Journey</span>
             </a>
           </motion.div>
 
@@ -153,7 +165,7 @@ export default function Hero() {
             initial={{ x: -120, y: -40, opacity: 0 }}
             animate={{ x: -30, y: -60, opacity: 1 }}
             transition={{ type: "spring", stiffness: 50, delay: 0.6 }}
-            className="absolute rounded-2xl glass-effect p-4 border border-white/10 shadow-[0_15px_30px_rgba(0,0,0,0.5)] max-w-[200px]"
+            className="absolute rounded-2xl glass-effect p-4 border border-white/10 shadow-[0_15px_30px_rgba(0,0,0,0.5)] max-w-[200px] hidden md:block"
           >
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center border border-rose-500/30">
@@ -172,7 +184,7 @@ export default function Hero() {
             initial={{ x: 120, y: 150, opacity: 0 }}
             animate={{ x: 20, y: 120, opacity: 1 }}
             transition={{ type: "spring", stiffness: 40, delay: 0.8 }}
-            className="absolute rounded-2xl bg-black/90 p-4 border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.6)] min-w-[220px]"
+            className="absolute rounded-2xl bg-black/90 p-4 border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.6)] min-w-[220px] hidden md:block"
           >
             <div className="flex items-center justify-between mb-2">
               <span className="text-[10px] text-amber-400 font-mono font-bold tracking-wider uppercase">REVENUE IMPACT</span>
@@ -195,7 +207,7 @@ export default function Hero() {
             initial={{ x: 140, y: -40, opacity: 0 }}
             animate={{ x: 80, y: -20, opacity: 1 }}
             transition={{ type: "spring", stiffness: 60, delay: 1 }}
-            className="absolute rounded-full glass-effect px-4 py-2 border border-white/10 shadow-lg flex items-center gap-2"
+            className="absolute rounded-full glass-effect px-4 py-2 border border-white/10 shadow-lg flex items-center gap-2 hidden md:flex"
           >
             <ShieldCheck className="w-4 h-4 text-purple-400" />
             <span className="text-[10px] font-mono tracking-wider font-bold text-neutral-200">98% Retention Approved</span>

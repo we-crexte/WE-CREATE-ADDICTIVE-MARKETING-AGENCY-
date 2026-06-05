@@ -1,15 +1,16 @@
-import { Flame, ArrowUpRight, Github, Twitter, Linkedin, Sparkles } from "lucide-react";
+import { ArrowUpRight, Github, Twitter, Linkedin, Sparkles } from "lucide-react";
+import AdictiveLogo from "./AdictiveLogo";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-[#070708] border-t border-white/5 pt-20 pb-12 overflow-hidden z-10 font-sans">
+    <footer className="relative bg-dark-bg border-t border-white/5 pt-20 pb-12 overflow-hidden z-10 font-sans">
       {/* Background glow flares */}
       <div className="absolute bottom-0 right-0 w-[400px] h-[200px] purple-glow opacity-10 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[200px] orange-glow opacity-5 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-[95rem] mx-auto px-6 md:px-12 relative z-10">
         
         {/* Upper tier: brand mapping and sitemap lists */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-16 border-b border-white/5">
@@ -17,21 +18,8 @@ export default function Footer() {
           {/* Brand info column */}
           <div className="md:col-span-5 flex flex-col justify-between">
             <div>
-              <a href="#" className="flex items-center gap-2 group">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-rose-500 rounded-full blur-sm opacity-75" />
-                  <div className="relative w-8 h-8 bg-black rounded-full flex items-center justify-center border border-white/10">
-                    <Flame className="w-4 h-4 text-rose-500" />
-                  </div>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-display font-black text-base tracking-wider bg-gradient-to-r from-white to-rose-400 bg-clip-text text-transparent">
-                    ADDICTIVE
-                  </span>
-                  <span className="text-[8px] uppercase font-mono tracking-[0.3em] text-amber-400/80 -mt-1 font-bold">
-                    MARKETING
-                  </span>
-                </div>
+              <a href="#" className="group inline-block">
+                <AdictiveLogo iconSize="w-9 h-9" textSize="text-lg" />
               </a>
 
               <p className="mt-6 text-sm text-neutral-400 max-w-sm leading-relaxed font-light">
@@ -57,7 +45,7 @@ export default function Footer() {
             <h5 className="text-xs uppercase font-mono tracking-widest text-[#bcbcc5] mb-6 font-bold">The Blueprint</h5>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href="#showreel" className="text-neutral-400 hover:text-white transition-colors">Our Showreels</a>
+                <a href="#vsl" className="text-neutral-400 hover:text-white transition-colors">Vitals Masterclass</a>
               </li>
               <li>
                 <a href="#case-studies" className="text-neutral-400 hover:text-white transition-colors">The Attention Ledger</a>

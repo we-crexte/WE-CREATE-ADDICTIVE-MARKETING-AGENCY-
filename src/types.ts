@@ -29,6 +29,8 @@ export interface ChatMessage {
   time?: string;
   isAttachment?: boolean;
   attachmentName?: string;
+  isVideo?: boolean;
+  videoUrl?: string;
 }
 
 export interface Testimonial {
@@ -54,6 +56,7 @@ export interface ClientLogo {
   id: string;
   name: string;
   logoSvg: string;
+  instagramUrl?: string;
 }
 
 // Premium content data
@@ -67,12 +70,14 @@ export const LOGO_SVG_TEMPLATES = {
 };
 
 export const CLIENT_LOGOS: ClientLogo[] = [
-  { id: "1", name: "Aether Cosmetics", logoSvg: "A E T H E R" },
-  { id: "2", name: "Vanguard Capital", logoSvg: "V A N G U A R D" },
-  { id: "3", name: "Horizon Wear", logoSvg: "H O R I Z O N" },
-  { id: "4", name: "Zenith Software", logoSvg: "Z E N I T H" },
-  { id: "5", name: "Solstice Energy", logoSvg: "S O L S T I C E" },
-  { id: "6", name: "Summit Nutrition", logoSvg: "S U M M I T" }
+  { id: "1", name: "Paul Getter", logoSvg: "P A U L  G E T T E R", instagramUrl: "https://www.instagram.com/paul/" },
+  { id: "2", name: "Unspeakable", logoSvg: "U N S P E A K A B L E", instagramUrl: "https://www.instagram.com/unspeakable/" },
+  { id: "3", name: "iitztimmy", logoSvg: "I I T Z T I M M Y", instagramUrl: "https://www.instagram.com/iitztimmy/" },
+  { id: "4", name: "Lethamyr", logoSvg: "L E T H A M Y R  R L", instagramUrl: "https://www.instagram.com/lethamyr_rl/" },
+  { id: "5", name: "Inoxtag", logoSvg: "I N O X T A G", instagramUrl: "https://www.instagram.com/inoxtag/" },
+  { id: "6", name: "Ofek Alon", logoSvg: "O F E K . A L O N _", instagramUrl: "https://www.instagram.com/ofek.alon_/" },
+  { id: "7", name: "Saif Shawaf", logoSvg: "S A I F  S H A W A F", instagramUrl: "https://www.instagram.com/saifshawaf/" },
+  { id: "8", name: "Telly CTR", logoSvg: "T E L L Y  C T R", instagramUrl: "https://www.instagram.com/tellyctr/" }
 ];
 
 export const CASE_STUDIES: CaseStudy[] = [
@@ -121,7 +126,7 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "After Effects — Better than DaVinci",
     category: "shorts",
     thumbnail: "/src/assets/images/ae_notification_mockup_1780316409386.png",
-    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-video-editing-software-timeline-close-up-40078-large.mp4",
+    videoUrl: "/AFTER EFFECTS.mp4",
     description: "Our signature App Store conversion funnel concept. Utilizes highly persuasive UI notification mechanics, pattern-interrupt screenshots, and high-velocity pacing to maximize installation intent.",
     metrics: "140K+ Reach & Conversion Boost"
   },
@@ -130,7 +135,7 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "90% of Videos Get Buried Instantly",
     category: "shorts",
     thumbnail: "/src/assets/images/buried_videos_mockup_1780316859908.png",
-    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-holding-a-smart-phone-with-a-vertical-screen-41718-large.mp4",
+    videoUrl: "/BURIED.mp4",
     description: "An aggressive pattern-interrupt sequence combatting instant dropoffs. Structured using premium custom visual icons, auditory triggers, and cognitive open loops.",
     metrics: "+92% Audited Watch-Time Boost"
   },
@@ -139,7 +144,7 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "Apple Concept — iOS 26 New Look",
     category: "shorts",
     thumbnail: "/src/assets/images/ios_concept_mockup_1780317348378.png",
-    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-spinning-glowing-digital-circle-42484-large.mp4",
+    videoUrl: "/IOS VIDEO.mp4",
     description: "A highly cinematic user-interface reveal conceptualizing the next iOS flight notification and mapping integration under high-energy transition effects.",
     metrics: "2.1M+ Volatile Impressions"
   },
@@ -148,7 +153,7 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "Prosper Scale — $10K/Month to $10K/Day",
     category: "shorts",
     thumbnail: "/src/assets/images/shopify_scale_mockup_1780317375611.png",
-    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-typing-on-a-glowing-computer-keyboard-43187-large.mp4",
+    videoUrl: "PROSPER.mp4",
     description: "A financial performance review video detailing Shopify e-commerce scaling secrets. Blends high-pace talking head footage with sleek custom Shopify analytics screenshots.",
     metrics: "+1,077% Sales Velocity Lift"
   },
@@ -157,7 +162,7 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "Agency Blueprint — Over $10,000/Month",
     category: "shorts",
     thumbnail: "/src/assets/images/agency_system_mockup_1780317406987.png",
-    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-hands-holding-and-opening-a-luxury-box-42358-large.mp4",
+    videoUrl: "/AGENCY BLUEPRINT 10k $.mp4",
     description: "An elite strategic consulting program sequence showing briefcase stacks and problem-solving puzzles to command premium client retainers.",
     metrics: "$84K MRR Deployed Pipeline"
   },
@@ -166,7 +171,7 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "IShowSpeed — From Nothing to Global Icon",
     category: "shorts",
     thumbnail: "/src/assets/images/ishowspeed_journey_mockup_1780317433540.png",
-    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-young-man-walking-and-listening-to-music-40502-large.mp4",
+    videoUrl: "/ISHOWSPEED.mp4",
     description: "A comprehensive motivational storytelling documentary short tracking IShowSpeed from a zero-viewer streamer into a global icon.",
     metrics: "+3.2M Fan Retention Velocity"
   },
@@ -175,7 +180,7 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "Finance Mentor - Dynamic Cut System",
     category: "youtube",
     thumbnail: "https://picsum.photos/seed/yt1/800/450",
-    videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-hand-holding-smartphone-recording-vertical-video-of-a-man-40073-large.mp4",
     description: "A fast-paced 15-minute documentary cut. Uses high-end vector graphics, stock-trading animations, and sound design.",
     metrics: "+42m Average Watch Time"
   },
@@ -184,13 +189,29 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "D2C Brand Launch: The Unboxing Engine",
     category: "campaigns",
     thumbnail: "https://picsum.photos/seed/camp1/800/450",
-    videoUrl: "https://www.w3schools.com/html/movie.mp4",
+    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-hand-holding-smartphone-recording-vertical-video-of-a-man-40073-large.mp4",
     description: "An omnichannel social stunt linking 15 top micro-influencers under a matching narrative envelope.",
     metrics: "Sold out in 22 Hours"
   }
 ];
 
 export const TESTIMONIALS: Testimonial[] = [
+  {
+    id: "t-0",
+    clientName: "CCR",
+    clientInitials: "CC",
+    clientColor: "bg-red-600",
+    role: "YouTube Partner / Creator",
+    company: "CCR YouTube Channel",
+    messages: [
+      { sender: "client", text: "Yo, what's up everybody, this is CCR. Just want to give a quick shoutout to Sam branding, man. Absolutely overdelivered when it came to editing my video!", time: "3:40 PM" },
+      { sender: "client", text: "Video review of the work:", isVideo: true, videoUrl: "/VSL.mp4", time: "3:41 PM" },
+      { sender: "me", text: "Bro! Appreciated! So hyped with the retention metrics we got on this.", time: "3:45 PM" },
+      { sender: "client", text: "Sam came in, negotiated the pricing, and took the edit above and beyond what I requested. Tap in with him, he is the real deal!", time: "3:46 PM" }
+    ],
+    highlightQuote: "Absolutely overdelivered. He is the real deal!",
+    highlightText: "the real deal!"
+  },
   {
     id: "t-1",
     clientName: "David K.",

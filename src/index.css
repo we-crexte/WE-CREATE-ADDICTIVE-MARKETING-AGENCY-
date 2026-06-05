@@ -16,7 +16,7 @@
 /* Custom styles for luxury agency vibe */
 html {
   scroll-behavior: smooth;
-  background-color: #070708;
+  background-color: var(--color-dark-bg);
   color: #f3f4f6;
   font-family: var(--font-sans);
 }
@@ -31,7 +31,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #070708;
+  background: var(--color-dark-bg);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -41,13 +41,6 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #2e2e3d;
-}
-
-/* Custom cursor hide on real devices with cursor support, but let's make it beautiful optionally */
-@media (pointer: fine) {
-  .custom-cursor-active {
-    cursor: none;
-  }
 }
 
 /* Glassmorphism backgrounds */
@@ -104,7 +97,7 @@ body {
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(to right, #8b5cf6, #f43f5e, #fbbf24, #8b5cf6);
+  background: linear-gradient(to right, var(--color-accent-purple), var(--color-accent-orange), var(--color-accent-gold), var(--color-accent-purple));
   background-size: 300% 300%;
   animation: gradient-border 6s infinite linear;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -121,6 +114,37 @@ body {
     linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
 }
 
+/* Infinite Marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee-container {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, white 20%, white 80%, transparent);
+}
+
+.marquee-content {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-around;
+  min-width: 100%;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
 /* Noise texture overlay */
 .noise-overlay {
   position: fixed;
@@ -128,7 +152,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3联%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'%3E%3C/rect%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'%3E%3C/rect%3E%3C/svg%3E");
   opacity: 0.015;
   pointer-events: none;
   z-index: 9999;

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Flame, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
+import AdictiveLogo from "./AdictiveLogo";
 
 export default function LuxuryLoader() {
   const [percent, setPercent] = useState(0);
@@ -42,19 +43,9 @@ export default function LuxuryLoader() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="flex items-center gap-3 mb-10"
+              className="mb-10"
             >
-              <div className="relative w-12 h-12 bg-black rounded-full flex items-center justify-center border border-white/10 shadow-[0_0_20px_rgba(244,63,94,0.3)]">
-                <Flame className="w-6 h-6 text-rose-500 fill-rose-500/15 animate-pulse" />
-              </div>
-              <div className="text-left">
-                <span className="block font-display font-black text-xl tracking-wider text-white">
-                  ADDICTIVE
-                </span>
-                <span className="text-[10px] uppercase font-mono tracking-[0.3em] text-amber-400 -mt-1 font-bold">
-                  MARKETING
-                </span>
-              </div>
+              <AdictiveLogo iconSize="w-13 h-13" textSize="text-2xl" />
             </motion.div>
 
             {/* Progress Meter bar container */}

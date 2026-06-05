@@ -25,21 +25,21 @@ export default function About() {
   ];
 
   return (
-    <section id="founder" className="relative py-28 bg-[#070708] overflow-hidden">
+    <section id="founder" className="relative py-16 sm:py-28 bg-dark-bg overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] orange-glow opacity-5 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-[95rem] mx-auto px-6 md:px-12 relative z-10">
         
         {/* Main Grid Wrapper */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 sm:gap-16 items-center">
           
           {/* Left Column: Premium Founder Portrait */}
           <div className="lg:col-span-5 relative">
-            <div className="relative rounded-[32px] overflow-hidden shiny-border p-1 bg-[#0f0f13] shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
+            <div className="relative rounded-[32px] overflow-hidden shiny-border p-1 bg-dark-card shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
               {/* Founder image portrait generated from tool */}
               <div className="aspect-[3/4] relative rounded-[28px] overflow-hidden">
                 <img
-                  src="/src/assets/images/founder_portrait_professional_1780311854095.png"
+                  src="/FOUNDER.png"
                   alt="Addictive Marketing Founder"
                   className="w-full h-full object-cover filter brightness-95 contrast-105 hover:scale-[1.02] transition-transform duration-700"
                   referrerPolicy="no-referrer"
@@ -49,15 +49,15 @@ export default function About() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent opacity-80" />
                 
                 {/* Floating founder quote box bottom overlay */}
-                <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl glass-effect border border-white/10">
-                  <div className="flex items-start gap-2.5">
-                    <Quote className="w-5 h-5 text-amber-400 rotate-180 shrink-0 mt-1" />
+                <div className="absolute bottom-3 sm:bottom-6 left-3 sm:left-6 right-3 sm:right-6 p-3 sm:p-4 rounded-xl sm:rounded-2xl glass-effect border border-white/10">
+                  <div className="flex items-start gap-2">
+                    <Quote className="w-4.5 h-4.5 text-amber-400 rotate-180 shrink-0 mt-0.5" />
                     <div>
-                      <p className="text-xs text-white font-serif leading-relaxed italic">
+                      <p className="text-[10px] sm:text-xs text-white font-serif leading-relaxed italic">
                         "Your brand isn't dying from a lack of product quality. It's dying from an absence of high-intensity attention."
                       </p>
-                      <span className="block mt-2 text-[10px] font-mono tracking-widest text-amber-400 uppercase font-bold">
-                        V. SANE // FOUNDER & CREATIVE DIRECTOR
+                      <span className="block mt-1.5 text-[8.5px] sm:text-[10px] font-mono tracking-widest text-amber-400 uppercase font-bold">
+                        SAMARTH // FOUNDER & CREATIVE DIRECTOR
                       </span>
                     </div>
                   </div>
@@ -86,7 +86,7 @@ export default function About() {
               <span>THE LEADERSHIP GENOME</span>
             </div>
 
-            <h2 className="text-3xl md:text-5xl font-display font-extrabold tracking-tight text-white leading-tight">
+            <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-extrabold tracking-tight text-white leading-tight">
               The Team Behind <br />
               <span className="bg-gradient-to-r from-purple-400 via-rose-400 to-amber-300 bg-clip-text text-transparent">
                 Addictive Marketing
@@ -94,12 +94,12 @@ export default function About() {
             </h2>
 
             {/* Modern Tab list linking content */}
-            <div className="flex gap-4 border-b border-white/5 pb-2 mt-8 mb-8 overflow-x-auto">
+            <div className="flex gap-4 border-b border-white/5 pb-2 mt-4 sm:mt-8 mb-4 sm:mb-8 overflow-x-auto">
               {(["story", "mission", "process"] as const).map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`text-sm font-mono uppercase tracking-widest pb-3 font-bold relative transition-colors ${
+                  className={`text-sm font-mono uppercase tracking-widest pb-3 font-bold relative transition-colors whitespace-nowrap ${
                     activeTab === tab ? "text-white" : "text-neutral-500 hover:text-neutral-300"
                   }`}
                 >
@@ -115,7 +115,7 @@ export default function About() {
             </div>
 
             {/* Dynamic content panes */}
-            <div className="min-h-[200px]">
+            <div className="min-h-[160px] sm:min-h-[200px]">
               {activeTab === "story" && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}

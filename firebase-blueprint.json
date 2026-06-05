@@ -1,0 +1,52 @@
+{
+  "entities": {
+    "WorkItem": {
+      "title": "WorkItem",
+      "description": "Creative showcase asset representing digital marketing agency work items.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique ID of the project"
+        },
+        "title": {
+          "type": "string",
+          "description": "Detailed display title of the work item"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["shorts", "reels", "youtube", "ads", "campaigns"],
+          "description": "The target medium of representation"
+        },
+        "thumbnail": {
+          "type": "string",
+          "description": "The thumbnail image URL or base64 file string representation"
+        },
+        "videoUrl": {
+          "type": "string",
+          "description": "The direct MP4 stream URL or blob object URL reference"
+        },
+        "description": {
+          "type": "string",
+          "description": "Copy snippet, psychological strategy, or summary of work items"
+        },
+        "metrics": {
+          "type": "string",
+          "description": "Quantifiable campaign stat or performance indicator"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Global server-populated timestamp"
+        }
+      },
+      "required": ["id", "title", "category", "thumbnail", "videoUrl", "description", "metrics", "createdAt"]
+    }
+  },
+  "firestore": {
+    "projects": {
+      "schema": "WorkItem",
+      "description": "Storefront portfolio collections that are displayed for all visitors and editable only by authenticated system owners."
+    }
+  }
+}

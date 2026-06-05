@@ -11,26 +11,26 @@ export default function Faq() {
   };
 
   return (
-    <section id="faq" className="relative py-28 bg-[#0a0a0c] overflow-hidden border-b border-white/5">
+    <section id="faq" className="relative py-16 sm:py-28 bg-dark-bg overflow-hidden border-b border-white/5">
       {/* Background radial atmosphere dims */}
       <div className="absolute top-1/2 left-3/4 -translate-y-1/2 w-80 h-80 rounded-full purple-glow opacity-10 pointer-events-none" />
       <div className="absolute top-1/2 right-3/4 -translate-y-1/2 w-80 h-80 rounded-full orange-glow opacity-10 pointer-events-none" />
 
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Section Heading */}
-        <div className="max-w-2xl mx-auto text-center mb-16">
+        <div className="max-w-2xl mx-auto text-center mb-10 sm:mb-16">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full mb-4 text-xs font-mono font-bold text-amber-400 uppercase">
             <HelpCircle className="w-3.5 h-3.5" />
             <span>OPERATIONAL BLUEPRINT FAQs</span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-display font-extrabold tracking-tight text-white">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-extrabold tracking-tight text-white">
             Locked Intent, <br />
             <span className="bg-gradient-to-r from-purple-400 via-rose-400 to-amber-300 bg-clip-text text-transparent">
               No Ambiguity left.
             </span>
           </h2>
-          <p className="mt-4 text-neutral-400 text-sm md:text-base font-light">
+          <p className="mt-3 sm:mt-4 text-neutral-400 text-xs sm:text-sm md:text-base font-light">
             You are paying for pure distribution velocity, not basic administration. Here is the operational handbook on our campaign standards.
           </p>
         </div>
@@ -50,10 +50,10 @@ export default function Faq() {
               >
                 <button
                   onClick={() => toggleFaq(index)}
-                  className="w-full flex items-center justify-between p-6 text-left focus:outline-none focus:ring-1 focus:ring-purple-500/30 rounded-2xl cursor-pointer"
+                  className="w-full flex items-center justify-between p-4 sm:p-6 text-left focus:outline-none focus:ring-1 focus:ring-purple-500/30 rounded-2xl cursor-pointer"
                   aria-expanded={isOpen}
                 >
-                  <span className="text-base font-display font-bold text-white pr-4 group-hover:text-rose-400">
+                  <span className="text-sm sm:text-base font-display font-bold text-white pr-4 group-hover:text-rose-400">
                     {faq.question}
                   </span>
                   <div className={`p-2 rounded-full shrink-0 transition-all ${
@@ -83,7 +83,7 @@ export default function Faq() {
         </div>
 
         {/* Additional Help banner */}
-        <div className="mt-12 p-6 rounded-2xl glass-effect border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="mt-12 p-4 sm:p-6 rounded-2xl glass-effect border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center border border-rose-500/30">
               <MessageSquare className="w-5 h-5 text-rose-500" />

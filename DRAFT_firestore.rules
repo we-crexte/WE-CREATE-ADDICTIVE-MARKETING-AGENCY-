@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Auth validation primitive functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner() {
+      return isSignedIn() &&
+             request.auth.token.email == "vedantssane2008@gmail.com" &&
+             request.auth.token.email_verified == true;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Validation helper for WorkItem
+    function isValidWorkItem(data) {
+      return data.keys().hasAll(['id', 'title', 'category', 'thumbnail', 'videoUrl', 'description', 'metrics', 'createdAt']) &&
+             data.keys().size() == 8 &&
+             data.id is string && data.id.size() <= 128 &&
+             data.title is string && data.title.size() <= 200 &&
+             data.category is string && (data.category == 'shorts' || data.category == 'reels' || data.category == 'youtube' || data.category == 'ads' || data.category == 'campaigns') &&
+             data.thumbnail is string && data.thumbnail.size() <= 1048576 &&
+             data.videoUrl is string && data.videoUrl.size() <= 2048 &&
+             data.description is string && data.description.size() <= 5000 &&
+             data.metrics is string && data.metrics.size() <= 200 &&
+             data.createdAt is timestamp;
+    }
+
+    // Showcase Projects Match Pattern
+    match /projects/{projectId} {
+      // Showcase resources are public-readable
+      allow get, list: if true;
+
+      allow create: if isOwner() &&
+                    isValidId(projectId) &&
+                    isValidWorkItem(request.resource.data) &&
+                    request.resource.data.createdAt == request.time;
+
+      allow update: if isOwner() &&
+                    isValidWorkItem(request.resource.data) &&
+                    request.resource.data.createdAt == resource.data.createdAt;
+
+      allow delete: if isOwner();
+    }
+  }
+}

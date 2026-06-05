@@ -38,7 +38,7 @@ export default function FloatingSocials() {
             href={social.url}
             target="_blank"
             rel="noreferrer"
-            className="group relative flex items-center justify-center w-9.5 h-9.5 md:w-12 md:h-12 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 text-neutral-400 hover:text-white transition-all duration-500 hover:scale-110"
+            className="group relative flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 text-neutral-400 hover:text-white transition-all duration-500 hover:scale-110"
             style={{
               boxShadow: "0 8px 32px rgba(0,0,0,0.5)"
             }}
@@ -56,7 +56,7 @@ export default function FloatingSocials() {
 
             {/* Icon Content */}
             <span className="relative z-10 transition-transform duration-300 group-hover:scale-110">
-              <IconComponent className="w-4 h-4 md:w-5.5 md:h-5.5" />
+              <IconComponent className="w-5 h-5 md:w-5.5 md:h-5.5" />
             </span>
 
             {/* Cinematic Slide-out Tooltip */}

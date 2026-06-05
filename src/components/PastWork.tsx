@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Play, Flame, Sparkles, Film, Video, ChevronLeft, ChevronRight, X, Volume2, VolumeX, Plus, Trash2, Edit3, Sliders, Database, RefreshCw, FileEdit, Check, FolderOpen, Upload, Image } from "lucide-react";
+import { Play, Flame, Sparkles, Film, Video, ChevronLeft, ChevronRight, X, Volume2, VolumeX, Plus, Trash2, Edit3, Sliders, Database, RefreshCw, FileEdit, Check, FolderOpen, Upload, Image, Maximize } from "lucide-react";
 import { WORK_ITEMS, WorkItem } from "../types";
 import { collection, onSnapshot, doc, setDoc, deleteDoc, serverTimestamp } from "firebase/firestore";
 import { signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, User } from "firebase/auth";
@@ -154,129 +154,289 @@ const ScrollableRow = ({
       >
         {items.map((item) => {
           const isPlaying = playingVideoId === item.id;
-          return (
-            <div
-              key={item.id}
-              onClick={() => {
-                if (!isPlaying) {
-                  setPlayingVideoId(item.id);
-                }
-              }}
-              className={`group cursor-pointer rounded-2xl overflow-hidden bg-dark-card border border-white/5 hover:border-white/20 transition-all duration-500 hover:shadow-[0_15px_30px_rgba(244,63,94,0.08)] flex flex-col justify-between shrink-0 snap-start relative ${
-                isVertical 
-                  ? "w-[220px] sm:w-[260px] aspect-[9/16]" 
-                  : "w-[280px] xs:w-[320px] sm:w-[380px] md:w-[410px] aspect-[16/9]"
-              }`}
-            >
-              {isPlaying ? (
-                <div className="absolute inset-0 bg-black w-full h-full z-20 flex items-center justify-center overflow-hidden rounded-2xl">
-                  {getYouTubeEmbedUrl(item.videoUrl) ? (
-                    <iframe
-                      src={getYouTubeEmbedUrl(item.videoUrl)!}
-                      title={item.title}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                      className="w-full h-full rounded-2xl border-0"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                    />
-                  ) : (
-                    <video
-                      src={item.videoUrl}
-                      autoPlay
-                      loop
-                      muted={isMutedGlobal}
-                      playsInline
-                      className="w-full h-full object-cover rounded-2xl"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                    />
-                  )}
+          
+          if (isVertical) {
+            // SHORT FORM 9:16 FEED: Keep absolute overlay because of vertical height, but optimize for zero congestion
+            return (
+              <div
+                key={item.id}
+                onClick={() => {
+                  if (!isPlaying) {
+                    setPlayingVideoId(item.id);
+                  }
+                }}
+                className="group cursor-pointer rounded-2xl overflow-hidden bg-dark-card border border-white/5 hover:border-white/20 transition-all duration-500 hover:shadow-[0_15px_30px_rgba(244,63,94,0.08)] flex flex-col justify-between shrink-0 snap-start relative w-[190px] xs:w-[220px] sm:w-[260px] aspect-[9/16]"
+              >
+                {isPlaying ? (
+                  <div className="absolute inset-0 bg-black w-full h-full z-20 flex items-center justify-center overflow-hidden rounded-2xl">
+                    {getYouTubeEmbedUrl(item.videoUrl) ? (
+                      <iframe
+                        src={getYouTubeEmbedUrl(item.videoUrl)!}
+                        title={item.title}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        className="w-full h-full rounded-2xl border-0"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      />
+                    ) : (
+                      <video
+                        src={item.videoUrl}
+                        autoPlay
+                        loop
+                        muted={isMutedGlobal}
+                        playsInline
+                        className="w-full h-full object-cover rounded-2xl"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      />
+                    )}
 
-                  {/* Minimal Audio controller on video overlay - Only show for native videos, not iframe (iframe has native player controls) */}
-                  {!getYouTubeEmbedUrl(item.videoUrl) && (
+                    {/* Minimal Audio & Fullscreen controllers on video overlay */}
+                    {!getYouTubeEmbedUrl(item.videoUrl) && (
+                      <div className="absolute bottom-3 left-3 flex gap-1.5 z-30 pointer-events-auto">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsMutedGlobal(!isMutedGlobal);
+                          }}
+                          className="p-2 rounded-full bg-black/80 border border-white/10 text-white hover:bg-rose-950 transition-all active:scale-95 shadow-md"
+                          title={isMutedGlobal ? "Unmute" : "Mute"}
+                        >
+                          {isMutedGlobal ? <VolumeX className="w-3.5 h-3.5 text-rose-400" /> : <Volume2 className="w-3.5 h-3.5 text-emerald-400" />}
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const videoEl = e.currentTarget.parentElement?.parentElement?.querySelector('video');
+                            if (videoEl) {
+                              if (videoEl.requestFullscreen) {
+                                videoEl.requestFullscreen().catch(() => {});
+                              } else if ((videoEl as any).webkitEnterFullscreen) {
+                                (videoEl as any).webkitEnterFullscreen();
+                              }
+                            }
+                          }}
+                          className="p-2 rounded-full bg-black/80 border border-white/10 text-white hover:bg-rose-950 transition-all active:scale-95 shadow-md"
+                          title="Fullscreen"
+                        >
+                          <Maximize className="w-3.5 h-3.5 text-neutral-300" />
+                        </button>
+                      </div>
+                    )}
+                    
+                    {/* Inline Close Overlay Button */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        setIsMutedGlobal(!isMutedGlobal);
+                        setPlayingVideoId(null);
                       }}
-                      className="absolute bottom-4 left-4 p-2.5 rounded-full bg-black/80 border border-white/10 text-white z-30 hover:bg-rose-950 transition-all active:scale-95 shadow-md"
-                      title={isMutedGlobal ? "Unmute" : "Mute"}
+                      className="absolute top-3 right-3 z-30 p-2 rounded-full bg-black/90 border border-white/15 text-white hover:bg-rose-950 hover:text-rose-400 hover:border-rose-500/30 transition-all duration-300 active:scale-95 shadow-lg"
+                      title="Close Player"
                     >
-                      {isMutedGlobal ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
+                      <X className="w-3.5 h-3.5" />
                     </button>
-                  )}
-                  
-                  {/* Inline Close Overlay Button */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setPlayingVideoId(null);
-                    }}
-                    className="absolute top-3 right-3 z-30 p-2.5 rounded-full bg-black/90 border border-white/15 text-white hover:bg-rose-950 hover:text-rose-400 hover:border-rose-500/30 transition-all duration-300 active:scale-95 shadow-lg"
-                    title="Close Player"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              ) : (
-                <div className="relative w-full h-full overflow-hidden bg-neutral-950 group rounded-2xl">
-                  <img
-                    src={item.thumbnail}
-                    alt={item.title}
-                    className="w-full h-full object-cover filter brightness-[0.80] group-hover:scale-105 group-hover:brightness-100 transition-all duration-700 pointer-events-none"
-                    referrerPolicy="no-referrer"
-                  />
-                  
-                  {/* Dark gradient shading masks */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-90 pointer-events-none" />
+                  </div>
+                ) : (
+                  <div className="relative w-full h-full overflow-hidden bg-neutral-950 group rounded-2xl">
+                    <img
+                      src={item.thumbnail}
+                      alt={item.title}
+                      className="w-full h-full object-cover filter brightness-[0.75] group-hover:scale-105 group-hover:brightness-95 transition-all duration-700 pointer-events-none"
+                      referrerPolicy="no-referrer"
+                    />
+                    
+                    {/* Dark gradient shading masks */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent opacity-95 pointer-events-none" />
 
-                  {/* Meta Info Overlays */}
-                  <div className="absolute inset-0 p-4 flex flex-col justify-between z-10 font-sans pointer-events-none">
-                    <div className="flex justify-between items-start">
-                      <span className="px-2.5 py-0.5 rounded-md bg-black/70 backdrop-blur-md border border-white/10 text-[8px] uppercase tracking-widest font-mono font-bold text-amber-400">
-                        {item.category}
-                      </span>
+                    {/* Meta Info Overlays */}
+                    <div className="absolute inset-0 p-3 sm:p-4 flex flex-col justify-between z-10 font-sans pointer-events-none">
+                      <div className="flex justify-between items-center w-full">
+                        <span className="px-2 py-0.5 rounded bg-black/70 backdrop-blur-md border border-white/10 text-[7px] min-w-[45px] text-center uppercase tracking-wider font-mono font-bold text-amber-400">
+                          {item.category}
+                        </span>
 
-                      <span className="text-[9px] font-mono font-semibold text-white/50 bg-black/40 px-2 py-0.5 rounded backdrop-blur-sm">
-                        {isVertical ? "9:16 FEED" : "16:9 SCREEN"}
-                      </span>
+                        <span className="text-[7.5px] font-mono font-semibold text-white/50 bg-black/45 px-1.5 py-0.5 rounded backdrop-blur-sm uppercase">
+                          9:16 FEED
+                        </span>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <h4 className="font-display font-extrabold text-xs sm:text-sm text-white tracking-tight line-clamp-1 group-hover:text-rose-400 transition-colors">
+                          {item.title}
+                        </h4>
+                        
+                        <p className="text-[9px] sm:text-[10px] text-neutral-400 font-sans line-clamp-2 leading-snug">
+                          {item.description}
+                        </p>
+
+                        <div className="flex items-center justify-between pt-1.5 border-t border-white/5">
+                          <span className="text-[9px] sm:text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-0.5">
+                            <Flame className="w-3 h-3 fill-current" />
+                            {item.metrics}
+                          </span>
+                          <span className="text-[8px] font-mono text-neutral-400 group-hover:text-white transition-colors flex items-center gap-0.5 font-bold uppercase">
+                            <Play className="w-2 h-2 fill-current text-purple-400" /> PLAY
+                          </span>
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="space-y-2">
-                      <h4 className="font-display font-extrabold text-sm md:text-base text-white tracking-tight line-clamp-1 group-hover:text-rose-400 transition-colors">
-                        {item.title}
-                      </h4>
-                      
-                      <p className="text-[10px] md:text-xs text-neutral-400 font-sans line-clamp-2 leading-relaxed">
-                        {item.description}
-                      </p>
-
-                      <div className="flex items-center justify-between pt-2 border-t border-white/5">
-                        <span className="text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-1">
-                          <Flame className="w-3.5 h-3.5 fill-current" />
-                          {item.metrics}
-                        </span>
-                        <span className="text-[9px] font-mono text-neutral-400 group-hover:text-white transition-colors flex items-center gap-1 font-bold">
-                          <Play className="w-2.5 h-2.5 fill-current text-purple-400" /> PLAY INSTANTLY
-                        </span>
+                    {/* Play Hover State Indicator */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/45 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-rose-500 text-white flex items-center justify-center shadow-[0_0_15px_rgba(244,63,94,0.4)] transition-all duration-300">
+                        <Play className="w-4 h-4 fill-current text-white translate-x-0.5" />
                       </div>
                     </div>
                   </div>
+                )}
+              </div>
+            );
+          } else {
+            // LONG FORM 16:9 SCREEN: Split card structure (Media on top, metadata text below layout) to solve mobile congestion
+            return (
+              <div
+                key={item.id}
+                onClick={() => {
+                  if (!isPlaying) {
+                    setPlayingVideoId(item.id);
+                  }
+                }}
+                className="group cursor-pointer rounded-2xl overflow-hidden bg-dark-card/60 backdrop-blur-md border border-white/5 hover:border-white/20 transition-all duration-500 hover:shadow-[0_15px_30px_rgba(139,92,246,0.06)] flex flex-col justify-between shrink-0 snap-start w-[265px] xs:w-[320px] sm:w-[370px] md:w-[410px]"
+              >
+                {/* Media Container on Top of Card */}
+                <div className="relative w-full aspect-[16/9] bg-neutral-950 overflow-hidden">
+                  {isPlaying ? (
+                    <div className="absolute inset-0 bg-black w-full h-full z-20 flex items-center justify-center overflow-hidden">
+                      {getYouTubeEmbedUrl(item.videoUrl) ? (
+                        <iframe
+                          src={getYouTubeEmbedUrl(item.videoUrl)!}
+                          title={item.title}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          allowFullScreen
+                          className="w-full h-full border-0"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        />
+                      ) : (
+                        <video
+                          src={item.videoUrl}
+                          autoPlay
+                          loop
+                          muted={isMutedGlobal}
+                          playsInline
+                          className="w-full h-full object-cover"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                          }}
+                        />
+                      )}
 
-                  {/* Play Hover State Indicator */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-600 to-rose-500 text-white flex items-center justify-center shadow-[0_0_20px_rgba(244,63,94,0.4)] scale-100 transition-all duration-300">
-                      <Play className="w-5 h-5 fill-current text-white translate-x-0.5" />
+                      {/* Video actions overlay inside top Area */}
+                      {!getYouTubeEmbedUrl(item.videoUrl) && (
+                        <div className="absolute bottom-2.5 left-2.5 flex gap-1.5 z-30 pointer-events-auto">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setIsMutedGlobal(!isMutedGlobal);
+                            }}
+                            className="p-1.5 rounded-full bg-black/85 border border-white/10 text-white hover:bg-rose-950 transition-all active:scale-95 shadow"
+                            title={isMutedGlobal ? "Unmute" : "Mute"}
+                          >
+                            {isMutedGlobal ? <VolumeX className="w-3.5 h-3.5 text-rose-400" /> : <Volume2 className="w-3.5 h-3.5 text-emerald-400" />}
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const videoEl = e.currentTarget.parentElement?.parentElement?.querySelector('video');
+                              if (videoEl) {
+                                if (videoEl.requestFullscreen) {
+                                  videoEl.requestFullscreen().catch(() => {});
+                                } else if ((videoEl as any).webkitEnterFullscreen) {
+                                  (videoEl as any).webkitEnterFullscreen();
+                                }
+                              }
+                            }}
+                            className="p-1.5 rounded-full bg-black/85 border border-white/10 text-white hover:bg-rose-950 transition-all active:scale-95 shadow"
+                            title="Fullscreen"
+                          >
+                            <Maximize className="w-3.5 h-3.5 text-neutral-300" />
+                          </button>
+                        </div>
+                      )}
+                      
+                      {/* Inline Close */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setPlayingVideoId(null);
+                        }}
+                        className="absolute top-2.5 right-2.5 z-30 p-1.5 rounded-full bg-black/95 border border-white/15 text-white hover:bg-rose-950 hover:text-rose-400 transition-all duration-300 active:scale-95 shadow-md"
+                        title="Close Player"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
                     </div>
+                  ) : (
+                    <div className="relative w-full h-full overflow-hidden group">
+                      <img
+                        src={item.thumbnail}
+                        alt={item.title}
+                        className="w-full h-full object-cover filter brightness-[0.80] group-hover:scale-105 group-hover:brightness-100 transition-all duration-700 pointer-events-none"
+                        referrerPolicy="no-referrer"
+                      />
+                      
+                      {/* Soft overlay gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent pointer-events-none" />
+
+                      {/* Header indicators */}
+                      <div className="absolute top-2.5 inset-x-2.5 z-10 pointer-events-none flex justify-between items-center">
+                        <span className="px-2 py-0.5 rounded bg-black/85 backdrop-blur-sm border border-white/10 text-[7px] uppercase tracking-widest font-mono font-bold text-indigo-400">
+                          {item.category}
+                        </span>
+                        <span className="text-[7px] font-mono font-semibold text-white/55 bg-black/50 px-1.5 py-0.5 rounded backdrop-blur-xs uppercase tracking-wider">
+                          16:9 SCREEN
+                        </span>
+                      </div>
+
+                      {/* Hover action circle */}
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+                        <div className="w-11 h-11 rounded-full bg-gradient-to-r from-purple-600 to-rose-500 text-white flex items-center justify-center shadow-[0_0_20px_rgba(244,63,94,0.4)] transition-all duration-300">
+                          <Play className="w-4 h-4 fill-current text-white translate-x-0.5" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Info Text block below the video, avoiding mobile overlaps absolutely */}
+                <div className="p-3.5 sm:p-5 flex flex-col gap-2 bg-dark-card/90 border-t border-white/5 w-full">
+                  <h4 className="font-display font-extrabold text-xs sm:text-sm text-white tracking-tight line-clamp-1 group-hover:text-rose-400 transition-colors">
+                    {item.title}
+                  </h4>
+                  
+                  <p className="text-[9.5px] sm:text-[11px] text-neutral-400 font-sans line-clamp-2 leading-relaxed min-h-[32px] sm:min-h-[38px]">
+                    {item.description}
+                  </p>
+
+                  <div className="flex items-center justify-between pt-2 border-t border-white/5 mt-0.5">
+                    <span className="text-[9.5px] sm:text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-0.5">
+                      <Flame className="w-3 h-3 fill-current" />
+                      {item.metrics}
+                    </span>
+                    <span className="text-[8.5px] sm:text-[9px] font-mono text-neutral-400 group-hover:text-white transition-colors flex items-center gap-0.5 font-bold uppercase">
+                      <Play className="w-2 h-2 fill-current text-purple-400" /> PLAY SHOWCASE
+                    </span>
                   </div>
                 </div>
-              )}
-            </div>
-          );
+              </div>
+            );
+          }
         })}
       </div>
 

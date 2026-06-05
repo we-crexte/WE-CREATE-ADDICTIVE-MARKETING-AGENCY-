@@ -145,7 +145,7 @@ export default function Hero() {
             initial={{ scale: 0.85, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1, delay: 0.3 }}
-            className="relative w-80 h-[400px] rounded-3xl glass-effect shadow-[0_30px_100px_rgba(0,0,0,0.8)] border border-white/10 overflow-hidden group"
+            className="relative w-full max-w-[20rem] sm:w-80 h-[360px] sm:h-[400px] rounded-3xl glass-effect shadow-[0_30px_100px_rgba(0,0,0,0.8)] border border-white/10 overflow-hidden group"
           >
             <img 
               src={luxuryAgencyWorkspace} 

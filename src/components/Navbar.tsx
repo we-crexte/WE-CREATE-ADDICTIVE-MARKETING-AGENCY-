@@ -41,7 +41,7 @@ export default function Navbar() {
             : "py-6 bg-transparent"
         }`}
       >
-        <div className="max-w-[95rem] mx-auto px-6 md:px-12 flex items-center justify-between">
+        <div className="max-w-[95rem] mx-auto px-4 sm:px-6 md:px-12 flex items-center justify-between">
           {/* Logo */}
           <a href="#" className="group">
             <AdictiveLogo iconSize="w-8 h-8" textSize="text-base" className="group-hover:scale-[1.02] transition-transform duration-300" />
@@ -97,7 +97,7 @@ export default function Navbar() {
               transition={{ duration: 0.2 }}
               className="absolute top-full left-0 right-0 z-50 bg-dark-bg/98 backdrop-blur-2xl border-b border-white/5 md:hidden w-full overflow-hidden"
             >
-              <div className="px-6 py-6 flex flex-col gap-5">
+              <div className="px-4 sm:px-6 py-6 flex flex-col gap-5">
                 {menuItems.map((item) => (
                   <a
                     key={item.label}

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Play, Pause, RefreshCw, Volume2, VolumeX, Sparkles, Trophy } from "lucide-react";
+import { Play, Pause, RefreshCw, Volume2, VolumeX, Sparkles, Trophy, Maximize } from "lucide-react";
 
 export default function Vsl() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -52,6 +52,21 @@ export default function Vsl() {
     if (!videoRef.current) return;
     videoRef.current.muted = !videoRef.current.muted;
     setIsMuted(videoRef.current.muted);
+  };
+
+  const toggleFullscreen = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!videoRef.current) return;
+    const video = videoRef.current;
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    } else {
+      if (video.requestFullscreen) {
+        video.requestFullscreen().catch(() => {});
+      } else if ((video as any).webkitEnterFullscreen) {
+        (video as any).webkitEnterFullscreen();
+      }
+    }
   };
 
   const formatTime = (timeInSeconds: number) => {
@@ -114,7 +129,7 @@ export default function Vsl() {
         >
           <div 
             onClick={togglePlay}
-            className="relative rounded-2xl overflow-hidden aspect-video bg-black/95 flex flex-col justify-between cursor-pointer"
+            className="relative rounded-2xl overflow-hidden aspect-[4/3] xs:aspect-video bg-black/95 flex flex-col justify-between cursor-pointer"
           >
             {/* Real HTML5 Video Component loaded immediately to prevent custom image delays */}
             <video
@@ -132,36 +147,43 @@ export default function Vsl() {
             />
 
             {/* Gradient Dark Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-black/50 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/50 pointer-events-none" />
 
             {/* Top Bar of VSL Interface */}
-            <div className="relative p-5 flex items-center justify-between w-full z-10" onClick={(e) => e.stopPropagation()}>
-              <span className="flex items-center gap-2 text-xs font-mono tracking-wider font-bold text-amber-400 bg-black/55 px-3 py-1.5 rounded-full border border-white/5">
+            <div className="relative p-3 sm:p-5 flex items-center justify-between w-full z-10" onClick={(e) => e.stopPropagation()}>
+              <span className="flex items-center gap-1.5 text-[9px] sm:text-xs font-mono tracking-wider font-bold text-amber-400 bg-black/65 px-2.5 py-1 sm:py-1.5 rounded-full border border-white/5 shadow-md">
                 <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
-                NOW STREAMING: VSL
+                <span className="hidden xs:inline">NOW STREAMING:</span> VSL
               </span>
-              <button 
-                onClick={toggleMute}
-                className="p-2 rounded-full bg-black/50 hover:bg-black/75 border border-white/10 text-white transition-all pointer-events-auto"
-              >
-                {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
-              </button>
+              <div className="flex items-center gap-1.5 pointer-events-auto">
+                <button 
+                  onClick={toggleMute}
+                  className="p-1.5 sm:p-2 rounded-full bg-black/60 hover:bg-black/80 border border-white/10 text-white transition-all active:scale-95"
+                  title={isMuted ? "Unmute" : "Mute"}
+                >
+                  {isMuted ? <VolumeX className="w-3.5 h-3.5 text-rose-400" /> : <Volume2 className="w-3.5 h-3.5 text-emerald-400" />}
+                </button>
+                <button 
+                  onClick={toggleFullscreen}
+                  className="p-1.5 sm:p-2 rounded-full bg-black/60 hover:bg-black/80 border border-white/10 text-white transition-all active:scale-95"
+                  title="Fullscreen"
+                >
+                  <Maximize className="w-3.5 h-3.5 text-neutral-300 hover:text-white" />
+                </button>
+              </div>
             </div>
 
-            
-            
-
             {/* Bottom Controls */}
-            <div className="relative p-5 w-full z-10 mt-auto flex flex-col gap-3" onClick={(e) => e.stopPropagation()}>
+            <div className="relative p-3 sm:p-5 w-full z-10 mt-auto flex flex-col gap-2.5 sm:gap-3" onClick={(e) => e.stopPropagation()}>
               {/* Progress Slider */}
-              <div className="w-full flex items-center gap-3">
-                <span className="text-[10px] font-mono text-neutral-400">{currentTime}</span>
+              <div className="w-full flex items-center gap-2 sm:gap-3">
+                <span className="text-[9px] font-mono text-neutral-400">{currentTime}</span>
                 <div 
                   onClick={handleProgressBarClick}
-                  className="h-1 bg-white/10 rounded-full w-full cursor-pointer relative group/progress pointer-events-auto"
+                  className="h-1 bg-white/15 rounded-full w-full cursor-pointer relative group/progress pointer-events-auto"
                 >
                   <div 
-                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-purple-500 to-rose-400 rounded-full" 
+                    className="absolute top-0 left-0 h-full bg-gradient-to-r from-purple-500 via-rose-400 to-amber-300 rounded-full" 
                     style={{ width: `${progress}%` }}
                   />
                   <div 
@@ -169,28 +191,28 @@ export default function Vsl() {
                     style={{ left: `calc(${progress}% - 5px)` }}
                   />
                 </div>
-                <span className="text-[10px] font-mono text-neutral-400">{durationTime || "0:15"}</span>
+                <span className="text-[9px] font-mono text-neutral-400">{durationTime || "0:15"}</span>
               </div>
 
               {/* Actions & Author Row */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3 pointer-events-auto">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2 sm:gap-3 pointer-events-auto overflow-hidden">
                   <button 
                     onClick={togglePlay}
-                    className="flex items-center gap-2 px-4 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-xs font-semibold text-white transition-colors"
+                    className="flex-shrink-0 flex items-center gap-1 px-3 py-1 sm:px-4 sm:py-1.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-[10px] sm:text-xs font-semibold text-white transition-colors active:scale-95"
                   >
-                    {isPlaying ? <Pause className="w-3.5 h-3.5 fill-white" /> : <Play className="w-3.5 h-3.5 fill-white" />}
-                    <span>{isPlaying ? "Pause Video" : "Resume Playback"}</span>
+                    {isPlaying ? <Pause className="w-3 h-3 fill-white" /> : <Play className="w-3 h-3 fill-white" />}
+                    <span>{isPlaying ? "Pause" : "Play"}</span>
                   </button>
                   
-                  <span className="text-xs text-neutral-400 font-sans hidden md:inline-block">
+                  <span className="text-[10px] sm:text-xs text-neutral-400 font-sans truncate max-w-[140px] sm:max-w-xs md:max-w-none">
                     Addictive Content Blueprint Breakdown (HD)
                   </span>
                 </div>
 
-                <div className="flex items-center gap-1">
-                  <Trophy className="w-3.5 h-3.5 text-amber-400" />
-                  <span className="text-[11px] font-mono text-amber-300 font-bold uppercase tracking-wider">Free Masterclass</span>
+                <div className="flex items-center gap-1 flex-shrink-0 bg-black/30 px-2 py-0.5 rounded border border-white/5">
+                  <Trophy className="w-3 h-3 text-amber-400" />
+                  <span className="text-[9px] sm:text-[10px] font-mono text-amber-300 font-bold uppercase tracking-wider">Masterclass</span>
                 </div>
               </div>
             </div>

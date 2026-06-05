@@ -37,15 +37,15 @@ export default function LuxuryLoader() {
           {/* Visual abstract overlay */}
           <div className="absolute inset-x-0 top-1/4 h-1/2 bg-gradient-to-r from-purple-500/10 via-rose-500/10 to-amber-500/10 filter blur-[150px]" />
           
-          <div className="relative flex flex-col items-center max-w-sm w-full">
+          <div className="relative flex flex-col items-center max-w-[18rem] xs:max-w-xs sm:max-w-sm w-full">
             {/* Logo */}
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="mb-10"
+              className="mb-8 sm:mb-10"
             >
-              <AdictiveLogo iconSize="w-13 h-13" textSize="text-2xl" />
+              <AdictiveLogo iconSize="w-11 h-11 sm:w-13 sm:h-13" textSize="text-lg sm:text-2xl" />
             </motion.div>
 
             {/* Progress Meter bar container */}
@@ -58,17 +58,17 @@ export default function LuxuryLoader() {
             </div>
 
             {/* Percent & Status info row */}
-            <div className="w-full flex justify-between items-center mt-3 text-[10px] font-mono tracking-widest uppercase">
+            <div className="w-full flex justify-between items-center mt-3.5 text-[8.5px] sm:text-[10px] font-mono tracking-normal sm:tracking-widest uppercase">
               <span className="text-neutral-500 flex items-center gap-1">
                 <Sparkles className="w-3.5 h-3.5 text-rose-500 animate-spin" />
                 <span>ATTENTION COMPILING...</span>
               </span>
-              <span className="text-amber-400 font-bold">{percent}%</span>
+              <span className="text-amber-400 font-bold font-mono">{percent}%</span>
             </div>
 
             {/* Subtle loading subtitle */}
-            <p className="mt-16 text-[9px] font-mono uppercase tracking-[0.2em] text-neutral-600 text-center">
-              SYSTEM RE-INDEX v4.2 // EXECUTING EXTRACTION BLUEPRINT
+            <p className="mt-12 sm:mt-16 text-[8px] sm:text-[9px] font-mono uppercase tracking-wider sm:tracking-[0.2em] text-neutral-600 text-center leading-relaxed max-w-xs px-2 sm:px-0">
+              SYSTEM RE-INDEX v4.2 <br className="sm:hidden" /> // EXECUTING EXTRACTION BLUEPRINT
             </p>
           </div>
         </motion.div>

@@ -19,7 +19,7 @@ import Footer from "./components/Footer";
 
 export default function App() {
   return (
-    <div className="relative min-h-screen bg-dark-bg select-text">
+    <div className="relative min-h-screen bg-dark-bg select-text overflow-x-hidden w-full max-w-[100vw]">
       {/* Luxury Preloader */}
       <LuxuryLoader />
 

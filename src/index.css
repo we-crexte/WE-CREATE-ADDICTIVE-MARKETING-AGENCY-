@@ -14,15 +14,14 @@
 }
 
 /* Custom styles for luxury agency vibe */
-html {
+html, body {
   scroll-behavior: smooth;
   background-color: var(--color-dark-bg);
   color: #f3f4f6;
   font-family: var(--font-sans);
-}
-
-body {
   overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
 }
 
 /* Elegant scrollbar */

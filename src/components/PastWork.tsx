@@ -47,12 +47,25 @@ const ScrollableRow = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  
+  const isDraggingRef = useRef(false);
+  const isDraggingCardsRef = useRef(false);
+  const startXRef = useRef(0);
+  const startScrollLeftRef = useRef(0);
+  const totalDraggedDistanceRef = useRef(0);
+
   const [scrollProgress, setScrollProgress] = useState(0);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  
   const [isDragging, setIsDragging] = useState(false);
+  const [isDraggingCards, setIsDraggingCards] = useState(false);
+
+  // Combine dragging states to instantly disable transitions for direct tracking responsiveness
+  const isDraggingAny = isDragging || isDraggingCards;
 
   const handleScroll = () => {
+    if (isDraggingRef.current) return; // Prevent scroll events from overriding active drag coordinate updates
     if (containerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
       const maxScroll = scrollWidth - clientWidth;
@@ -75,15 +88,63 @@ const ScrollableRow = ({
     };
   }, [items]);
 
+  // Desktop drag-to-scroll handler for the horizontal cards row itself
+  const handleCardsMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return; // Handled left clicks only
+    const target = e.target as HTMLElement;
+    if (
+      target.closest("button") || 
+      target.closest("iframe") || 
+      target.closest("video") || 
+      target.closest("a") ||
+      target.closest("input") ||
+      target.closest("textarea")
+    ) {
+      return;
+    }
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    isDraggingCardsRef.current = true;
+    setIsDraggingCards(true);
+    startXRef.current = e.clientX;
+    startScrollLeftRef.current = container.scrollLeft;
+    totalDraggedDistanceRef.current = 0;
+
+    const onPointerMove = (moveEvent: MouseEvent) => {
+      if (!isDraggingCardsRef.current) return;
+      const deltaX = moveEvent.clientX - startXRef.current;
+      totalDraggedDistanceRef.current = Math.abs(deltaX);
+      container.scrollLeft = startScrollLeftRef.current - deltaX * 1.5;
+    };
+
+    const onPointerUp = () => {
+      isDraggingCardsRef.current = false;
+      setTimeout(() => {
+        setIsDraggingCards(false);
+      }, 50);
+      document.removeEventListener("mousemove", onPointerMove);
+      document.removeEventListener("mouseup", onPointerUp);
+    };
+
+    document.addEventListener("mousemove", onPointerMove);
+    document.addEventListener("mouseup", onPointerUp);
+  };
+
   const handleDragUpdate = (clientX: number) => {
     const container = containerRef.current;
     const track = trackRef.current;
     if (!container || !track) return;
 
     const rect = track.getBoundingClientRect();
-    const width = rect.width;
-    const clickX = clientX - rect.left;
-    const percentage = Math.max(0, Math.min(1, clickX / width));
+    const padding = 16; // px-4 padding
+    const innerWidth = rect.width - padding * 2;
+    const clickX = clientX - rect.left - padding;
+    const percentage = Math.max(0, Math.min(1, clickX / innerWidth));
+
+    // Instantly sync the visual slider progress percentage to coordinate cursor coordinate
+    setScrollProgress(percentage * 100);
 
     const maxScroll = container.scrollWidth - container.clientWidth;
     if (maxScroll > 0) {
@@ -93,6 +154,7 @@ const ScrollableRow = ({
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.button !== 0) return; // Left Click only
+    isDraggingRef.current = true;
     setIsDragging(true);
     handleDragUpdate(e.clientX);
 
@@ -101,7 +163,10 @@ const ScrollableRow = ({
     };
 
     const onMouseUp = () => {
+      isDraggingRef.current = false;
       setIsDragging(false);
+      // Run final scroll update to bind exactly to any final scroll/snap position
+      handleScroll();
       document.removeEventListener("mousemove", onMouseMove);
       document.removeEventListener("mouseup", onMouseUp);
     };
@@ -111,24 +176,31 @@ const ScrollableRow = ({
   };
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    isDraggingRef.current = true;
     setIsDragging(true);
     if (e.touches.length > 0) {
       handleDragUpdate(e.touches[0].clientX);
     }
 
     const onTouchMove = (moveEvent: TouchEvent) => {
+      if (moveEvent.cancelable) {
+        moveEvent.preventDefault();
+      }
       if (moveEvent.touches.length > 0) {
         handleDragUpdate(moveEvent.touches[0].clientX);
       }
     };
 
     const onTouchEnd = () => {
+      isDraggingRef.current = false;
       setIsDragging(false);
+      // Run final scroll update to bind exactly to any final scroll/snap position
+      handleScroll();
       document.removeEventListener("touchmove", onTouchMove);
       document.removeEventListener("touchend", onTouchEnd);
     };
 
-    document.addEventListener("touchmove", onTouchMove, { passive: true });
+    document.addEventListener("touchmove", onTouchMove, { passive: false });
     document.addEventListener("touchend", onTouchEnd);
   };
 
@@ -150,7 +222,14 @@ const ScrollableRow = ({
       <div
         ref={containerRef}
         onScroll={handleScroll}
-        className="flex gap-6 overflow-x-auto pb-6 pt-2 px-6 snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+        onMouseDown={handleCardsMouseDown}
+        className={`flex gap-6 overflow-x-auto pb-6 pt-2 px-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
+          isDraggingCards ? "cursor-grabbing select-none" : "cursor-grab"
+        } ${
+          isDragging 
+            ? "snap-none scroll-auto select-none" 
+            : "snap-x snap-mandatory scroll-smooth"
+        }`}
       >
         {items.map((item) => {
           const isPlaying = playingVideoId === item.id;
@@ -161,6 +240,7 @@ const ScrollableRow = ({
               <div
                 key={item.id}
                 onClick={() => {
+                  if (totalDraggedDistanceRef.current > 10) return;
                   if (!isPlaying) {
                     setPlayingVideoId(item.id);
                   }
@@ -301,6 +381,7 @@ const ScrollableRow = ({
               <div
                 key={item.id}
                 onClick={() => {
+                  if (totalDraggedDistanceRef.current > 10) return;
                   if (!isPlaying) {
                     setPlayingVideoId(item.id);
                   }
@@ -467,17 +548,17 @@ const ScrollableRow = ({
               className="absolute left-0 top-0 h-full bg-gradient-to-r from-purple-500 via-rose-500 to-amber-400 rounded-full"
               style={{ 
                 width: `${scrollProgress}%`,
-                transition: isDragging ? "none" : "width 200ms ease-out"
+                transition: isDraggingAny ? "none" : "width 200ms ease-out"
               }}
             />
           </div>
           {/* Aesthetic sliding thumb indicator dot */}
           <div 
-            className="absolute w-3.5 h-3.5 bg-white border border-rose-500 rounded-full top-1/2 -translate-y-1/2 shadow-lg scale-90 group-hover/track:scale-110 group-hover/track:bg-rose-500 transition-all cursor-grab active:cursor-grabbing"
+            className="absolute w-3.5 h-3.5 bg-white border border-rose-500 rounded-full top-1/2 -translate-y-1/2 shadow-lg scale-90 group-hover/track:scale-110 group-hover/track:bg-rose-500 cursor-grab active:cursor-grabbing"
             style={{ 
               left: `calc(16px + (${scrollProgress}% * (100% - 32px) / 100))`,
               transform: "translate(-50%, -50%)",
-              transition: isDragging ? "none" : "left 200ms ease-out"
+              transition: isDraggingAny ? "none" : "left 200ms ease-out, transform 150ms ease-out, background-color 150ms ease-out"
             }}
           />
         </div>

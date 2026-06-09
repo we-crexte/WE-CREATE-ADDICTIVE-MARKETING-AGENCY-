@@ -1,10 +1,19 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, getDocFromServer } from "firebase/firestore";
-import firebaseConfig from "../firebase-applet-config.json";
+// Your web app's Firebase configuration provided by the user
+export const firebaseConfig = {
+  apiKey: "AIzaSyDJYUSuWVHDmuCTQZcvjyrPwzNIKhirxPo",
+  authDomain: "addictive-marketing.firebaseapp.com",
+  projectId: "addictive-marketing",
+  storageBucket: "addictive-marketing.firebasestorage.app",
+  messagingSenderId: "458655173657",
+  appId: "1:458655173657:web:13353b8984a32d19f06e88",
+  firestoreDatabaseId: undefined
+};
 
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId || undefined); /* CRITICAL: The app will break without this line */
+export const db = getFirestore(app); /* CRITICAL: The app will break without this line */
 export const auth = getAuth(app);
 
 export enum OperationType {

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Play, Flame, Sparkles, Film, Video, ChevronLeft, ChevronRight, X, Volume2, VolumeX, Plus, Trash2, Edit3, Sliders, Database, RefreshCw, FileEdit, Check, FolderOpen, Upload, Image, Maximize } from "lucide-react";
 import { WORK_ITEMS, WorkItem } from "../types";
 import { collection, onSnapshot, doc, setDoc, deleteDoc, serverTimestamp } from "firebase/firestore";
-import { signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, User } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, User, signInWithEmailAndPassword } from "firebase/auth";
 import { db, auth, handleFirestoreError, OperationType } from "../firebase";
 
 // Helper function to extract YouTube ID and build embedded URL for background playback
@@ -57,6 +57,7 @@ const ScrollableRow = ({
   const [scrollProgress, setScrollProgress] = useState(0);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
   
   const [isDragging, setIsDragging] = useState(false);
   const [isDraggingCards, setIsDraggingCards] = useState(false);
@@ -74,6 +75,24 @@ const ScrollableRow = ({
 
       setCanScrollLeft(scrollLeft > 10);
       setCanScrollRight(scrollLeft < maxScroll - 10);
+
+      // Dynamically calculate active card index based on viewport position
+      const cards = containerRef.current.children;
+      if (cards.length > 0) {
+        let nearestIndex = 0;
+        let minDiff = Infinity;
+        const containerLeft = containerRef.current.getBoundingClientRect().left;
+
+        for (let i = 0; i < cards.length; i++) {
+          const cardRect = cards[i].getBoundingClientRect();
+          const diff = Math.abs(cardRect.left - containerLeft);
+          if (diff < minDiff) {
+            minDiff = diff;
+            nearestIndex = i;
+          }
+        }
+        setActiveIndex(nearestIndex);
+      }
     }
   };
 
@@ -149,6 +168,12 @@ const ScrollableRow = ({
     const maxScroll = container.scrollWidth - container.clientWidth;
     if (maxScroll > 0) {
       container.scrollLeft = percentage * maxScroll;
+    }
+
+    const cards = container.children;
+    if (cards.length > 0) {
+      const targetIndex = Math.round(percentage * (cards.length - 1));
+      setActiveIndex(Math.max(0, Math.min(cards.length - 1, targetIndex)));
     }
   };
 
@@ -521,60 +546,79 @@ const ScrollableRow = ({
         })}
       </div>
 
-      {/* Custom Premium Glassmorphic Scrolling Indicator Controller */}
-      <div className="flex items-center justify-between max-w-[320px] w-full mx-auto mt-6 px-4 py-2 bg-white/[0.02] border border-white/5 rounded-full backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-all hover:bg-white/[0.04] hover:border-white/10">
-        <button
-          onClick={() => scroll("left")}
-          disabled={!canScrollLeft}
-          className={`p-1.5 rounded-full transition-all duration-300 ${
-            canScrollLeft 
-              ? "text-neutral-400 hover:text-white hover:bg-white/15 hover:scale-105 active:scale-95" 
-              : "text-neutral-700 cursor-not-allowed opacity-50"
-          }`}
-          title="Scroll Left"
-        >
-          <ChevronLeft className="w-4 h-4" />
-        </button>
-
-        {/* Draggable Slidebar Track */}
-        <div 
-          ref={trackRef}
-          onMouseDown={handleMouseDown}
-          onTouchStart={handleTouchStart}
-          className="flex-1 px-4 py-3 cursor-grab active:cursor-grabbing relative group/track select-none"
-        >
-          <div className="h-[3px] bg-white/5 group-hover/track:bg-white/15 rounded-full w-full relative overflow-hidden transition-all duration-300">
-            <div
-              className="absolute left-0 top-0 h-full bg-gradient-to-r from-purple-500 via-rose-500 to-amber-400 rounded-full"
-              style={{ 
-                width: `${scrollProgress}%`,
-                transition: isDraggingAny ? "none" : "width 200ms ease-out"
-              }}
-            />
+      {/* Custom Premium Glassmorphic Scrolling Indicator Controller with Dynamic Count */}
+      <div className="flex flex-col items-center gap-3 mt-8">
+        {/* Dynamic Digital Counter Badge */}
+        {items.length > 0 && (
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-white/[0.03] border border-white/5 rounded-full backdrop-blur-md shadow-sm">
+            <span className="text-[10px] font-mono font-bold tracking-widest text-[#a855f7]">
+              {(activeIndex + 1).toString().padStart(2, "0")}
+            </span>
+            <span className="text-[8px] font-mono text-neutral-600 font-bold">/</span>
+            <span className="text-[10px] font-mono text-neutral-400 font-bold tracking-widest">
+              {items.length.toString().padStart(2, "0")}
+            </span>
           </div>
-          {/* Aesthetic sliding thumb indicator dot */}
-          <div 
-            className="absolute w-3.5 h-3.5 bg-white border border-rose-500 rounded-full top-1/2 -translate-y-1/2 shadow-lg scale-90 group-hover/track:scale-110 group-hover/track:bg-rose-500 cursor-grab active:cursor-grabbing"
-            style={{ 
-              left: `calc(16px + (${scrollProgress}% * (100% - 32px) / 100))`,
-              transform: "translate(-50%, -50%)",
-              transition: isDraggingAny ? "none" : "left 200ms ease-out, transform 150ms ease-out, background-color 150ms ease-out"
-            }}
-          />
-        </div>
+        )}
 
-        <button
-          onClick={() => scroll("right")}
-          disabled={!canScrollRight}
-          className={`p-1.5 rounded-full transition-all duration-300 ${
-            canScrollRight 
-              ? "text-neutral-400 hover:text-white hover:bg-white/15 hover:scale-105 active:scale-95" 
-              : "text-neutral-700 cursor-not-allowed opacity-50"
-          }`}
-          title="Scroll Right"
-        >
-          <ChevronRight className="w-4 h-4" />
-        </button>
+        <div className="flex items-center justify-between max-w-[340px] w-full mx-auto px-4 py-2 bg-gradient-to-r from-white/[0.01] to-white/[0.03] border border-white/5 rounded-full backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.5)] transition-all hover:bg-white/[0.04] hover:border-white/10 group/slider-console">
+          <button
+            onClick={() => scroll("left")}
+            disabled={!canScrollLeft}
+            className={`p-2 rounded-full transition-all duration-300 ${
+              canScrollLeft 
+                ? "text-neutral-300 hover:text-white hover:bg-white/10 hover:scale-110 active:scale-90" 
+                : "text-neutral-700 cursor-not-allowed opacity-40"
+            }`}
+            title="Scroll Left"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+
+          {/* Draggable Slidebar Track with premium reactive glowing feedback */}
+          <div 
+            ref={trackRef}
+            onMouseDown={handleMouseDown}
+            onTouchStart={handleTouchStart}
+            className="flex-1 px-4 py-3 cursor-grab active:cursor-grabbing relative group/track select-none"
+          >
+            {/* Ambient subtle background glow for the active track section */}
+            <div className="h-[4px] bg-white/[0.03] group-hover/track:bg-white/[0.07] rounded-full w-full relative transition-all duration-300">
+              <div
+                className="absolute left-0 top-0 h-full bg-gradient-to-r from-purple-500 via-rose-500 to-amber-400 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.5)]"
+                style={{ 
+                  width: `${scrollProgress}%`,
+                  transition: isDraggingAny ? "none" : "width 240ms cubic-bezier(0.25, 1, 0.5, 1)"
+                }}
+              />
+            </div>
+            {/* High-end sliding thumb lens */}
+            <div 
+              className="absolute w-4 h-4 bg-white border-2 border-[#ec4899] rounded-full top-1/2 -translate-y-1/2 shadow-[0_0_12px_rgba(236,72,153,0.8)] cursor-grab active:cursor-grabbing flex items-center justify-center transition-transform hover:scale-125 focus:scale-125"
+              style={{ 
+                left: `calc(16px + (${scrollProgress}% * (100% - 32px) / 100))`,
+                transform: "translate(-50%, -50%)",
+                transition: isDraggingAny ? "none" : "left 240ms cubic-bezier(0.25, 1, 0.5, 1), transform 150ms ease-out"
+              }}
+            >
+              {/* Core neon inner dot */}
+              <div className="w-1.5 h-1.5 bg-[#ec4899] rounded-full" />
+            </div>
+          </div>
+
+          <button
+            onClick={() => scroll("right")}
+            disabled={!canScrollRight}
+            className={`p-2 rounded-full transition-all duration-300 ${
+              canScrollRight 
+                ? "text-neutral-300 hover:text-white hover:bg-white/10 hover:scale-110 active:scale-90" 
+                : "text-neutral-700 cursor-not-allowed opacity-40"
+            }`}
+            title="Scroll Right"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -593,6 +637,11 @@ export default function PastWork() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [enteredPasskey, setEnteredPasskey] = useState("");
   const [authError, setAuthError] = useState("");
+
+  // Tab-based owner login modes: "google" | "email" | "passkey"
+  const [authMethod, setAuthMethod] = useState<"google" | "email" | "passkey">("google");
+  const [emailInput, setEmailInput] = useState("vedantssane2008@gmail.com");
+  const [passwordInput, setPasswordInput] = useState("");
 
   // Evaluated ownership state memoized
   const isOwner = useMemo(() => {
@@ -651,6 +700,32 @@ export default function PastWork() {
       }
     } catch (err: any) {
       setAuthError(err?.message || "Google Sign-In failed.");
+    }
+  };
+
+  const handleEmailPasswordSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const result = await signInWithEmailAndPassword(auth, emailInput.trim(), passwordInput);
+      const user = result.user;
+      
+      setIsPasskeyVerified(true);
+      localStorage.setItem("addictive_owner_auth", "true");
+      setSuccessMsg("🔑 Authenticated via Secure Email/Password!");
+      setShowAuthModal(false);
+      setShowControlCenter(true);
+      setPasswordInput("");
+      setAuthError("");
+      setTimeout(() => setSuccessMsg(""), 4000);
+    } catch (err: any) {
+      console.error("Email/Password Sign-In Error:", err);
+      let errMsg = err?.message || "Authentication failed.";
+      if (err?.code === "auth/user-not-found" || err?.code === "auth/wrong-password" || err?.code === "auth/invalid-credential" || err?.message?.includes("invalid-credential")) {
+        errMsg = "Incorrect password or account not found. Note: Make sure you have enabled local 'Email/Password' under Firebase console Auth Sign-in Methods and created user 'vedantssane2008@gmail.com'.";
+      } else if (err?.code === "auth/operation-not-allowed") {
+        errMsg = "Email/Password sign-in provider is not enabled in your Firebase console. Go to Authentication -> Sign-in Method and enable 'Email/Password'.";
+      }
+      setAuthError(errMsg);
     }
   };
 
@@ -1540,6 +1615,7 @@ export default function PastWork() {
                     setShowAuthModal(false);
                     setAuthError("");
                     setEnteredPasskey("");
+                    setPasswordInput("");
                   }}
                   className="absolute top-4 right-4 p-2 rounded-full hover:bg-white/5 text-neutral-400 hover:text-white transition-colors cursor-pointer focus:outline-none"
                 >
@@ -1547,7 +1623,7 @@ export default function PastWork() {
                 </button>
 
                 {/* Header context */}
-                <div className="flex items-center gap-2 mb-6">
+                <div className="flex items-center gap-2 mb-4">
                   <div className="h-2 w-2 rounded-full bg-purple-500 animate-ping" />
                   <span className="font-mono text-[10px] tracking-[0.25em] text-purple-400 font-bold uppercase">
                     Security Gate
@@ -1557,74 +1633,151 @@ export default function PastWork() {
                 <h3 className="text-xl sm:text-2xl font-display font-black text-white tracking-tight mb-2">
                   Verify Owner Authority
                 </h3>
-                <p className="text-neutral-400 text-xs sm:text-sm font-sans font-light leading-relaxed mb-5">
-                  Access to the Live Attention Portfolio Studio is locked. Verify securely via Google Account (required for database writes) or use a local passkey.
+                <p className="text-neutral-400 text-xs font-sans font-light leading-relaxed mb-5">
+                  Access to the Live Attention Portfolio Studio is locked. Select your preferred verification path to gain editing credentials.
                 </p>
 
-                {/* Secure Google Verification Option */}
-                <button
-                  type="button"
-                  onClick={handleGoogleSignIn}
-                  className="w-full py-3 mb-4 rounded-xl bg-white text-black hover:bg-neutral-200 transition-colors flex items-center justify-center gap-2 font-sans font-bold text-xs uppercase tracking-wider cursor-pointer shadow-lg"
-                  id="google-signin-btn"
-                >
-                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/smartlock/ico_google.svg" alt="Google Logo" className="w-4 h-4" />
-                  <span>Verify with Google Sign-In</span>
-                </button>
-
-                <div className="flex items-center gap-3 my-4">
-                  <div className="h-[1px] bg-white/10 flex-1" />
-                  <span className="text-[9px] font-mono text-neutral-500 uppercase tracking-widest">or use local passkey</span>
-                  <div className="h-[1px] bg-white/10 flex-1" />
+                {/* Authentication Method Tabs */}
+                <div className="flex bg-white/[0.03] border border-white/5 rounded-xl p-1 mb-6">
+                  <button
+                    type="button"
+                    onClick={() => { setAuthMethod("google"); setAuthError(""); }}
+                    className={`flex-1 py-1.5 rounded-lg text-center font-mono text-[10px] uppercase font-bold tracking-wider transition-all duration-200 cursor-pointer ${
+                      authMethod === "google"
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-600/20"
+                        : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
+                    }`}
+                  >
+                    Google Auth
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setAuthMethod("email"); setAuthError(""); }}
+                    className={`flex-1 py-1.5 rounded-lg text-center font-mono text-[10px] uppercase font-bold tracking-wider transition-all duration-200 cursor-pointer ${
+                      authMethod === "email"
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-600/20"
+                        : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
+                    }`}
+                  >
+                    Email/Password
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setAuthMethod("passkey"); setAuthError(""); }}
+                    className={`flex-1 py-1.5 rounded-lg text-center font-mono text-[10px] uppercase font-bold tracking-wider transition-all duration-200 cursor-pointer ${
+                      authMethod === "passkey"
+                        ? "bg-purple-600 text-white shadow-md shadow-purple-600/20"
+                        : "text-neutral-400 hover:text-white hover:bg-white/[0.02]"
+                    }`}
+                  >
+                    Local Passkey
+                  </button>
                 </div>
 
-                <form onSubmit={handleVerifyPasskey} className="space-y-4">
-                  <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-neutral-400 font-mono font-bold mb-2">
-                      Owner Passkey
-                    </label>
-                    <input
-                      type="password"
-                      required
-                      autoFocus
-                      placeholder="••••••••••••"
-                      value={enteredPasskey}
-                      onChange={(e) => {
-                        setEnteredPasskey(e.target.value);
-                        if (authError) setAuthError("");
-                      }}
-                      className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50 transition-colors placeholder:text-neutral-700 font-mono tracking-widest text-center"
-                    />
-                  </div>
-
-                  {authError && (
-                    <p className="text-xs text-rose-400 font-mono font-medium text-center bg-rose-500/5 py-1.5 rounded-lg border border-rose-500/10">
-                      ⚠ {authError}
+                {/* Google Authentication Method */}
+                {authMethod === "google" && (
+                  <div className="space-y-4">
+                    <p className="text-xs text-neutral-400 leading-normal">
+                      Logs you in securely with your Google account. This requires your site URL to be registered in the Google API console settings.
                     </p>
-                  )}
-
-                  <div className="flex gap-3 pt-2">
                     <button
                       type="button"
-                      onClick={() => {
-                        setShowAuthModal(false);
-                        setAuthError("");
-                        setEnteredPasskey("");
-                      }}
-                      className="w-1/2 py-2.5 rounded-xl border border-white/10 hover:bg-white/5 text-neutral-300 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer"
+                      onClick={handleGoogleSignIn}
+                      className="w-full py-3 rounded-xl bg-white text-black hover:bg-neutral-200 transition-colors flex items-center justify-center gap-2 font-sans font-bold text-xs uppercase tracking-wider cursor-pointer shadow-lg"
+                      id="google-signin-btn"
                     >
-                      Cancel
+                      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/smartlock/ico_google.svg" alt="Google Logo" className="w-4 h-4" />
+                      <span>Verify with Google Sign-In</span>
                     </button>
+                  </div>
+                )}
+
+                {/* Email/Password Method */}
+                {authMethod === "email" && (
+                  <form onSubmit={handleEmailPasswordSignIn} className="space-y-4">
+                    <p className="text-xs text-neutral-400 leading-normal">
+                      <strong>Foolproof alternative!</strong> Sign in with email & password. This does <strong>NOT</strong> require any domain Whitelisting and works on Netlify or AI Studio.
+                    </p>
+                    <div>
+                      <label className="block text-[10px] uppercase tracking-wider text-neutral-400 font-mono font-bold mb-1.5 text-left">
+                        Admin Email
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="email@example.com"
+                        value={emailInput}
+                        onChange={(e) => {
+                          setEmailInput(e.target.value);
+                          if (authError) setAuthError("");
+                        }}
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/[0.02] border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50 transition-colors font-sans"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] uppercase tracking-wider text-neutral-400 font-mono font-bold mb-1.5 text-left">
+                        Account Password
+                      </label>
+                      <input
+                        type="password"
+                        required
+                        placeholder="••••••••••••"
+                        value={passwordInput}
+                        onChange={(e) => {
+                          setPasswordInput(e.target.value);
+                          if (authError) setAuthError("");
+                        }}
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/[0.02] border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50 transition-colors font-mono tracking-widest"
+                      />
+                    </div>
                     <button
                       type="submit"
-                      className="w-1/2 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-rose-600 hover:opacity-90 font-mono text-xs uppercase tracking-widest font-extrabold text-white cursor-pointer"
+                      className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-rose-600 hover:opacity-90 font-mono text-xs uppercase tracking-widest font-extrabold text-white cursor-pointer"
+                    >
+                      Log in with Password
+                    </button>
+                  </form>
+                )}
+
+                {/* Passkey Method */}
+                {authMethod === "passkey" && (
+                  <form onSubmit={handleVerifyPasskey} className="space-y-4">
+                    <p className="text-xs text-neutral-400 leading-normal">
+                      Unlock control options using your pre-configured local owner access key.
+                    </p>
+                    <div>
+                      <label className="block text-[10px] uppercase tracking-wider text-neutral-400 font-mono font-bold mb-2">
+                        Owner Passkey
+                      </label>
+                      <input
+                        type="password"
+                        required
+                        autoFocus
+                        placeholder="••••••••••••"
+                        value={enteredPasskey}
+                        onChange={(e) => {
+                          setEnteredPasskey(e.target.value);
+                          if (authError) setAuthError("");
+                        }}
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50 transition-colors placeholder:text-neutral-700 font-mono tracking-widest text-center"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-rose-600 hover:opacity-90 font-mono text-xs uppercase tracking-widest font-extrabold text-white cursor-pointer"
                     >
                       Unlock Gate
                     </button>
-                  </div>
-                </form>
+                  </form>
+                )}
 
-                <div className="mt-6 pt-4 border-t border-white/5 text-[10px] font-mono text-neutral-500 text-center leading-normal">
+                {authError && (
+                  <p className="text-xs text-rose-400 font-mono font-medium text-center bg-rose-500/5 py-2 px-3 mt-4 rounded-xl border border-rose-500/15 leading-relaxed overflow-hidden text-ellipsis whitespace-normal text-wrap max-w-full">
+                    ⚠ {authError}
+                  </p>
+                )}
+
+                <div className="mt-6 pt-4 border-t border-white/5 text-[9px] font-mono text-neutral-600 text-center leading-normal">
                   Authenticating lets you add, edit, and reorganize projects instantly.
                 </div>
               </motion.div>

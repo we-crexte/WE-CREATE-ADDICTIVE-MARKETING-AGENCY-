@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, getDocFromServer } from "firebase/firestore";
+import sandboxConfig from "../firebase-applet-config.json";
+
 // Your web app's Firebase configuration provided by the user
 export const firebaseConfig = {
   apiKey: "AIzaSyDJYUSuWVHDmuCTQZcvjyrPwzNIKhirxPo",
@@ -15,6 +17,16 @@ export const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app); /* CRITICAL: The app will break without this line */
 export const auth = getAuth(app);
+
+// Initialize a secondary quiet App for playground content recovery
+let sandboxDbInstance: any = null;
+try {
+  const sandboxApp = initializeApp(sandboxConfig, "sandboxApp");
+  sandboxDbInstance = getFirestore(sandboxApp, sandboxConfig.firestoreDatabaseId || undefined);
+} catch (err) {
+  console.warn("Could not load playground Firestore backup engine:", err);
+}
+export const sandboxDb = sandboxDbInstance;
 
 export enum OperationType {
   CREATE = "create",

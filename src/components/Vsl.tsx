@@ -92,7 +92,7 @@ export default function Vsl() {
             className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-full mb-4 text-xs font-mono font-bold text-purple-400"
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>EXECUTIVE SYSTEMS REVEAL</span>
+            <span>CONTENT GROWTH BLUEPRINT</span>
           </motion.div>
           
           <motion.h2
@@ -102,9 +102,9 @@ export default function Vsl() {
             transition={{ delay: 0.1 }}
             className="text-2xl sm:text-4xl md:text-6xl font-display font-black tracking-tight text-white leading-tight"
           >
-            Watch How We <br />
+            See How We <br />
             <span className="bg-gradient-to-r from-purple-400 via-rose-400 to-amber-300 bg-clip-text text-transparent">
-              Scale Brands To $10M+
+              Turn Content Into Attention, Leads & Sales
             </span>
           </motion.h2>
 
@@ -115,7 +115,7 @@ export default function Vsl() {
             transition={{ delay: 0.2 }}
             className="mt-3 sm:mt-6 text-neutral-300 text-sm sm:text-base md:text-lg font-light font-sans"
           >
-            A quick breakdown of our process, results, and how we help businesses dominate social media, command cultural authority, and capture market share.
+            A behind-the-scenes look at our content strategy, editing process, and the systems we use to help brands grow online.
           </motion.p>
         </div>
 
@@ -227,13 +227,13 @@ export default function Vsl() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            Ready to deploy this engine for your company?
+            Ready to grow your brand with a proven content system?
           </p>
           <a
             href="#contact"
             className="mt-3 text-sm font-semibold text-rose-400 hover:text-white transition-colors flex items-center gap-1 group"
           >
-            <span>Lock In A Custom Strategy Session</span>
+            <span>Book A Free Strategy Call</span>
             <span className="translate-x-0 group-hover:translate-x-1.5 transition-transform">→</span>
           </a>
         </div>

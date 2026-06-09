@@ -263,13 +263,13 @@ export default function ClientVerdicts() {
         {/* Header - Styled elegantly matching the aesthetic */}
         <div className="text-center mb-10 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-purple-400 mb-4 tracking-wider uppercase">
-            <Flame className="w-3.5 h-3.5 text-rose-500 animate-pulse" /> Verified Praise Gallery
+            <Flame className="w-3.5 h-3.5 text-rose-500 animate-pulse" /> Client Feedback
           </div>
           <h2 className="text-3xl sm:text-5xl md:text-7xl font-display font-black tracking-tight text-white mb-4 sm:mb-6 leading-none">
             Testimonials
           </h2>
           <p className="text-neutral-300 max-w-3xl mx-auto text-sm sm:text-base md:text-lg font-light leading-relaxed">
-            Witness the retention and growth results firsthand. Play our featured masterclass case study below, or select any of our verified communications channels to view dialogue records.
+            Browse real client conversations, project approvals, and feedback from creators and businesses we've worked with.
           </p>
         </div>
 
@@ -282,10 +282,10 @@ export default function ClientVerdicts() {
               <div className="absolute inset-0 bg-gradient-to-b from-purple-500/5 via-transparent to-transparent pointer-events-none" />
               
               <h3 className="text-base font-display font-semibold text-white mb-1 flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-emerald-400" /> Executive Video Case
+                <Sparkles className="w-4 h-4 text-emerald-400" /> Client Testimonial
               </h3>
               <p className="text-[11px] text-neutral-400 mb-5 font-mono">
-                Verified Video Reference: VIP Client Review
+                Video Testimonial
               </p>
 
               {/* Video Player Display */}
@@ -354,10 +354,10 @@ export default function ClientVerdicts() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <h3 className="text-xl font-display font-black text-white flex items-center gap-2">
-                  <Star className="w-5 h-5 text-amber-400 fill-amber-400" /> Testimonials Feed
+                  <Star className="w-5 h-5 text-amber-400 fill-amber-400" /> Client Feedback Feed
                 </h3>
                 <p className="text-xs text-neutral-400 font-mono">
-                  Select an active verified log channel to view authentic dialogue feeds at a single glance
+                  Select a conversation to view real client feedback and project discussions.
                 </p>
               </div>
               <span className="text-[10px] font-mono text-purple-400 border border-purple-500/20 bg-purple-500/5 px-2.5 py-1 rounded font-bold uppercase tracking-wider shrink-0 self-start">
@@ -371,10 +371,10 @@ export default function ClientVerdicts() {
               {/* Active Channels Selector Panel */}
               <div className="lg:col-span-5 flex flex-col gap-3">
                 <div className="text-[10px] text-neutral-400 font-mono font-extrabold tracking-wider uppercase flex items-center justify-between px-1">
-                  <span>ACTIVE CHANNELS (TAP TO INSPECT)</span>
+                  <span>CLIENT CONVERSATIONS</span>
                   <span className="flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[9px] text-[#dac4ff] font-bold">ALL VERIFIED</span>
+                    <span className="text-[9px] text-[#dac4ff] font-bold">VERIFIED</span>
                   </span>
                 </div>
 
@@ -453,7 +453,7 @@ export default function ClientVerdicts() {
             <div className="p-4 rounded-2xl border border-white/5 bg-white/[0.01] flex items-start gap-3">
               <span className="w-2 h-2 rounded-full bg-[#bc93ff] animate-pulse mt-1 shrink-0" />
               <p className="text-[11px] text-neutral-400 font-mono leading-relaxed">
-                <span className="text-purple-300 font-bold">Aesthetic Insight:</span> Select any verified dialog channel on the left to preview authentic client dialogue feeds dynamically styled in real-time.
+                <span className="text-purple-300 font-bold">Client Note:</span> Select any conversation on the left to browse real client feedback and project discussions.
               </p>
             </div>
           </div>

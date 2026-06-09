@@ -9,18 +9,18 @@ export default function About() {
   const processSteps = [
     {
       phase: "01",
-      title: "Atmosphere Extraction (Days 1–3)",
-      desc: "Our creative directors execute a deep digital dump session, cataloguing your target cognitive nodes, your knowledge reserves, and your high-performing competitors."
+      title: "Discovery & Strategy",
+      desc: "We start by understanding your business, audience, goals, and existing content. This helps us create a content strategy tailored to your brand."
     },
     {
       phase: "02",
-      title: "Script Compiling & Blueprints (Days 4–7)",
-      desc: "We write detailed psychologically-indexed action scripts, matching visual hooks, pacing frames, and audio-trending cues carefully configured for retention."
+      title: "Content Planning & Production",
+      desc: "We plan, script, edit, and structure content around your goals. Every piece is designed to keep viewers engaged and communicate your message clearly."
     },
     {
       phase: "03",
-      title: "Cinematic Cut Distribution (Days 8+)",
-      desc: "Our production team cuts and subtitles your visual assets with high-end typography and sound. We run daily distributions, analyzing watch-curves immediately."
+      title: "Publishing & Optimization",
+      desc: "Once content is ready, we help optimize it for the platform and continuously improve performance based on audience response and results."
     }
   ];
 
@@ -54,7 +54,7 @@ export default function About() {
                     <Quote className="w-4.5 h-4.5 text-amber-400 rotate-180 shrink-0 mt-0.5" />
                     <div>
                       <p className="text-[10px] sm:text-xs text-white font-serif leading-relaxed italic">
-                        "Your brand isn't dying from a lack of product quality. It's dying from an absence of high-intensity attention."
+                        "Great content isn't about chasing trends. It's about understanding your audience, delivering value consistently, and building trust over time."
                       </p>
                       <span className="block mt-1.5 text-[8.5px] sm:text-[10px] font-mono tracking-widest text-amber-400 uppercase font-bold">
                         SAMARTH // FOUNDER & CREATIVE DIRECTOR
@@ -71,8 +71,8 @@ export default function About() {
               <div className="flex items-center gap-2">
                 <Trophy className="w-5 h-5 text-amber-500" />
                 <div className="text-left">
-                  <p className="text-[10px] font-mono font-bold text-neural-300 uppercase tracking-widest">RANKED #1</p>
-                  <p className="text-sm font-semibold text-white">Attention Architect</p>
+                  <p className="text-[10px] font-mono font-bold text-neutral-300 uppercase tracking-widest">VERIFIED</p>
+                  <p className="text-sm font-semibold text-white">Content Strategist</p>
                 </div>
               </div>
             </div>
@@ -83,7 +83,7 @@ export default function About() {
             
             <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-rose-500/10 border border-rose-500/20 rounded-full mb-4 text-xs font-mono font-bold text-rose-400 uppercase w-fit">
               <Award className="w-3.5 h-3.5" />
-              <span>THE LEADERSHIP GENOME</span>
+              <span>ABOUT US</span>
             </div>
 
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-extrabold tracking-tight text-white leading-tight">
@@ -122,11 +122,11 @@ export default function About() {
                   animate={{ opacity: 1, y: 0 }}
                   className="space-y-4"
                 >
-                  <p className="text-neutral-300 text-sm md:text-base leading-relaxed">
-                    We started Addictive Marketing because we got tired of standard corporate digital agencies lying. They charge heavy retainers, write redundant 40-page strategy decks, and produce generic, uninspired stock-image content that does nothing but waste capital.
+                  <p className="text-neutral-300 text-sm md:text-base leading-relaxed font-light">
+                    I started Addictive Marketing because I saw too many businesses struggling to find a content strategy that actually works. Most traditional agencies focus on vanity metrics like follower counts or charge high retainers for generic posts that don't drive real business growth.
                   </p>
-                  <p className="text-neutral-300 text-sm md:text-base leading-relaxed">
-                    Attention on modern social pools moves in micro-seconds. Either your content commands instant aesthetic compliance, or it gets bypassed forever. We rebuilt ourselves as a boutique digital strike team, designing high-conversion vertical visual assets designed to secure audiences immediately.
+                  <p className="text-neutral-300 text-sm md:text-base leading-relaxed font-light">
+                    We believe great content must be backed by a clear strategy and consistent execution. That's why we focus on creating meaningful content that keeps people engaged and builds long-term trust, turning viewers into loyal clients and customers.
                   </p>
                 </motion.div>
               )}
@@ -143,17 +143,17 @@ export default function About() {
                       <h4 className="font-display font-bold text-sm text-white uppercase tracking-wider">Our Core Mission</h4>
                     </div>
                     <p className="text-xs text-neutral-400 leading-relaxed font-light">
-                      To empower ambitious brands by engineering content systems that transform raw attention files into highly qualified conversions and compound brand equity.
+                      To help businesses and creators grow their brands by building high-quality, professional content systems that generate real outcomes and build lasting audience relationships.
                     </p>
                   </div>
 
                   <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/5">
                     <div className="flex items-center gap-2 mb-3">
                       <Rocket className="w-5 h-5 text-amber-500" />
-                      <h4 className="font-display font-bold text-sm text-white uppercase tracking-wider">Our Radical Vision</h4>
+                      <h4 className="font-display font-bold text-sm text-white uppercase tracking-wider">Our Vision</h4>
                     </div>
                     <p className="text-xs text-neutral-400 leading-relaxed font-light">
-                      To dismantle boring traditional digital marketing, establishing high-end cinematic narrative content as the absolute gold standard for client audience engagement.
+                      To set a higher standard for digital content, making authenticity, strategic planning, and consistent value delivery the foundation of online marketing.
                     </p>
                   </div>
                 </motion.div>
@@ -187,9 +187,9 @@ export default function About() {
 
             {/* Quick Process Check List */}
             <div className="mt-8 pt-6 border-t border-white/5 flex flex-wrap gap-x-8 gap-y-3 text-xs text-neutral-400">
-              <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-400" /> Professional filming direction</span>
-              <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-400" /> Subtitles & sound design</span>
-              <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-400" /> Paid advertising campaign sync</span>
+              <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-400" /> Content strategy & guidance</span>
+              <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-400" /> Editing & sound design</span>
+              <span className="flex items-center gap-1.5"><Check className="w-4 h-4 text-emerald-400" /> Growth & performance tracking</span>
             </div>
 
           </div>

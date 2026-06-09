@@ -18,61 +18,61 @@ import podcastFlowDiagram from "../assets/images/podcast_growth_flow_1780315200_
 
 const TABS_DATA = [
   {
-    id: 0,
-    tag: "CASE STUDY 01: CHROMATIC ATTENTION LEDGER",
-    title: "Proof of Work.",
-    titleHighlight: "Defying Algorithm Limits.",
-    subtitle: "TIKTOK ORGANIC RETENTION",
-    campaign: "Viral Compounding Campaign",
-    headingFrom: "1,600 Views",
-    headingTo: "300K+ Viral Outbursts",
-    baselineLabel: "Baseline Average",
-    baselineValue: "~ 1,600 Views",
-    scaleLabel: "Scale Post-Edit",
-    scaleValue: "300K+ / 185K+",
-    peakVelocity: "+18,650% Peak",
-    reachOverlay: "300K+ LIMITLESS REACH",
-    axisLabel1: "Baseline (1,600)",
-    axisLabel2: "Optimizing VSL",
-    axisLabel3: "Retention Loop (300K)",
-    svgPath: "M 10 100 Q 80 95, 150 70 T 260 30 T 340 10",
-    fillPath: "M 10 100 Q 80 95, 150 70 T 260 30 T 340 10 L 340 110 L 10 110 Z",
-    gradientFrom: "#3b82f6",
-    gradientTo: "#10b981",
-    imageSrc: tiktokFlowDiagram,
-    imageAlt: "TikTok Views Growth Flow Schematic",
-    visualTitle: "RETENTION LIFECYCLE SCHEMA",
-    visualDesc: "The visual roadmap of virality. Raw data extracted directly from Creator backend, translating immediate retention peaks.",
-    description: "Took this brand from videos averaging just 1,600 views to 300K+ and 185K+ view performances on TikTok through a content strategy built for retention, precise visual pacing, and strategic auditory triggers."
-  },
-  {
-    id: 1,
-    tag: "CASE STUDY 02: AUTHORITY PRESTIGE CATALYST",
-    title: "Shattering Benchmarks.",
-    titleHighlight: "Premium Brand Equity.",
-    subtitle: "PERSONAL BRAND & PODCAST STRATEGY",
-    campaign: "High-Authority Lead-Gen Campaign",
-    headingFrom: "17.7K Views",
-    headingTo: "107K+ Highly Targeted Leads",
-    baselineLabel: "Original Baseline",
-    baselineValue: "~ 17.7K Views",
-    scaleLabel: "Optimized High-End",
-    scaleValue: "107K+ Verified Views",
-    peakVelocity: "+504% Growth Peak",
-    reachOverlay: "107K+ TARGETED ENGAGEMENT",
-    axisLabel1: "Baseline (17.7K)",
-    axisLabel2: "Attention Hook",
-    axisLabel3: "Pattern Interrupt (107K)",
-    svgPath: "M 10 100 Q 90 85, 170 55 T 260 35 T 340 15",
-    fillPath: "M 10 100 Q 90 85, 170 55 T 260 35 T 340 15 L 340 110 L 10 110 Z",
-    gradientFrom: "#6366f1",
-    gradientTo: "#ec4899",
-    imageSrc: podcastFlowDiagram,
-    imageAlt: "Podcast Views Growth Flow Schematic",
-    visualTitle: "ENGAGEMENT VELOCITY MAPPING",
-    visualDesc: "A master class in high-ticket positioning. Strategic structure and psychological hooks designed to capture professional leads.",
-    description: "We turned average-performing content into a 100K+ view piece by rebuilding the video strategy around audience attention, pattern-interrupt pacing, and elite high-engagement packaging."
-  }
+  id: 0,
+  tag: "CASE STUDY 01: TIKTOK GROWTH",
+  title: "Real Results.",
+  titleHighlight: "Real Growth.",
+  subtitle: "TIKTOK ORGANIC RETENTION",
+  campaign: "TikTok Content Optimization",
+  headingFrom: "1,600 Views",
+  headingTo: "300K+ Views",
+  baselineLabel: "Baseline Average",
+  baselineValue: "~ 1,600 Views",
+  scaleLabel: "Scale Post-Edit",
+  scaleValue: "300K+ / 185K+",
+  peakVelocity: "+18,650% Peak",
+  reachOverlay: "300K+ VIEWS",
+  axisLabel1: "Baseline (1,600)",
+  axisLabel2: "Optimizing VSL",
+  axisLabel3: "Retention Loop (300K)",
+  svgPath: "M 10 100 Q 80 95, 150 70 T 260 30 T 340 10",
+  fillPath: "M 10 100 Q 80 95, 150 70 T 260 30 T 340 10 L 340 110 L 10 110 Z",
+  gradientFrom: "#3b82f6",
+  gradientTo: "#10b981",
+  imageSrc: tiktokFlowDiagram,
+  imageAlt: "TikTok Views Growth Flow Schematic",
+  visualTitle: "CONTENT PERFORMANCE BREAKDOWN",
+  visualDesc: "A breakdown of how stronger hooks, better pacing, and improved retention helped this content reach a wider audience.",
+  description: "By improving video structure, pacing, and retention, we helped this account grow from an average of 1,600 views to multiple videos crossing 300,000+ views."
+},
+ {
+  id: 1,
+  tag: "CASE STUDY 02: PODCAST GROWTH",
+  title: "Improved Reach.",
+  titleHighlight: "Stronger Engagement.",
+  subtitle: "PERSONAL BRAND & PODCAST STRATEGY",
+  campaign: "Podcast Content Strategy",
+  headingFrom: "17.7K Views",
+  headingTo: "107K+ Views",
+  baselineLabel: "Original Baseline",
+  baselineValue: "~ 17.7K Views",
+  scaleLabel: "Optimized High-End",
+  scaleValue: "107K+ Verified Views",
+  peakVelocity: "+504% Growth Peak",
+  reachOverlay: "107K+ VIEWS",
+  axisLabel1: "Baseline (17.7K)",
+  axisLabel2: "Attention Hook",
+  axisLabel3: "Pattern Interrupt (107K)",
+  svgPath: "M 10 100 Q 90 85, 170 55 T 260 35 T 340 15",
+  fillPath: "M 10 100 Q 90 85, 170 55 T 260 35 T 340 15 L 340 110 L 10 110 Z",
+  gradientFrom: "#6366f1",
+  gradientTo: "#ec4899",
+  imageSrc: podcastFlowDiagram,
+  imageAlt: "Podcast Views Growth Flow Schematic",
+  visualTitle: "AUDIENCE ENGAGEMENT BREAKDOWN",
+  visualDesc: "A closer look at the content structure and engagement improvements that helped increase reach and watch time.",
+  description: "After restructuring the content and improving engagement points, this video reached over 107,000 views and generated significantly higher audience interaction."
+}
 ];
 
 export default function CaseStudies() {
@@ -94,16 +94,16 @@ export default function CaseStudies() {
         <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-16 animate-[fadeIn_0.5s_ease-out]">
           <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full mb-4 text-xs font-mono font-bold text-blue-400 uppercase tracking-widest">
             <TrendingUp className="w-3.5 h-3.5" />
-            <span>METRIC PROOF: PERFORMANCE LEDGERS</span>
+            <span>REAL CLIENT RESULTS</span>
           </div>
           <h2 className="text-2xl sm:text-4xl md:text-6xl font-display font-black tracking-tight text-white mb-4 sm:mb-6 leading-tight">
-            Proof of Work. <br />
+            Results We've Generated. <br />
             <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-sky-400 bg-clip-text text-transparent">
-              Defying Algorithm Limits.
+              For Real Clients.
             </span>
           </h2>
           <p className="mt-3 sm:mt-6 text-neutral-300 text-sm sm:text-base md:text-lg font-light max-w-2xl mx-auto">
-            Actual metrics from real creator dashboards. No generic mock placeholder metrics. Clean, traceable audience retention.
+            Here are a few examples of content we've edited and optimized. These results come directly from client campaigns and creator accounts.
           </p>
         </div>
 
@@ -180,8 +180,8 @@ export default function CaseStudies() {
               <div className="p-6 rounded-2xl bg-dark-card/90 border border-white/5 relative overflow-hidden shadow-2xl">
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <span className="text-[9px] font-mono text-neutral-500 uppercase block tracking-wider">MOMENTUM VELOCITY CURVE</span>
-                    <p className="text-xs font-bold text-white font-mono animate-pulse">Attention Trafficking Rate</p>
+                    <span className="text-[9px] font-mono text-neutral-500 uppercase block tracking-wider">CONTENT PERFORMANCE TREND</span>
+                    <p className="text-xs font-bold text-white font-mono animate-pulse">View Growth Over Time</p>
                   </div>
                   <div className="px-2 py-0.5 bg-blue-500/10 border border-blue-500/20 text-[9px] font-mono text-blue-400 leading-tight rounded">
                     {activeObj.peakVelocity}
@@ -272,7 +272,7 @@ export default function CaseStudies() {
                 {/* Secure visual cue overlay */}
                 <div className="absolute bottom-6 left-6 px-3 py-1 rounded bg-black/80 border border-white/10 font-mono text-[9px] text-neutral-400 flex items-center gap-1.5 backdrop-blur-md">
                   <Sparkles className="w-3.5 h-3.5 text-blue-400 animate-pulse" />
-                  <span>CASE ANALYSIS: VERIFIED SCALE SNAPSHOT</span>
+                  <span>CASE STUDY RESULTS</span>
                 </div>
               </motion.div>
 
@@ -286,13 +286,13 @@ export default function CaseStudies() {
           <div className="max-w-3xl mb-12">
             <div className="inline-flex items-center gap-1 px-2 py-0.5 bg-indigo-500/10 border border-indigo-200/5 text-[10px] font-mono font-bold text-indigo-400 uppercase tracking-widest rounded mb-3">
               <Layers className="w-3.5 h-3.5" />
-              <span>THE COMPOUNDING RETENTION SYSTEM</span>
+              <span>WHY THESE VIDEOS PERFORMED BETTER</span>
             </div>
             <h3 className="text-2xl md:text-3xl font-display font-black text-white tracking-tight">
-              Anatomy of the Retention Shift
+              What Helped These Videos Perform Better
             </h3>
             <p className="mt-2 text-neutral-400 text-sm font-light">
-              We cracked the platform algorithms by turning basic static storytelling into interactive viewer psychological loops. Here is the operational framework.
+              Better performing content usually comes down to a few simple things: a strong opening, keeping viewers interested, and giving people a reason to share. Here's how we approach it.
             </p>
           </div>
 
@@ -301,19 +301,18 @@ export default function CaseStudies() {
               <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
                 <Sparkles className="w-5 h-5 text-blue-400" />
               </div>
-              <h4 className="text-base font-bold text-white">1. The 1.5-Second Visual Interrupt</h4>
+              <h4 className="text-base font-bold text-white"> 1. Strong Opening Hook</h4>
               <p className="text-xs text-neutral-400 leading-relaxed font-sans font-light">
-                Standard videos fail in under 2 seconds due to uninteresting visual hooks. By introducing high-contrast dividing lines alongside immediate bold text prompts, the viewer's brain is forced to arrest scrolling speed to classify the visual inconsistency.
-              </p>
+              Most viewers decide within the first few seconds whether they will keep watching or scroll away. We focus on creating stronger openings that immediately grab attention and make people curious about what's coming next.              </p>
             </div>
 
             <div className="p-6 rounded-2xl bg-white/[0.01] border border-white/5 space-y-4">
               <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
                 <Zap className="w-5 h-5 text-indigo-400" />
               </div>
-              <h4 className="text-base font-bold text-white">2. Open Loop Retention Framing</h4>
+              <h4 className="text-base font-bold text-white">2. Keeping Viewers Curious</h4>
               <p className="text-xs text-neutral-400 leading-relaxed font-sans font-light">
-                We design narrative scripts around unresolved loops (such as explaining a deep concept but saving the main resolution for the final frame). This creates a cognitive "information gap", compelling the user to stay through the entire video to reach completion state, driving watch-time up.
+                Instead of giving away everything at the beginning, we structure content so viewers naturally want to stay until the end. This helps improve watch time and overall engagement.
               </p>
             </div>
 
@@ -321,9 +320,9 @@ export default function CaseStudies() {
               <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
                 <Award className="w-5 h-5 text-emerald-400" />
               </div>
-              <h4 className="text-base font-bold text-white">3. Self-Compounding Shareability</h4>
+              <h4 className="text-base font-bold text-white">3. Content Worth Sharing</h4>
               <p className="text-xs text-neutral-400 leading-relaxed font-sans font-light">
-                Content achieves viral scale only if viewers distribute it directly to friends. We integrate high-interest value propositions that prompt immediate comments, likes, saves, and direct message shares, sending a direct booster signal to recommendation engines.
+                The best-performing content is often shared with friends, colleagues, or communities. We focus on creating content that delivers enough value for people to save, share, and talk about.
               </p>
             </div>
           </div>

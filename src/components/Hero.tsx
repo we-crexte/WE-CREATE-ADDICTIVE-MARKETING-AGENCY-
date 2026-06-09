@@ -62,7 +62,7 @@ export default function Hero() {
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-amber-400 fill-amber-400/20" />
               <span className="text-[9px] sm:text-xs font-bold uppercase tracking-wider text-neutral-300">
-                The Attention Oligarchy Engine
+                Content Systems That Drive Growth
               </span>
             </div>
           </motion.div>
@@ -86,7 +86,7 @@ export default function Hero() {
             variants={itemVariants}
             className="mt-4 sm:mt-8 text-sm sm:text-lg lg:text-2xl text-neutral-300 font-sans max-w-3xl leading-relaxed font-light"
           >
-            We build content systems that generate attention, authority, and revenue. Convert cold scrollers into high-paying advocates.
+           We help creators, coaches, and businesses turn content into consistent views, leads, and sales. No trends. No guesswork. Just proven content systems that grow your brand.
           </motion.p>
 
           {/* Call to Actions */}

@@ -14,7 +14,8 @@ service cloud.firestore {
 
     function isOwner() {
       return isSignedIn() &&
-             request.auth.token.email_verified == true;
+             (request.auth.token.email == "vedantssane2008@gmail.com" ||
+              request.auth.token.email == "vedantssane2.dev@gmail.com");
     }
 
     // Validation helper for WorkItem ID

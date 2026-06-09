@@ -643,11 +643,20 @@ export default function PastWork() {
   const [emailInput, setEmailInput] = useState("vedantssane2008@gmail.com");
   const [passwordInput, setPasswordInput] = useState("");
 
-  // Evaluated ownership state memoized
+  // Verify if current user is logged in via an authorized administrator email (Google Accounts)
+  const isAuthorizedAdmin = useMemo(() => {
+    const whitelistedEmails = [
+      "vedantssane2008@gmail.com",
+      // You can easily add more authorized Google email addresses below:
+      "vedantssane2.dev@gmail.com"
+    ];
+    return !!(currentUser?.email && whitelistedEmails.includes(currentUser.email));
+  }, [currentUser]);
+
+  // Evaluated ownership state memoized (determines if they can access/view the dashboard)
   const isOwner = useMemo(() => {
-    const isSuperUser = currentUser?.email === "vedantssane2008@gmail.com" && currentUser?.emailVerified;
-    return isPasskeyVerified || isSuperUser;
-  }, [isPasskeyVerified, currentUser]);
+    return isPasskeyVerified || isAuthorizedAdmin;
+  }, [isPasskeyVerified, isAuthorizedAdmin]);
 
   // Firebase auth state listener
   useEffect(() => {
@@ -681,11 +690,17 @@ export default function PastWork() {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       
-      if (user.emailVerified) {
-        if (user.email === "vedantssane2008@gmail.com") {
+      const whitelistedEmails = [
+        "vedantssane2008@gmail.com",
+        "vedantssane2.dev@gmail.com"
+      ];
+      const isWhitelisted = user.email && whitelistedEmails.includes(user.email);
+
+      if (user.emailVerified || isWhitelisted) {
+        if (isWhitelisted) {
           setIsPasskeyVerified(true);
           localStorage.setItem("addictive_owner_auth", "true");
-          setSuccessMsg("🔑 Authenticated as Google Master Owner.");
+          setSuccessMsg(`🔑 Authenticated as Google Master Owner: ${user.email}`);
         } else {
           setSuccessMsg("🔗 Google Account connected successfully!");
         }
@@ -871,8 +886,13 @@ export default function PastWork() {
         setAllWorkItems(WORK_ITEMS);
       } else {
         const items: WorkItem[] = [];
+        const deletedIds = new Set<string>();
         snapshot.forEach((doc) => {
           const data = doc.data();
+          if (data.title === "DELETED") {
+            deletedIds.add(doc.id);
+            return;
+          }
           items.push({
             id: doc.id,
             title: data.title || "",
@@ -884,11 +904,11 @@ export default function PastWork() {
           });
         });
 
-        // Merge custom database projects with static WORK_ITEMS (avoiding duplicate IDs)
+        // Merge custom database projects with static WORK_ITEMS (avoiding duplicate IDs and deleted IDs)
         const firestoreIds = new Set(items.map(item => item.id));
         const mergedItems = [
           ...items,
-          ...WORK_ITEMS.filter(defaultItem => !firestoreIds.has(defaultItem.id))
+          ...WORK_ITEMS.filter(defaultItem => !firestoreIds.has(defaultItem.id) && !deletedIds.has(defaultItem.id))
         ];
         setAllWorkItems(mergedItems);
       }
@@ -1000,6 +1020,12 @@ export default function PastWork() {
     e.preventDefault();
     if (!newTitle.trim()) return;
 
+    if (!isAuthorizedAdmin) {
+      setSuccessMsg("❌ Action Blocked: Passkey owners have view-only access. Full Google Admin login required.");
+      setTimeout(() => setSuccessMsg(""), 5000);
+      return;
+    }
+
     // Use selected preset or custom values
     const assetPreset = aestheticPresets[selectedPresetIndex];
     const finalThumb = customThumbUrl.trim() || assetPreset.thumb;
@@ -1012,8 +1038,8 @@ export default function PastWork() {
       category: newCategory,
       thumbnail: finalThumb,
       videoUrl: finalVideo,
-      description: newDescription.trim() || "Dynamic high-converting creative project launched on premium digital systems.",
-      metrics: newMetrics.trim() || "100% Attended Engagement",
+      description: newDescription.trim() || "Professional content project created for audience growth and engagement.",
+      metrics: newMetrics.trim() || "Audience Engagement",
       createdAt: serverTimestamp()
     };
 
@@ -1032,7 +1058,7 @@ export default function PastWork() {
       setThumbSource("url");
       setVideoSource("url");
       setIsEditingId(null);
-      setSuccessMsg(isEditingId ? "✨ Project details updated live globally!" : "✨ Project uploaded live to entire worldwide audience!");
+      setSuccessMsg(isEditingId ? "✨ Project updated successfully." : "✨ Project added successfully.");
       setTimeout(() => setSuccessMsg(""), 4000);
     } catch (err) {
       console.error("Failed to save project to Firestore:", err);
@@ -1046,10 +1072,33 @@ export default function PastWork() {
   };
 
   const handleDeleteProject = async (id: string) => {
+    if (!isAuthorizedAdmin) {
+      setSuccessMsg("❌ Action Blocked: Passkey owners have view-only access. Full Google Admin login required.");
+      setTimeout(() => setSuccessMsg(""), 5000);
+      return;
+    }
+
     try {
       const docRef = doc(db, "projects", id);
-      await deleteDoc(docRef);
-      setSuccessMsg("🗑️ Showcase item permanently expunged globally.");
+      if (id.startsWith("w-")) {
+        // Since it's a default static asset, a complete delete from Firestore
+        // would drop its ID and cause the fallback merge to bring it back.
+        // We set a compliant "DELETED" placeholder document in Firestore to mark it as expunged.
+        await setDoc(docRef, {
+          id: id,
+          title: "DELETED",
+          category: "shorts",
+          thumbnail: "DELETED",
+          videoUrl: "DELETED",
+          description: "DELETED",
+          metrics: "DELETED",
+          createdAt: serverTimestamp()
+        });
+      } else {
+        // For custom added projects, we delete them fully and permanently
+        await deleteDoc(docRef);
+      }
+      setSuccessMsg("🗑️ Project deleted successfully.");
       setTimeout(() => setSuccessMsg(""), 4000);
       if (playingVideoId === id) setPlayingVideoId(null);
     } catch (err) {
@@ -1064,9 +1113,9 @@ export default function PastWork() {
   };
 
   const handleResetToDefault = async () => {
-    if (!isOwner) {
-      setSuccessMsg("❌ Admin verification required to reset database.");
-      setTimeout(() => setSuccessMsg(""), 4000);
+    if (!isAuthorizedAdmin) {
+      setSuccessMsg("❌ Action Blocked: Passkey owners have view-only access. Full Google Admin login required.");
+      setTimeout(() => setSuccessMsg(""), 5000);
       return;
     }
     if (window.confirm("Restore default showcasing agency portfolio items globally in Firestore? This replaces it for all worldwide viewers!")) {
@@ -1085,7 +1134,7 @@ export default function PastWork() {
             createdAt: serverTimestamp()
           });
         }
-        setSuccessMsg("🔄 Successfully restored default projects globally!");
+        setSuccessMsg("🔄 Default portfolio restored successfully.");
         setTimeout(() => setSuccessMsg(""), 4000);
       } catch (err) {
         console.error("Failed to reset database:", err);
@@ -1109,16 +1158,16 @@ export default function PastWork() {
         <div className="max-w-3xl mx-auto text-center mb-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-full mb-4 text-xs font-mono font-bold text-purple-400">
             <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-            <span>ATTENTION MECHANICS LAB & LIVE PORTAL</span>
+            <span>RECENT PROJECTS & CLIENT WORK</span>
           </div>
           <h2 className="text-2xl sm:text-4xl md:text-6xl font-display font-black tracking-tight text-white leading-tight">
-            Our Immersive <br />
+            Our Recent <br />
             <span className="bg-gradient-to-r from-purple-400 via-rose-400 to-amber-300 bg-clip-text text-transparent">
-              Creative Portfolio & Dashboard.
+              Content Portfolio.
             </span>
           </h2>
           <p className="mt-3 sm:mt-6 text-neutral-300 text-sm sm:text-base md:text-lg font-light font-sans max-w-3xl mx-auto leading-relaxed">
-            Interactive, psychological creative assets built to capture and compound human engagement. You can manage, add, and review your own custom projects live in our real-time client workspace below!
+            A collection of short-form and long-form content we've created for creators, businesses, and personal brands. Explore our recent work and the results behind it.
           </p>
 
           <div className="mt-8 flex flex-col items-center gap-3">
@@ -1137,8 +1186,8 @@ export default function PastWork() {
               >
                 <Sliders className="w-4 h-4 animate-spin-slow group-hover:rotate-45 transition-transform" />
                 {isOwner 
-                  ? (showControlCenter ? "Hide Project Editor" : "Open Project Editor Dashboard") 
-                  : "Open Owner Studio Dashboard 🔒"}
+                  ? (showControlCenter ? "Hide Project Editor" : "Open Portfolio Manager") 
+                  : "Owner Access 🔒"}
                 {!isOwner && (
                   <span className="absolute -top-1.5 -right-1.5 flex h-3 w-3">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
@@ -1163,12 +1212,31 @@ export default function PastWork() {
             {/* Subtle disclaimer message if not authenticated */}
             {!isOwner ? (
               <span className="text-[10px] font-mono text-neutral-500 tracking-wider">
-                🔒 Protected Workspace // Gated setup for executive administrators only
+                🔒 Protected workspace for authorized administrators only
               </span>
             ) : (
-              <span className="text-[10px] font-mono text-emerald-400 tracking-wider flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                Owner Status active // Double-shielded secure persistence online
+              <span className="text-[10px] font-mono text-emerald-400 tracking-wider flex items-center gap-2 flex-wrap">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                {currentUser?.photoURL && (
+                  <img
+                    src={currentUser.photoURL}
+                    alt={currentUser.displayName || "Owner avatar"}
+                    className="w-5 h-5 rounded-full border border-emerald-400/30 object-cover shrink-0 select-none"
+                    referrerPolicy="no-referrer"
+                  />
+                )}
+                <span>
+                  Admin Session Active ({currentUser?.displayName || currentUser?.email || "Passkey User"})
+                </span>
+                {isAuthorizedAdmin ? (
+                  <span className="px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[9px] uppercase tracking-wider font-extrabold font-mono shrink-0">
+                    Full Admin Write
+                  </span>
+                ) : (
+                  <span className="px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[9px] uppercase tracking-wider font-extrabold font-mono shrink-0 animate-pulse">
+                    View-Only Mode
+                  </span>
+                )}
               </span>
             )}
           </div>
@@ -1191,7 +1259,7 @@ export default function PastWork() {
                     <Plus className="w-5 h-5 text-rose-400" />
                   )}
                   <h3 className="text-lg md:text-xl font-display font-black text-white tracking-tight uppercase">
-                    {isEditingId ? "Refine Project Details" : "Incorporate Project"}
+                    {isEditingId ? "Edit Project Details" : "Add New Project"}
                   </h3>
                   {isEditingId && (
                     <span className="text-[9px] font-mono bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded uppercase font-bold animate-pulse">
@@ -1230,7 +1298,7 @@ export default function PastWork() {
                     </div>
 
                     <div>
-                      <label className="block text-[10px] uppercase tracking-wider text-neutral-400 font-mono font-bold mb-1.5">Performance Stat</label>
+                      <label className="block text-[10px] uppercase tracking-wider text-neutral-400 font-mono font-bold mb-1.5">Results / Metrics</label>
                       <input
                         type="text"
                         placeholder="e.g. +340K Views"
@@ -1242,7 +1310,7 @@ export default function PastWork() {
                   </div>
 
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-neutral-400 font-mono font-bold mb-1.5">Aesthetic Presets (Autofills Media & Cover)</label>
+                    <label className="block text-[10px] uppercase tracking-wider text-neutral-400 font-mono font-bold mb-1.5">Media Presets</label>
                     <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-5 gap-2">
                       {aestheticPresets.map((preset, i) => (
                         <button
@@ -1461,10 +1529,10 @@ export default function PastWork() {
                   </div>
 
                   <div>
-                    <label className="block text-[10px] uppercase tracking-wider text-neutral-400 font-mono font-bold mb-1.5">Brief Description / Project Notes</label>
+                    <label className="block text-[10px] uppercase tracking-wider text-neutral-400 font-mono font-bold mb-1.5">Project Description</label>
                     <textarea
                       rows={2}
-                      placeholder="Specific psychological pacing strategies, target outcomes or conversion funnels employed."
+                      placeholder="Describe the project, content style, results, or goals."
                       value={newDescription}
                       onChange={(e) => setNewDescription(e.target.value)}
                       className="w-full px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50 transition-colors placeholder:text-neutral-600 resize-none"
@@ -1511,21 +1579,21 @@ export default function PastWork() {
                     <div className="flex items-center gap-2">
                       <Database className="w-5 h-5 text-purple-400" />
                       <h3 className="text-lmd md:text-xl font-display font-black text-white tracking-tight uppercase">
-                        Current Studio Database
+                        Current Portfolio Projects
                       </h3>
                     </div>
                     <button
                       onClick={handleResetToDefault}
                       className="px-3 py-1 rounded-md border border-white/10 bg-white/5 hover:bg-rose-500/10 hover:border-rose-500/30 hover:text-rose-400 transition-colors font-mono text-[10px] text-neutral-400"
                     >
-                      Restore Showcase Default
+                      Restore Default Portfolio
                     </button>
                   </div>
 
                   {/* Dashboard stats badges */}
                   <div className="grid grid-cols-3 gap-4 mb-6">
                     <div className="p-3 rounded-2xl bg-white/[0.02] border border-white/5 text-center">
-                      <span className="block text-[9px] font-mono text-neutral-500 uppercase tracking-wider mb-1">Total Assets</span>
+                      <span className="block text-[9px] font-mono text-neutral-500 uppercase tracking-wider mb-1">Total Projects</span>
                       <span className="text-xl md:text-2xl font-display font-black text-white">{totalProjects}</span>
                     </div>
                     <div className="p-3 rounded-2xl bg-white/[0.02] border border-white/5 text-center">

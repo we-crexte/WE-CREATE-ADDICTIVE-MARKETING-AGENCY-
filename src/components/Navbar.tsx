@@ -2,10 +2,13 @@ import { useState, useEffect, MouseEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, Menu, X, MessageSquare, PhoneCall } from "lucide-react";
 import AdictiveLogo from "./AdictiveLogo";
+import { auth } from "../firebase";
+import { onAuthStateChanged, User } from "firebase/auth";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,6 +16,13 @@ export default function Navbar() {
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+    return () => unsub();
   }, []);
 
   const menuItems = [
@@ -63,6 +73,29 @@ export default function Navbar() {
 
           {/* CTAs */}
           <div className="hidden md:flex items-center gap-4">
+            {currentUser && (
+              <a
+                href="#portfolio"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/5 hover:bg-white/[0.08] hover:border-purple-500/20 transition-all cursor-pointer group shadow-[0_0_15px_rgba(168,85,247,0.05)]"
+                title={`${currentUser.displayName || currentUser.email} is Active`}
+              >
+                {currentUser.photoURL ? (
+                  <img
+                    src={currentUser.photoURL}
+                    alt="User profile"
+                    className="w-6 h-6 rounded-full border border-purple-500/30 object-cover shrink-0 select-none group-hover:scale-105 transition-transform"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="w-6 h-6 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-[10px] font-bold text-purple-400 select-none">
+                    A
+                  </div>
+                )}
+                <span className="text-[10px] font-mono text-neutral-400 group-hover:text-white transition-colors tracking-tight font-bold pr-1">
+                  ADMIN ACTIVE
+                </span>
+              </a>
+            )}
             <a
               href="#contact"
               className="relative group overflow-hidden rounded-full p-[1px] focus:outline-none"

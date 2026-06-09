@@ -333,27 +333,27 @@ export const TESTIMONIALS: Testimonial[] = [
 
 export const FAQs: FaqItem[] = [
   {
-    question: "How long before we see results?",
-    answer: "Typically, you'll see traction within the first 14 days of our client campaign launch. We spend the first 7-10 days researching your specific target demographic, writing psychologically-indexed scripts, and setting up visual guidelines. Once content goes live, our metrics-backed iteration system refines distribution for maximum impact."
+    question: "How long does it take to see results?",
+    answer: "Results vary depending on your niche, content quality, and starting point. Most clients begin seeing improvements in views, engagement, or content performance within the first few weeks, but long-term growth comes from consistency and ongoing optimization."
   },
   {
-    question: "What platforms do you manage?",
-    answer: "We focus on high-leveraged attention platforms: Instagram (Reels & Stories), TikTok, YouTube (Shorts & Long-form documentary edits), and premium high-converting paid social placements on Meta (Instagram/Facebook) and TikTok Ads."
+    question: "Which platforms do you work with?",
+    answer: "We primarily work with Instagram, TikTok, and YouTube. We help clients create content that fits each platform while maintaining a consistent brand presence."
   },
   {
-    question: "Do you offer content creation?",
-    answer: "Yes, fully! We provide an end-to-end service. This includes custom creative direction, copywriting & high-conversion scripting, filming frameworks (if you record yourself, we guide you on exact angles, lighting and delivery), cinematic premium video editing, kinetic motion typography, custom sound design, and full daily distribution."
+    question: "Do you create the content for us?",
+    answer: "Yes. We can help with content strategy, scripting, editing, creative direction, and overall content planning. Depending on the project, we can either work with footage you provide or guide you through recording content yourself."
   },
   {
-    question: "Is there a contract?",
-    answer: "We offer rolling 3-month commitments to begin. This ensures we have the necessary timeline to map, deploy, and rigorously test creative systems. After the initial term, we pivot to client-friendly month-to-month terms."
+    question: "Is there a long-term contract?",
+    answer: "We usually start with a minimum commitment so we have enough time to properly test, improve, and optimize the content. After that, we can discuss ongoing monthly arrangements based on your goals."
   },
   {
-    question: "What industries do you work with?",
-    answer: "We thrive in High-Ticket Consulting/Coaching, Direct-to-Consumer (D2C) brands, high-end Consumer Services, and venture-backed SaaS startups. Any industry where high-converting visual attention can directly unlock 6 to 7-figure revenue gains."
+    question: "What types of businesses do you work with?",
+    answer: "We work with creators, coaches, personal brands, service businesses, startups, and companies looking to grow their online presence through content."
   },
   {
-    question: "How does onboarding work?",
-    answer: "Immediately after locking the strategy call and deposit, we run you through our 90-minute digital extraction session. We gather your brand guidelines, core knowledge base, and historical winners, and begin script compilation within 48 hours."
+    question: "What happens after I get started?",
+    answer: "We'll schedule an onboarding call, learn about your business, discuss goals, gather the materials we need, and create a plan for moving forward. Once everything is ready, we begin production and keep you updated throughout the process."
   }
 ];

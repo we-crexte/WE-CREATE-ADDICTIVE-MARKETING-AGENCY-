@@ -1,20 +1,18 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Addictive Marketing
 
-# Run and deploy your AI Studio app
+A premium digital marketing agency website built with React, TypeScript and Tailwind CSS.
 
-This contains everything you need to run your app locally.
+## Features
 
-View your app in AI Studio: https://ai.studio/apps/11e228a2-c827-415c-9519-ca09cd7388e6
+- Modern UI
+- Responsive Design
+- Portfolio Showcase
+- Case Studies
+- Contact Form
 
-## Run Locally
+## Tech Stack
 
-**Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+- React
+- TypeScript
+- Tailwind CSS
+- Vite

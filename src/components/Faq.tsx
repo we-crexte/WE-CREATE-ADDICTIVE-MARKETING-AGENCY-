@@ -11,55 +11,43 @@ export default function Faq() {
   };
 
   return (
-    <section id="faq" className="relative py-16 sm:py-28 bg-dark-bg overflow-hidden border-b border-white/5">
-      {/* Background radial atmosphere dims */}
-      <div className="absolute top-1/2 left-3/4 -translate-y-1/2 w-80 h-80 rounded-full purple-glow opacity-10 pointer-events-none" />
-      <div className="absolute top-1/2 right-3/4 -translate-y-1/2 w-80 h-80 rounded-full orange-glow opacity-10 pointer-events-none" />
+    <section id="faq" className="relative py-20 sm:py-32 bg-dark-bg overflow-hidden border-b border-white/5">
+      {/* Background glow flares */}
+      <div className="absolute top-1/3 left-0 w-[400px] h-[400px] orange-glow opacity-5 pointer-events-none" />
+      <div className="absolute bottom-1/3 right-0 w-[500px] h-[500px] purple-glow opacity-10 pointer-events-none" />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Section Heading */}
-        <div className="max-w-2xl mx-auto text-center mb-10 sm:mb-16">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full mb-4 text-xs font-mono font-bold text-amber-400 uppercase">
-            <HelpCircle className="w-3.5 h-3.5" />
-            <span>OPERATIONAL BLUEPRINT FAQs</span>
+        <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-20 px-4">
+          <div className="inline-block px-12 py-6 sm:py-8 rounded-3xl bg-[#09090b]/80 border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-md relative overflow-hidden">
+            {/* Ambient subtle glow inside */}
+            <div className="absolute inset-0 bg-gradient-to-r from-accent-purple/10 via-accent-orange/10 to-accent-gold/10 opacity-30 blur-xl pointer-events-none" />
+            <h2 className="text-5xl sm:text-7xl md:text-8xl font-display font-black tracking-tight text-white leading-none relative z-10 select-none">
+              FAQ
+            </h2>
           </div>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-extrabold tracking-tight text-white">
-            Locked Intent, <br />
-            <span className="bg-gradient-to-r from-purple-400 via-rose-400 to-amber-300 bg-clip-text text-transparent">
-              No Ambiguity left.
-            </span>
-          </h2>
-          <p className="mt-3 sm:mt-4 text-neutral-400 text-xs sm:text-sm md:text-base font-light">
-            You are paying for pure distribution velocity, not basic administration. Here is the operational handbook on our campaign standards.
-          </p>
         </div>
 
         {/* Accordions Deck */}
-        <div className="space-y-4">
+        <div className="space-y-4 text-left">
           {FAQs.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
               <div
                 key={index}
-                className={`rounded-2xl border transition-all duration-300 ${
-                  isOpen
-                    ? "bg-white/[0.04] border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.4)]"
-                    : "bg-white/[0.01] border-white/5 hover:border-white/10"
-                }`}
+                className="rounded-2xl border border-white/5 bg-dark-card transition-all duration-300 hover:border-neutral-800 overflow-hidden"
               >
                 <button
                   onClick={() => toggleFaq(index)}
-                  className="w-full flex items-center justify-between p-4 sm:p-6 text-left focus:outline-none focus:ring-1 focus:ring-purple-500/30 rounded-2xl cursor-pointer"
+                  className="w-full flex items-center justify-between p-5 sm:p-6 text-left rounded-none cursor-pointer group"
                   aria-expanded={isOpen}
                 >
-                  <span className="text-sm sm:text-base font-display font-bold text-white pr-4 group-hover:text-rose-400">
+                  <span className="text-sm sm:text-base font-display font-bold text-neutral-200 pr-4 transition-colors group-hover:text-white">
                     {faq.question}
                   </span>
-                  <div className={`p-2 rounded-full shrink-0 transition-all ${
-                    isOpen ? "bg-gradient-to-r from-purple-600 to-rose-500 text-white" : "bg-white/5 text-neutral-300"
-                  }`}>
-                    {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                  <div className="p-2 rounded-xl shrink-0 transition-all bg-neutral-900 border border-neutral-800 text-white group-hover:bg-neutral-800">
+                    {isOpen ? <Minus className="w-4 h-4 text-accent-orange" /> : <Plus className="w-4 h-4 text-accent-purple" />}
                   </div>
                 </button>
 
@@ -83,19 +71,20 @@ export default function Faq() {
         </div>
 
         {/* Additional Help banner */}
-        <div className="mt-12 p-4 sm:p-6 rounded-2xl glass-effect border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center border border-rose-500/30">
-              <MessageSquare className="w-5 h-5 text-rose-500" />
+        <div className="mt-16 p-6 sm:p-8 rounded-2xl bg-dark-card border border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden group">
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold opacity-30" />
+          <div className="flex items-center gap-4 text-left">
+            <div className="w-12 h-12 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-white">
+              <MessageSquare className="w-5 h-5 text-accent-purple" />
             </div>
-            <div className="text-left">
-              <h4 className="font-bold text-sm text-white">Have a highly technical custom inquiry?</h4>
-              <p className="text-xs text-neutral-400 mt-0.5">Let's solve it dynamically on our locked strategy call.</p>
+            <div>
+              <h4 className="font-bold text-sm sm:text-base text-white">Have a custom inquiry?</h4>
+              <p className="text-xs sm:text-sm text-neutral-400 mt-1 font-light">Get in touch with us to discuss your goals and how we can help.</p>
             </div>
           </div>
           <a
             href="#contact"
-            className="px-5 py-2 rounded-full bg-[#1c1c24] hover:bg-neutral-800 border border-white/10 text-xs font-mono font-bold uppercase tracking-wider text-white transition-all text-center"
+            className="px-6 py-3 rounded-full bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-xs font-mono font-bold uppercase tracking-wider text-white transition-all text-center shrink-0"
           >
             Ask Founder Direct
           </a>

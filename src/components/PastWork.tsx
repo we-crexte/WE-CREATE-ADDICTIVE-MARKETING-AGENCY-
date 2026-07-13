@@ -239,10 +239,6 @@ const ScrollableRow = ({
 
   return (
     <div className="relative w-full py-4 group/carousel select-none">
-      {/* Soft edge masking overlays for a premium studio layout, visible on larger screens */}
-      <div className="hidden md:block absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#070708] to-transparent z-10 pointer-events-none" />
-      <div className="hidden md:block absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#070708] to-transparent z-10 pointer-events-none" />
-
       {/* Horizontal scroll container with scrollbar completely hidden */}
       <div
         ref={containerRef}
@@ -270,10 +266,10 @@ const ScrollableRow = ({
                     setPlayingVideoId(item.id);
                   }
                 }}
-                className="group cursor-pointer rounded-2xl overflow-hidden bg-dark-card border border-white/5 hover:border-white/20 transition-all duration-500 hover:shadow-[0_15px_30px_rgba(244,63,94,0.08)] flex flex-col justify-between shrink-0 snap-start relative w-[190px] xs:w-[220px] sm:w-[260px] aspect-[9/16]"
+                className="group cursor-pointer rounded-none overflow-hidden bg-neutral-950 border border-neutral-900 hover:border-neutral-800 transition-all duration-300 flex flex-col justify-between shrink-0 snap-start relative w-[190px] xs:w-[220px] sm:w-[260px] aspect-[9/16]"
               >
                 {isPlaying ? (
-                  <div className="absolute inset-0 bg-black w-full h-full z-20 flex items-center justify-center overflow-hidden rounded-2xl">
+                  <div className="absolute inset-0 bg-black w-full h-full z-20 flex items-center justify-center overflow-hidden rounded-none">
                     {getYouTubeEmbedUrl(item.videoUrl) ? (
                       <iframe
                         src={getYouTubeEmbedUrl(item.videoUrl)!}
@@ -281,7 +277,7 @@ const ScrollableRow = ({
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen
-                        className="w-full h-full rounded-2xl border-0"
+                        className="w-full h-full rounded-none border-0"
                         onClick={(e) => {
                           e.stopPropagation();
                         }}
@@ -293,7 +289,7 @@ const ScrollableRow = ({
                         loop
                         muted={isMutedGlobal}
                         playsInline
-                        className="w-full h-full object-cover rounded-2xl"
+                        className="w-full h-full object-cover rounded-none"
                         onClick={(e) => {
                           e.stopPropagation();
                         }}
@@ -308,10 +304,10 @@ const ScrollableRow = ({
                             e.stopPropagation();
                             setIsMutedGlobal(!isMutedGlobal);
                           }}
-                          className="p-2 rounded-full bg-black/80 border border-white/10 text-white hover:bg-rose-950 transition-all active:scale-95 shadow-md"
+                          className="p-2 rounded-none bg-black border border-neutral-800 text-white hover:bg-neutral-900 transition-all active:scale-95 shadow-md"
                           title={isMutedGlobal ? "Unmute" : "Mute"}
                         >
-                          {isMutedGlobal ? <VolumeX className="w-3.5 h-3.5 text-rose-400" /> : <Volume2 className="w-3.5 h-3.5 text-emerald-400" />}
+                          {isMutedGlobal ? <VolumeX className="w-3.5 h-3.5 text-neutral-400" /> : <Volume2 className="w-3.5 h-3.5 text-white" />}
                         </button>
                         <button
                           onClick={(e) => {
@@ -325,7 +321,7 @@ const ScrollableRow = ({
                               }
                             }
                           }}
-                          className="p-2 rounded-full bg-black/80 border border-white/10 text-white hover:bg-rose-950 transition-all active:scale-95 shadow-md"
+                          className="p-2 rounded-none bg-black border border-neutral-800 text-white hover:bg-neutral-900 transition-all active:scale-95 shadow-md"
                           title="Fullscreen"
                         >
                           <Maximize className="w-3.5 h-3.5 text-neutral-300" />
@@ -339,14 +335,14 @@ const ScrollableRow = ({
                         e.stopPropagation();
                         setPlayingVideoId(null);
                       }}
-                      className="absolute top-3 right-3 z-30 p-2 rounded-full bg-black/90 border border-white/15 text-white hover:bg-rose-950 hover:text-rose-400 hover:border-rose-500/30 transition-all duration-300 active:scale-95 shadow-lg"
+                      className="absolute top-3 right-3 z-30 p-2 rounded-none bg-black border border-neutral-800 text-white hover:bg-neutral-900 transition-all duration-300 active:scale-95 shadow-lg"
                       title="Close Player"
                     >
                       <X className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 ) : (
-                  <div className="relative w-full h-full overflow-hidden bg-neutral-950 group rounded-2xl">
+                  <div className="relative w-full h-full overflow-hidden bg-neutral-950 group rounded-none">
                     <img
                       src={item.thumbnail}
                       alt={item.title}
@@ -360,17 +356,17 @@ const ScrollableRow = ({
                     {/* Meta Info Overlays */}
                     <div className="absolute inset-0 p-3 sm:p-4 flex flex-col justify-between z-10 font-sans pointer-events-none">
                       <div className="flex justify-between items-center w-full">
-                        <span className="px-2 py-0.5 rounded bg-black/70 backdrop-blur-md border border-white/10 text-[7px] min-w-[45px] text-center uppercase tracking-wider font-mono font-bold text-amber-400">
+                        <span className="px-2 py-0.5 rounded-none bg-neutral-900 border border-neutral-800 text-[7px] min-w-[45px] text-center uppercase tracking-wider font-mono font-bold text-white">
                           {item.category}
                         </span>
 
-                        <span className="text-[7.5px] font-mono font-semibold text-white/50 bg-black/45 px-1.5 py-0.5 rounded backdrop-blur-sm uppercase">
+                        <span className="text-[7.5px] font-mono font-semibold text-white/50 bg-black px-1.5 py-0.5 rounded-none border border-neutral-900 uppercase">
                           9:16 FEED
                         </span>
                       </div>
 
                       <div className="space-y-1.5">
-                        <h4 className="font-display font-extrabold text-xs sm:text-sm text-white tracking-tight line-clamp-1 group-hover:text-rose-400 transition-colors">
+                        <h4 className="font-display font-extrabold text-xs sm:text-sm text-white tracking-tight line-clamp-1 group-hover:text-neutral-400 transition-colors">
                           {item.title}
                         </h4>
                         
@@ -378,21 +374,21 @@ const ScrollableRow = ({
                           {item.description}
                         </p>
 
-                        <div className="flex items-center justify-between pt-1.5 border-t border-white/5">
-                          <span className="text-[9px] sm:text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-0.5">
-                            <Flame className="w-3 h-3 fill-current" />
+                        <div className="flex items-center justify-between pt-1.5 border-t border-neutral-900">
+                          <span className="text-[9px] sm:text-[10px] font-mono text-white font-bold flex items-center gap-0.5">
+                            <Flame className="w-3 h-3 fill-current text-white" />
                             {item.metrics}
                           </span>
                           <span className="text-[8px] font-mono text-neutral-400 group-hover:text-white transition-colors flex items-center gap-0.5 font-bold uppercase">
-                            <Play className="w-2 h-2 fill-current text-purple-400" /> PLAY
+                            <Play className="w-2 h-2 fill-current text-white" /> PLAY
                           </span>
                         </div>
                       </div>
                     </div>
 
                     {/* Play Hover State Indicator */}
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/45 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-rose-500 text-white flex items-center justify-center shadow-[0_0_15px_rgba(244,63,94,0.4)] transition-all duration-300">
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+                      <div className="w-10 h-10 rounded-none bg-black border border-neutral-800 text-white flex items-center justify-center transition-all duration-300">
                         <Play className="w-4 h-4 fill-current text-white translate-x-0.5" />
                       </div>
                     </div>
@@ -411,7 +407,7 @@ const ScrollableRow = ({
                     setPlayingVideoId(item.id);
                   }
                 }}
-                className="group cursor-pointer rounded-2xl overflow-hidden bg-dark-card/60 backdrop-blur-md border border-white/5 hover:border-white/20 transition-all duration-500 hover:shadow-[0_15px_30px_rgba(139,92,246,0.06)] flex flex-col justify-between shrink-0 snap-start w-[265px] xs:w-[320px] sm:w-[370px] md:w-[410px]"
+                className="group cursor-pointer rounded-none overflow-hidden bg-neutral-950 border border-neutral-900 hover:border-neutral-800 transition-all duration-300 flex flex-col justify-between shrink-0 snap-start w-[265px] xs:w-[320px] sm:w-[370px] md:w-[410px]"
               >
                 {/* Media Container on Top of Card */}
                 <div className="relative w-full aspect-[16/9] bg-neutral-950 overflow-hidden">
@@ -451,10 +447,10 @@ const ScrollableRow = ({
                               e.stopPropagation();
                               setIsMutedGlobal(!isMutedGlobal);
                             }}
-                            className="p-1.5 rounded-full bg-black/85 border border-white/10 text-white hover:bg-rose-950 transition-all active:scale-95 shadow"
+                            className="p-1.5 rounded-none bg-black border border-neutral-800 text-white hover:bg-neutral-900 transition-all active:scale-95 shadow"
                             title={isMutedGlobal ? "Unmute" : "Mute"}
                           >
-                            {isMutedGlobal ? <VolumeX className="w-3.5 h-3.5 text-rose-400" /> : <Volume2 className="w-3.5 h-3.5 text-emerald-400" />}
+                            {isMutedGlobal ? <VolumeX className="w-3.5 h-3.5 text-neutral-400" /> : <Volume2 className="w-3.5 h-3.5 text-white" />}
                           </button>
                           <button
                             onClick={(e) => {
@@ -468,7 +464,7 @@ const ScrollableRow = ({
                                 }
                               }
                             }}
-                            className="p-1.5 rounded-full bg-black/85 border border-white/10 text-white hover:bg-rose-950 transition-all active:scale-95 shadow"
+                            className="p-1.5 rounded-none bg-black border border-neutral-800 text-white hover:bg-neutral-900 transition-all active:scale-95 shadow"
                             title="Fullscreen"
                           >
                             <Maximize className="w-3.5 h-3.5 text-neutral-300" />
@@ -482,7 +478,7 @@ const ScrollableRow = ({
                           e.stopPropagation();
                           setPlayingVideoId(null);
                         }}
-                        className="absolute top-2.5 right-2.5 z-30 p-1.5 rounded-full bg-black/95 border border-white/15 text-white hover:bg-rose-950 hover:text-rose-400 transition-all duration-300 active:scale-95 shadow-md"
+                        className="absolute top-2.5 right-2.5 z-30 p-1.5 rounded-none bg-black border border-neutral-800 text-white hover:bg-neutral-900 transition-all duration-300 active:scale-95 shadow-md"
                         title="Close Player"
                       >
                         <X className="w-3.5 h-3.5" />
@@ -496,23 +492,20 @@ const ScrollableRow = ({
                         className="w-full h-full object-cover filter brightness-[0.80] group-hover:scale-105 group-hover:brightness-100 transition-all duration-700 pointer-events-none"
                         referrerPolicy="no-referrer"
                       />
-                      
-                      {/* Soft overlay gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent pointer-events-none" />
 
                       {/* Header indicators */}
                       <div className="absolute top-2.5 inset-x-2.5 z-10 pointer-events-none flex justify-between items-center">
-                        <span className="px-2 py-0.5 rounded bg-black/85 backdrop-blur-sm border border-white/10 text-[7px] uppercase tracking-widest font-mono font-bold text-indigo-400">
+                        <span className="px-2 py-0.5 rounded-none bg-neutral-900 border border-neutral-800 text-[7px] uppercase tracking-widest font-mono font-bold text-white">
                           {item.category}
                         </span>
-                        <span className="text-[7px] font-mono font-semibold text-white/55 bg-black/50 px-1.5 py-0.5 rounded backdrop-blur-xs uppercase tracking-wider">
+                        <span className="text-[7px] font-mono font-semibold text-white/55 bg-black border border-neutral-900 px-1.5 py-0.5 rounded-none uppercase tracking-wider">
                           16:9 SCREEN
                         </span>
                       </div>
 
                       {/* Hover action circle */}
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                        <div className="w-11 h-11 rounded-full bg-gradient-to-r from-purple-600 to-rose-500 text-white flex items-center justify-center shadow-[0_0_20px_rgba(244,63,94,0.4)] transition-all duration-300">
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+                        <div className="w-11 h-11 rounded-none bg-black border border-neutral-800 text-white flex items-center justify-center transition-all duration-300">
                           <Play className="w-4 h-4 fill-current text-white translate-x-0.5" />
                         </div>
                       </div>
@@ -521,8 +514,8 @@ const ScrollableRow = ({
                 </div>
 
                 {/* Info Text block below the video, avoiding mobile overlaps absolutely */}
-                <div className="p-3.5 sm:p-5 flex flex-col gap-2 bg-dark-card/90 border-t border-white/5 w-full">
-                  <h4 className="font-display font-extrabold text-xs sm:text-sm text-white tracking-tight line-clamp-1 group-hover:text-rose-400 transition-colors">
+                <div className="p-3.5 sm:p-5 flex flex-col gap-2 bg-neutral-950 border-t border-neutral-900 w-full">
+                  <h4 className="font-display font-extrabold text-xs sm:text-sm text-white tracking-tight line-clamp-1 group-hover:text-neutral-400 transition-colors">
                     {item.title}
                   </h4>
                   
@@ -530,13 +523,13 @@ const ScrollableRow = ({
                     {item.description}
                   </p>
 
-                  <div className="flex items-center justify-between pt-2 border-t border-white/5 mt-0.5">
-                    <span className="text-[9.5px] sm:text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-0.5">
-                      <Flame className="w-3 h-3 fill-current" />
+                  <div className="flex items-center justify-between pt-2 border-t border-neutral-900 mt-0.5">
+                    <span className="text-[9.5px] sm:text-[10px] font-mono text-white font-bold flex items-center gap-0.5">
+                      <Flame className="w-3 h-3 fill-current text-white" />
                       {item.metrics}
                     </span>
                     <span className="text-[8.5px] sm:text-[9px] font-mono text-neutral-400 group-hover:text-white transition-colors flex items-center gap-0.5 font-bold uppercase">
-                      <Play className="w-2 h-2 fill-current text-purple-400" /> PLAY SHOWCASE
+                      <Play className="w-2 h-2 fill-current text-white" /> PLAY SHOWCASE
                     </span>
                   </div>
                 </div>
@@ -550,8 +543,8 @@ const ScrollableRow = ({
       <div className="flex flex-col items-center gap-3 mt-8">
         {/* Dynamic Digital Counter Badge */}
         {items.length > 0 && (
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-white/[0.03] border border-white/5 rounded-full backdrop-blur-md shadow-sm">
-            <span className="text-[10px] font-mono font-bold tracking-widest text-[#a855f7]">
+          <div className="flex items-center gap-1.5 px-3 py-1 bg-neutral-900 border border-neutral-800 rounded-none shadow-sm">
+            <span className="text-[10px] font-mono font-bold tracking-widest text-neutral-300">
               {(activeIndex + 1).toString().padStart(2, "0")}
             </span>
             <span className="text-[8px] font-mono text-neutral-600 font-bold">/</span>
@@ -561,13 +554,13 @@ const ScrollableRow = ({
           </div>
         )}
 
-        <div className="flex items-center justify-between max-w-[340px] w-full mx-auto px-4 py-2 bg-gradient-to-r from-white/[0.01] to-white/[0.03] border border-white/5 rounded-full backdrop-blur-md shadow-[0_12px_40px_rgba(0,0,0,0.5)] transition-all hover:bg-white/[0.04] hover:border-white/10 group/slider-console">
+        <div className="flex items-center justify-between max-w-[340px] w-full mx-auto px-4 py-2 bg-neutral-950 border border-neutral-900 rounded-none transition-all hover:bg-neutral-900 hover:border-neutral-800 group/slider-console">
           <button
             onClick={() => scroll("left")}
             disabled={!canScrollLeft}
-            className={`p-2 rounded-full transition-all duration-300 ${
+            className={`p-2 rounded-none transition-all duration-300 ${
               canScrollLeft 
-                ? "text-neutral-300 hover:text-white hover:bg-white/10 hover:scale-110 active:scale-90" 
+                ? "text-neutral-300 hover:text-white hover:bg-neutral-800 active:scale-95" 
                 : "text-neutral-700 cursor-not-allowed opacity-40"
             }`}
             title="Scroll Left"
@@ -583,9 +576,9 @@ const ScrollableRow = ({
             className="flex-1 px-4 py-3 cursor-grab active:cursor-grabbing relative group/track select-none"
           >
             {/* Ambient subtle background glow for the active track section */}
-            <div className="h-[4px] bg-white/[0.03] group-hover/track:bg-white/[0.07] rounded-full w-full relative transition-all duration-300">
+            <div className="h-[2px] bg-neutral-900 rounded-none w-full relative transition-all duration-300">
               <div
-                className="absolute left-0 top-0 h-full bg-gradient-to-r from-purple-500 via-rose-500 to-amber-400 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.5)]"
+                className="absolute left-0 top-0 h-full bg-white"
                 style={{ 
                   width: `${scrollProgress}%`,
                   transition: isDraggingAny ? "none" : "width 240ms cubic-bezier(0.25, 1, 0.5, 1)"
@@ -594,24 +587,24 @@ const ScrollableRow = ({
             </div>
             {/* High-end sliding thumb lens */}
             <div 
-              className="absolute w-4 h-4 bg-white border-2 border-[#ec4899] rounded-full top-1/2 -translate-y-1/2 shadow-[0_0_12px_rgba(236,72,153,0.8)] cursor-grab active:cursor-grabbing flex items-center justify-center transition-transform hover:scale-125 focus:scale-125"
+              className="absolute w-3 h-3 bg-white border border-black rounded-none top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing flex items-center justify-center transition-transform hover:scale-110 focus:scale-110"
               style={{ 
                 left: `calc(16px + (${scrollProgress}% * (100% - 32px) / 100))`,
                 transform: "translate(-50%, -50%)",
                 transition: isDraggingAny ? "none" : "left 240ms cubic-bezier(0.25, 1, 0.5, 1), transform 150ms ease-out"
               }}
             >
-              {/* Core neon inner dot */}
-              <div className="w-1.5 h-1.5 bg-[#ec4899] rounded-full" />
+              {/* Core inner dot */}
+              <div className="w-1 h-1 bg-black rounded-none" />
             </div>
           </div>
 
           <button
             onClick={() => scroll("right")}
             disabled={!canScrollRight}
-            className={`p-2 rounded-full transition-all duration-300 ${
+            className={`p-2 rounded-none transition-all duration-300 ${
               canScrollRight 
-                ? "text-neutral-300 hover:text-white hover:bg-white/10 hover:scale-110 active:scale-90" 
+                ? "text-neutral-300 hover:text-white hover:bg-neutral-800 active:scale-95" 
                 : "text-neutral-700 cursor-not-allowed opacity-40"
             }`}
             title="Scroll Right"
@@ -626,6 +619,13 @@ const ScrollableRow = ({
 
 export default function PastWork() {
   const [allWorkItems, setAllWorkItems] = useState<WorkItem[]>([]);
+  const [useCloudDb, setUseCloudDb] = useState(() => {
+    return localStorage.getItem("addictive_use_cloud_db") === "true";
+  });
+  const [localDeletedSet, setLocalDeletedSet] = useState<Set<string>>(() => {
+    const saved = localStorage.getItem("addictive_local_deleted");
+    return new Set<string>(saved ? JSON.parse(saved) : []);
+  });
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const [isMutedGlobal, setIsMutedGlobal] = useState(true);
   
@@ -875,55 +875,82 @@ export default function PastWork() {
 
   const [selectedPresetIndex, setSelectedPresetIndex] = useState(0);
 
-  // Load from Firebase Firestore in real-time
+  // Load from Firebase Firestore or local storage depending on storage engine selection
   useEffect(() => {
-    const projectsCol = collection(db, "projects");
-    
-    const unsubscribe = onSnapshot(projectsCol, (snapshot) => {
-      if (snapshot.empty) {
-        // If Firestore helper collection is completely blank on first boot, 
-        // fall back to beautiful static presets so visitors see active content!
-        setAllWorkItems(WORK_ITEMS);
-      } else {
-        const items: WorkItem[] = [];
-        const deletedIds = new Set<string>();
-        snapshot.forEach((doc) => {
-          const data = doc.data();
-          if (data.title === "DELETED") {
-            deletedIds.add(doc.id);
-            return;
-          }
-          items.push({
-            id: doc.id,
-            title: data.title || "",
-            category: data.category || "shorts",
-            thumbnail: data.thumbnail || "",
-            videoUrl: data.videoUrl || "",
-            description: data.description || "",
-            metrics: data.metrics || ""
-          });
-        });
-
-        // Merge custom database projects with static WORK_ITEMS (avoiding duplicate IDs and deleted IDs)
-        const firestoreIds = new Set(items.map(item => item.id));
-        const mergedItems = [
-          ...items,
-          ...WORK_ITEMS.filter(defaultItem => !firestoreIds.has(defaultItem.id) && !deletedIds.has(defaultItem.id))
+    if (!useCloudDb) {
+      // Local-first Offline Mode (Recommended by User)
+      const loadLocal = () => {
+        const localProjectsStr = localStorage.getItem("addictive_local_projects");
+        const localProjects: WorkItem[] = localProjectsStr ? JSON.parse(localProjectsStr) : [];
+        
+        const localIds = new Set(localProjects.map(item => item.id));
+        const merged = [
+          ...localProjects,
+          ...WORK_ITEMS.filter(defaultItem => !localIds.has(defaultItem.id))
         ];
-        setAllWorkItems(mergedItems);
-      }
-    }, (error) => {
-      console.warn("Firestore snapshot loading error; using static assets fallback:", error);
-      try {
-        handleFirestoreError(error, OperationType.GET, "projects");
-      } catch (err) {
-        // Safe logger
-      }
-      setAllWorkItems(WORK_ITEMS);
-    });
+        setAllWorkItems(merged);
+      };
+      
+      loadLocal();
+      
+      const handleStorage = (e: StorageEvent) => {
+        if (e.key === "addictive_local_projects") {
+          loadLocal();
+        } else if (e.key === "addictive_local_deleted") {
+          const saved = localStorage.getItem("addictive_local_deleted");
+          setLocalDeletedSet(new Set<string>(saved ? JSON.parse(saved) : []));
+        }
+      };
+      window.addEventListener("storage", handleStorage);
+      return () => window.removeEventListener("storage", handleStorage);
+    } else {
+      // Cloud Firebase Syncing Mode
+      const projectsCol = collection(db, "projects");
+      
+      const unsubscribe = onSnapshot(projectsCol, (snapshot) => {
+        if (snapshot.empty) {
+          setAllWorkItems(WORK_ITEMS);
+        } else {
+          const items: WorkItem[] = [];
+          snapshot.forEach((doc) => {
+            const data = doc.data();
+            if (data.title === "DELETED") {
+              return;
+            }
+            items.push({
+              id: doc.id,
+              title: data.title || "",
+              category: data.category || "shorts",
+              thumbnail: data.thumbnail || "",
+              videoUrl: data.videoUrl || "",
+              description: data.description || "",
+              metrics: data.metrics || ""
+            });
+          });
 
-    return () => unsubscribe();
-  }, []);
+          const firestoreIds = new Set(items.map(item => item.id));
+          const mergedItems = [
+            ...items,
+            ...WORK_ITEMS.filter(defaultItem => !firestoreIds.has(defaultItem.id))
+          ];
+          setAllWorkItems(mergedItems);
+        }
+      }, (error) => {
+        console.warn("Firestore snapshot loading error; falling back to local storage:", error);
+        // Instant graceful local fallback on firestore block/error
+        const localProjectsStr = localStorage.getItem("addictive_local_projects");
+        const localProjects: WorkItem[] = localProjectsStr ? JSON.parse(localProjectsStr) : [];
+        const localIds = new Set(localProjects.map(item => item.id));
+        const merged = [
+          ...localProjects,
+          ...WORK_ITEMS.filter(defaultItem => !localIds.has(defaultItem.id))
+        ];
+        setAllWorkItems(merged);
+      });
+
+      return () => unsubscribe();
+    }
+  }, [useCloudDb]);
 
   // Synchronously fetch and track playground items if sandboxDb is available
   useEffect(() => {
@@ -964,55 +991,84 @@ export default function PastWork() {
     }
     
     setIsMigrating(true);
-    setSuccessMsg(`🔄 Migrating ${sandboxItems.length} videos into your custom database...`);
+    setSuccessMsg(`🔄 Restoring ${sandboxItems.length} videos from past playground sessions...`);
     
     let successCount = 0;
     let failCount = 0;
     
-    for (const item of sandboxItems) {
-      try {
-        const docRef = doc(db, "projects", item.id);
-        await setDoc(docRef, {
-          id: item.id,
-          title: item.title,
-          category: item.category,
-          thumbnail: item.thumbnail,
-          videoUrl: item.videoUrl,
-          description: item.description,
-          metrics: item.metrics,
-          createdAt: serverTimestamp()
-        }, { merge: true });
-        successCount++;
-      } catch (err) {
-        console.error(`Failed to migrate project ${item.id} from sandbox to custom DB:`, err);
-        failCount++;
+    // Always migrate into the active database engine!
+    if (useCloudDb) {
+      for (const item of sandboxItems) {
+        try {
+          const docRef = doc(db, "projects", item.id);
+          await setDoc(docRef, {
+            id: item.id,
+            title: item.title,
+            category: item.category,
+            thumbnail: item.thumbnail,
+            videoUrl: item.videoUrl,
+            description: item.description,
+            metrics: item.metrics,
+            createdAt: serverTimestamp()
+          }, { merge: true });
+          successCount++;
+        } catch (err) {
+          console.error(`Failed to migrate project ${item.id} from sandbox to custom DB:`, err);
+          failCount++;
+        }
       }
+    } else {
+      // Migrate directly into local storage!
+      const localProjectsStr = localStorage.getItem("addictive_local_projects");
+      const localProjects: WorkItem[] = localProjectsStr ? JSON.parse(localProjectsStr) : [];
+      const updatedProjects = [...localProjects];
+      
+      for (const item of sandboxItems) {
+        if (!updatedProjects.some(p => p.id === item.id)) {
+          updatedProjects.push(item);
+        }
+        successCount++;
+      }
+      
+      localStorage.setItem("addictive_local_projects", JSON.stringify(updatedProjects));
+      
+      const localIds = new Set(updatedProjects.map(item => item.id));
+      const merged = [
+        ...updatedProjects,
+        ...WORK_ITEMS.filter(defaultItem => !localIds.has(defaultItem.id))
+      ];
+      setAllWorkItems(merged);
     }
     
     setIsMigrating(false);
     if (failCount === 0) {
       setSuccessMsg(`🚀 Restored all ${successCount} previous database videos instantly!`);
     } else {
-      setSuccessMsg(`✨ Restored ${successCount} previous videos. (${failCount} errors - auth required)`);
+      setSuccessMsg(`✨ Restored ${successCount} previous videos. (${failCount} cloud authorization blocks skipped)`);
     }
     setTimeout(() => setSuccessMsg(""), 6000);
   };
 
+  // Filter out any soft-deleted items from the display lists
+  const displayedWorkItems = useMemo(() => {
+    return allWorkItems.filter(item => !localDeletedSet.has(item.id));
+  }, [allWorkItems, localDeletedSet]);
+
   // Divide work items into short-form and long-form
   const shortFormItems = useMemo(() => {
-    return allWorkItems.filter(
+    return displayedWorkItems.filter(
       item => item.category === "shorts" || item.category === "reels" || item.category === "ads"
     );
-  }, [allWorkItems]);
+  }, [displayedWorkItems]);
 
   const longFormItems = useMemo(() => {
-    return allWorkItems.filter(
+    return displayedWorkItems.filter(
       item => item.category === "youtube" || item.category === "campaigns"
     );
-  }, [allWorkItems]);
+  }, [displayedWorkItems]);
 
   // Statistics counters
-  const totalProjects = allWorkItems.length;
+  const totalProjects = displayedWorkItems.length;
   const shortFormCount = shortFormItems.length;
   const longFormCount = longFormItems.length;
 
@@ -1020,159 +1076,170 @@ export default function PastWork() {
     e.preventDefault();
     if (!newTitle.trim()) return;
 
-    if (!isAuthorizedAdmin) {
-      setSuccessMsg("❌ Action Blocked: Passkey owners have view-only access. Full Google Admin login required.");
-      setTimeout(() => setSuccessMsg(""), 5000);
-      return;
-    }
-
     // Use selected preset or custom values
     const assetPreset = aestheticPresets[selectedPresetIndex];
     const finalThumb = customThumbUrl.trim() || assetPreset.thumb;
     const finalVideo = customVideoUrl.trim() || assetPreset.video;
 
     const projectId = isEditingId || ("proj-" + Date.now());
-    const projectData = {
+    const projectData: WorkItem = {
       id: projectId,
       title: newTitle,
       category: newCategory,
       thumbnail: finalThumb,
       videoUrl: finalVideo,
       description: newDescription.trim() || "Professional content project created for audience growth and engagement.",
-      metrics: newMetrics.trim() || "Audience Engagement",
-      createdAt: serverTimestamp()
+      metrics: newMetrics.trim() || "Audience Engagement"
     };
 
-    try {
-      const docRef = doc(db, "projects", projectId);
-      await setDoc(docRef, projectData, { merge: true });
-
-      // Reset Form
-      setNewTitle("");
-      setNewMetrics("");
-      setNewDescription("");
-      setCustomThumbUrl("");
-      setCustomVideoUrl("");
-      setUploadedThumbName("");
-      setUploadedVideoName("");
-      setThumbSource("url");
-      setVideoSource("url");
-      setIsEditingId(null);
-      setSuccessMsg(isEditingId ? "✨ Project updated successfully." : "✨ Project added successfully.");
-      setTimeout(() => setSuccessMsg(""), 4000);
-    } catch (err) {
-      console.error("Failed to save project to Firestore:", err);
-      try {
-        handleFirestoreError(err, isEditingId ? OperationType.UPDATE : OperationType.CREATE, `projects/${projectId}`);
-      } catch (firestoreErr) {
-        setSuccessMsg("❌ Action Denied. Enforce authentic executive Google sign-in to write.");
-        setTimeout(() => setSuccessMsg(""), 5000);
+    if (useCloudDb) {
+      if (!isAuthorizedAdmin) {
+        setSuccessMsg("❌ Cloud Error: Google Admin login required to write to global database. Switch to 'Local Storage' to save without restriction.");
+        setTimeout(() => setSuccessMsg(""), 6000);
+        return;
       }
+
+      try {
+        const docRef = doc(db, "projects", projectId);
+        await setDoc(docRef, {
+          ...projectData,
+          createdAt: serverTimestamp()
+        }, { merge: true });
+
+        // Also mirror to local storage
+        const localProjectsStr = localStorage.getItem("addictive_local_projects");
+        const localProjects: WorkItem[] = localProjectsStr ? JSON.parse(localProjectsStr) : [];
+        const filtered = localProjects.filter(p => p.id !== projectId);
+        localStorage.setItem("addictive_local_projects", JSON.stringify([...filtered, projectData]));
+      } catch (err) {
+        console.error("Failed to save project to Firestore:", err);
+        setSuccessMsg("❌ Cloud Action Denied. Ensure authentic executive Google sign-in.");
+        setTimeout(() => setSuccessMsg(""), 5000);
+        return;
+      }
+    } else {
+      // Save directly to Local Storage
+      const localProjectsStr = localStorage.getItem("addictive_local_projects");
+      const localProjects: WorkItem[] = localProjectsStr ? JSON.parse(localProjectsStr) : [];
+      const filtered = localProjects.filter(p => p.id !== projectId);
+      const updatedProjects = [...filtered, projectData];
+      localStorage.setItem("addictive_local_projects", JSON.stringify(updatedProjects));
+
+      // Update state instantly for real-time responsiveness
+      const localIds = new Set(updatedProjects.map(item => item.id));
+      const merged = [
+        ...updatedProjects,
+        ...WORK_ITEMS.filter(defaultItem => !localIds.has(defaultItem.id))
+      ];
+      setAllWorkItems(merged);
     }
+
+    // Reset Form
+    setNewTitle("");
+    setNewMetrics("");
+    setNewDescription("");
+    setCustomThumbUrl("");
+    setCustomVideoUrl("");
+    setUploadedThumbName("");
+    setUploadedVideoName("");
+    setThumbSource("url");
+    setVideoSource("url");
+    setIsEditingId(null);
+    setSuccessMsg(isEditingId ? "✨ Project updated successfully." : "✨ Project added successfully.");
+    setTimeout(() => setSuccessMsg(""), 4000);
   };
 
   const handleDeleteProject = async (id: string) => {
-    if (!isAuthorizedAdmin) {
-      setSuccessMsg("❌ Action Blocked: Passkey owners have view-only access. Full Google Admin login required.");
-      setTimeout(() => setSuccessMsg(""), 5000);
-      return;
+    if (useCloudDb) {
+      if (!isAuthorizedAdmin) {
+        setSuccessMsg("❌ Cloud Error: Google Admin login required to hide from UI. Switch to 'Local Storage' to edit without restriction.");
+        setTimeout(() => setSuccessMsg(""), 6000);
+        return;
+      }
     }
 
-    try {
-      const docRef = doc(db, "projects", id);
-      if (id.startsWith("w-")) {
-        // Since it's a default static asset, a complete delete from Firestore
-        // would drop its ID and cause the fallback merge to bring it back.
-        // We set a compliant "DELETED" placeholder document in Firestore to mark it as expunged.
-        await setDoc(docRef, {
-          id: id,
-          title: "DELETED",
-          category: "shorts",
-          thumbnail: "DELETED",
-          videoUrl: "DELETED",
-          description: "DELETED",
-          metrics: "DELETED",
-          createdAt: serverTimestamp()
-        });
-      } else {
-        // For custom added projects, we delete them fully and permanently
-        await deleteDoc(docRef);
-      }
-      setSuccessMsg("🗑️ Project deleted successfully.");
-      setTimeout(() => setSuccessMsg(""), 4000);
-      if (playingVideoId === id) setPlayingVideoId(null);
-    } catch (err) {
-      console.error("Failed to delete project:", err);
-      try {
-        handleFirestoreError(err, OperationType.DELETE, `projects/${id}`);
-      } catch (firestoreErr) {
-        setSuccessMsg("❌ Delete Denied. Executive Google authentication required.");
-        setTimeout(() => setSuccessMsg(""), 4000);
-      }
-    }
+    // Soft-delete from UI UX only: add to localDeletedSet and save to local storage
+    const updatedDeletedSet = new Set(localDeletedSet);
+    updatedDeletedSet.add(id);
+    setLocalDeletedSet(updatedDeletedSet);
+    localStorage.setItem("addictive_local_deleted", JSON.stringify(Array.from(updatedDeletedSet)));
+
+    setSuccessMsg("🗑️ Video hidden from UI UX. Data remains fully preserved in the database!");
+    setTimeout(() => setSuccessMsg(""), 4000);
+    if (playingVideoId === id) setPlayingVideoId(null);
   };
 
   const handleResetToDefault = async () => {
-    if (!isAuthorizedAdmin) {
-      setSuccessMsg("❌ Action Blocked: Passkey owners have view-only access. Full Google Admin login required.");
-      setTimeout(() => setSuccessMsg(""), 5000);
-      return;
-    }
-    if (window.confirm("Restore default showcasing agency portfolio items globally in Firestore? This replaces it for all worldwide viewers!")) {
-      try {
-        setSuccessMsg("⏳ Resetting cloud showcase data...");
-        for (const item of WORK_ITEMS) {
-          const docRef = doc(db, "projects", item.id);
-          await setDoc(docRef, {
-            id: item.id,
-            title: item.title,
-            category: item.category,
-            thumbnail: item.thumbnail,
-            videoUrl: item.videoUrl || "",
-            description: item.description,
-            metrics: item.metrics,
-            createdAt: serverTimestamp()
-          });
+    if (useCloudDb) {
+      if (!isAuthorizedAdmin) {
+        setSuccessMsg("❌ Cloud Error: Google Admin login required. Switch to 'Local Storage' to reset without restriction.");
+        setTimeout(() => setSuccessMsg(""), 5000);
+        return;
+      }
+      if (window.confirm("Restore default showcasing agency portfolio items globally in Firestore? This replaces it for all worldwide viewers!")) {
+        try {
+          setSuccessMsg("⏳ Resetting cloud showcase data...");
+          
+          // Clear any UI deleted state as well
+          localStorage.removeItem("addictive_local_deleted");
+          setLocalDeletedSet(new Set());
+
+          for (const item of WORK_ITEMS) {
+            const docRef = doc(db, "projects", item.id);
+            await setDoc(docRef, {
+              id: item.id,
+              title: item.title,
+              category: item.category,
+              thumbnail: item.thumbnail,
+              videoUrl: item.videoUrl || "",
+              description: item.description,
+              metrics: item.metrics,
+              createdAt: serverTimestamp()
+            });
+          }
+          setSuccessMsg("🔄 Default portfolio restored globally in Firestore.");
+          setTimeout(() => setSuccessMsg(""), 4000);
+        } catch (err) {
+          console.error("Failed to reset database:", err);
+          setSuccessMsg("❌ Cloud Reset Denied. Ensure your signed-in Google email matches.");
+          setTimeout(() => setSuccessMsg(""), 4000);
         }
-        setSuccessMsg("🔄 Default portfolio restored successfully.");
-        setTimeout(() => setSuccessMsg(""), 4000);
-      } catch (err) {
-        console.error("Failed to reset database:", err);
-        setSuccessMsg("❌ Cloud Reset Denied. Ensure your signed-in Google email matches.");
+      }
+    } else {
+      if (window.confirm("Restore default showcasing agency portfolio items locally? This clears your custom local creations!")) {
+        localStorage.removeItem("addictive_local_projects");
+        localStorage.removeItem("addictive_local_deleted");
+        setLocalDeletedSet(new Set());
+        
+        // Reload default items instantly
+        setAllWorkItems(WORK_ITEMS);
+        setSuccessMsg("🔄 Local portfolio restored to defaults successfully.");
         setTimeout(() => setSuccessMsg(""), 4000);
       }
     }
   };
 
   return (
-    <section id="portfolio" className="relative py-16 sm:py-28 bg-dark-bg border-t border-b border-white/5 overflow-hidden">
-      <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 left-0 w-[500px] h-[500px] bg-rose-500/5 rounded-full blur-[140px] pointer-events-none" />
-
-      {/* Blueprint grid layout pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
+    <section id="portfolio" className="relative py-20 sm:py-32 bg-dark-bg border-t border-b border-white/5 overflow-hidden">
+      {/* Background glow flares */}
+      <div className="absolute top-1/4 left-0 w-[500px] h-[500px] orange-glow opacity-5 pointer-events-none" />
+      <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] purple-glow opacity-10 pointer-events-none" />
 
       <div className="max-w-[95rem] mx-auto px-6 md:px-12 relative z-10">
         
         {/* Header content */}
-        <div className="max-w-3xl mx-auto text-center mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-full mb-4 text-xs font-mono font-bold text-purple-400">
-            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-            <span>RECENT PROJECTS & CLIENT WORK</span>
+        <div className="max-w-4xl mx-auto text-center mb-16 sm:mb-24 animate-[fadeIn_0.8s_ease-out] px-4">
+          <div className="inline-block px-12 py-6 sm:py-8 rounded-3xl bg-[#09090b]/80 border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] backdrop-blur-md relative overflow-hidden">
+            {/* Ambient subtle glow inside */}
+            <div className="absolute inset-0 bg-gradient-to-r from-accent-purple/10 via-accent-orange/10 to-accent-gold/10 opacity-30 blur-xl pointer-events-none" />
+            <h2 className="text-5xl sm:text-7xl md:text-8xl font-display font-black tracking-tight text-white leading-none relative z-10 select-none">
+              Portfolio
+            </h2>
           </div>
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-display font-black tracking-tight text-white leading-tight">
-            Our Recent <br />
-            <span className="bg-gradient-to-r from-purple-400 via-rose-400 to-amber-300 bg-clip-text text-transparent">
-              Content Portfolio.
-            </span>
-          </h2>
-          <p className="mt-3 sm:mt-6 text-neutral-300 text-sm sm:text-base md:text-lg font-light font-sans max-w-3xl mx-auto leading-relaxed">
-            A collection of short-form and long-form content we've created for creators, businesses, and personal brands. Explore our recent work and the results behind it.
-          </p>
 
-          <div className="mt-8 flex flex-col items-center gap-3">
+          <div className="mt-12 flex flex-col items-center gap-3">
             <div className="flex flex-wrap justify-center gap-3">
-              {/* Elegant Glow Toggle Button for Client Dashboard */}
+              {/* Elegant Toggle Button for Client Dashboard */}
               <button
                 onClick={() => {
                   if (isOwner) {
@@ -1181,29 +1248,23 @@ export default function PastWork() {
                     setShowAuthModal(true);
                   }
                 }}
-                className="group relative px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 via-purple-700 to-rose-600 text-white font-mono text-xs font-extrabold uppercase tracking-widest hover:shadow-[0_0_25px_rgba(168,85,247,0.4)] active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
+                className="group relative px-6 py-3 rounded-full bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-white font-mono text-xs font-bold uppercase tracking-widest active:scale-95 transition-all flex items-center gap-2 cursor-pointer shadow-lg"
                 id="dashboard-toggle-btn"
               >
-                <Sliders className="w-4 h-4 animate-spin-slow group-hover:rotate-45 transition-transform" />
+                <Sliders className="w-4 h-4 text-accent-orange group-hover:rotate-45 transition-transform" />
                 {isOwner 
                   ? (showControlCenter ? "Hide Project Editor" : "Open Portfolio Manager") 
                   : "Owner Access 🔒"}
-                {!isOwner && (
-                  <span className="absolute -top-1.5 -right-1.5 flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-purple-500"></span>
-                  </span>
-                )}
               </button>
 
               {/* Safe Lock / Log Out button if authenticated */}
               {isOwner && (
                 <button
                   onClick={handleLogOutOwner}
-                  className="px-5 py-3 rounded-full border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-2 font-bold"
+                  className="px-5 py-3 rounded-full border border-neutral-800 bg-neutral-950 hover:bg-neutral-900 text-neutral-400 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-2 font-bold"
                   title="Lock Dashboard Session"
                 >
-                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  <Check className="w-3.5 h-3.5 text-accent-purple" />
                   <span>Lock Session (Log Out)</span>
                 </button>
               )}
@@ -1215,13 +1276,13 @@ export default function PastWork() {
                 🔒 Protected workspace for authorized administrators only
               </span>
             ) : (
-              <span className="text-[10px] font-mono text-emerald-400 tracking-wider flex items-center gap-2 flex-wrap">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+              <span className="text-[10px] font-mono text-white tracking-wider flex items-center gap-2 flex-wrap">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent-purple animate-pulse shrink-0" />
                 {currentUser?.photoURL && (
                   <img
                     src={currentUser.photoURL}
                     alt={currentUser.displayName || "Owner avatar"}
-                    className="w-5 h-5 rounded-full border border-emerald-400/30 object-cover shrink-0 select-none"
+                    className="w-5 h-5 rounded-full border border-neutral-800 object-cover shrink-0 select-none"
                     referrerPolicy="no-referrer"
                   />
                 )}
@@ -1229,11 +1290,11 @@ export default function PastWork() {
                   Admin Session Active ({currentUser?.displayName || currentUser?.email || "Passkey User"})
                 </span>
                 {isAuthorizedAdmin ? (
-                  <span className="px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[9px] uppercase tracking-wider font-extrabold font-mono shrink-0">
+                  <span className="px-2 py-0.5 rounded-full bg-neutral-900 border border-neutral-800 text-white text-[9px] uppercase tracking-wider font-extrabold font-mono shrink-0">
                     Full Admin Write
                   </span>
                 ) : (
-                  <span className="px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-400 text-[9px] uppercase tracking-wider font-extrabold font-mono shrink-0 animate-pulse">
+                  <span className="px-2 py-0.5 rounded-full bg-neutral-900 border border-neutral-800 text-white text-[9px] uppercase tracking-wider font-extrabold font-mono shrink-0 animate-pulse">
                     View-Only Mode
                   </span>
                 )}
@@ -1244,10 +1305,59 @@ export default function PastWork() {
 
         {/* Live Project Workspace Central Admin Drawer */}
         {showControlCenter && (
-          <div className="mb-20 p-6 md:p-8 rounded-3xl bg-dark-card border border-purple-500/20 shadow-[0_20px_50px_rgba(139,92,246,0.06)] relative overflow-hidden">
-            {/* Ambient glows inside dashboard container */}
-            <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-purple-500/10 rounded-full blur-[80px] pointer-events-none" />
+          <div className="mb-20 p-6 md:p-8 rounded-none bg-neutral-950 border border-neutral-900 shadow-none relative overflow-hidden">
             
+            {/* Database Engine Sync Mode Controller */}
+            <div className="mb-8 pb-6 border-b border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
+              <div className="flex items-center gap-3 text-left">
+                <div className={`p-2.5 rounded-xl ${useCloudDb ? 'bg-indigo-500/10 text-indigo-400' : 'bg-rose-500/10 text-rose-400'}`}>
+                  <Database className="w-5 h-5 animate-pulse" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-mono font-bold text-white uppercase tracking-wider">Storage Engine Status</h4>
+                  <p className="text-[10px] text-neutral-400 font-sans mt-0.5 max-w-lg">
+                    {useCloudDb 
+                      ? "🌐 Cloud Sync Active: Streaming globally from live Firebase Firestore. Requires Google executive credentials to make changes." 
+                      : "💾 Local Sandbox Active: Saving instantly inside your browser's persistent database. 100% offline-safe, no password locks!"}
+                  </p>
+                </div>
+              </div>
+              <div className="flex bg-neutral-900/60 p-1 rounded-xl border border-neutral-800 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUseCloudDb(false);
+                    localStorage.setItem("addictive_use_cloud_db", "false");
+                    setSuccessMsg("💾 Local sandbox storage enabled! You can now add, edit, and delete projects without restriction.");
+                    setTimeout(() => setSuccessMsg(""), 5000);
+                  }}
+                  className={`px-3 py-1.5 rounded-lg text-[10px] font-mono uppercase tracking-wider transition-all cursor-pointer ${
+                    !useCloudDb
+                      ? "bg-rose-500 text-white font-extrabold shadow-md"
+                      : "text-neutral-500 hover:text-neutral-300"
+                  }`}
+                >
+                  Local Sandbox (No Auth)
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setUseCloudDb(true);
+                    localStorage.setItem("addictive_use_cloud_db", "true");
+                    setSuccessMsg("🌐 Firebase cloud storage enabled! Authenticate as Admin to update globally.");
+                    setTimeout(() => setSuccessMsg(""), 5000);
+                  }}
+                  className={`px-3 py-1.5 rounded-lg text-[10px] font-mono uppercase tracking-wider transition-all cursor-pointer ${
+                    useCloudDb
+                      ? "bg-indigo-600 text-white font-extrabold shadow-md"
+                      : "text-neutral-500 hover:text-neutral-300"
+                  }`}
+                >
+                  Cloud Firebase
+                </button>
+              </div>
+            </div>
+
             <div className="flex flex-col lg:flex-row gap-8 relative z-10">
               
               {/* Column 1: Add New Project Form */}
@@ -1582,12 +1692,27 @@ export default function PastWork() {
                         Current Portfolio Projects
                       </h3>
                     </div>
-                    <button
-                      onClick={handleResetToDefault}
-                      className="px-3 py-1 rounded-md border border-white/10 bg-white/5 hover:bg-rose-500/10 hover:border-rose-500/30 hover:text-rose-400 transition-colors font-mono text-[10px] text-neutral-400"
-                    >
-                      Restore Default Portfolio
-                    </button>
+                    <div className="flex items-center gap-2">
+                      {localDeletedSet.size > 0 && (
+                        <button
+                          onClick={() => {
+                            localStorage.removeItem("addictive_local_deleted");
+                            setLocalDeletedSet(new Set());
+                            setSuccessMsg("🔄 Restored all hidden videos back to the UI UX!");
+                            setTimeout(() => setSuccessMsg(""), 4000);
+                          }}
+                          className="px-3 py-1 rounded-md border border-purple-500/20 bg-purple-500/5 hover:bg-purple-500/15 hover:border-purple-500/40 text-purple-400 transition-colors font-mono text-[10px]"
+                        >
+                          Unhide All ({localDeletedSet.size})
+                        </button>
+                      )}
+                      <button
+                        onClick={handleResetToDefault}
+                        className="px-3 py-1 rounded-md border border-white/10 bg-white/5 hover:bg-rose-500/10 hover:border-rose-500/30 hover:text-rose-400 transition-colors font-mono text-[10px] text-neutral-400"
+                      >
+                        Restore Default Portfolio
+                      </button>
+                    </div>
                   </div>
 
                   {/* Dashboard stats badges */}
@@ -1644,7 +1769,7 @@ export default function PastWork() {
 
                   {/* List of current projects with inline actions */}
                   <div className="space-y-2 max-h-[290px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10">
-                    {allWorkItems.map((item) => (
+                    {displayedWorkItems.map((item) => (
                       <div
                         key={item.id}
                         className="p-3 rounded-xl bg-white/[0.01] hover:bg-white/[0.03] border border-white/5 flex items-center justify-between gap-4 transition-colors"
@@ -1702,7 +1827,7 @@ export default function PastWork() {
                         </div>
                       </div>
                     ))}
-                    {allWorkItems.length === 0 && (
+                    {displayedWorkItems.length === 0 && (
                       <div className="text-center py-8 font-mono text-neutral-600 text-xs">
                         No projects found in database. Add one above!
                       </div>

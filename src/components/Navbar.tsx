@@ -26,10 +26,9 @@ export default function Navbar() {
   }, []);
 
   const menuItems = [
+    { label: "Testimonials", href: "#testimonials" },
     { label: "Case Studies", href: "#case-studies" },
     { label: "Portfolio", href: "#portfolio" },
-    { label: "Testimonials", href: "#testimonials" },
-    { label: "Founder", href: "#founder" },
     { label: "FAQ", href: "#faq" },
   ];
 
@@ -47,7 +46,7 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: "easeOut" }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "py-4 bg-dark-bg/85 backdrop-blur-md border-b border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.4)]"
+            ? "py-4 bg-dark-bg/90 backdrop-blur-md border-b border-white/5 shadow-lg"
             : "py-6 bg-transparent"
         }`}
       >
@@ -63,10 +62,10 @@ export default function Navbar() {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-sm font-medium text-neutral-400 hover:text-white transition-colors duration-200 relative group"
+                className="text-xs font-mono uppercase tracking-widest text-neutral-400 hover:text-white transition-colors duration-200 relative group"
               >
                 {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-rose-500 group-hover:w-full transition-all duration-300" />
+                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-gradient-to-r from-accent-purple to-accent-orange group-hover:w-full transition-all duration-300" />
               </a>
             ))}
           </nav>
@@ -76,18 +75,18 @@ export default function Navbar() {
             {currentUser && (
               <a
                 href="#portfolio"
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/5 hover:bg-white/[0.08] hover:border-purple-500/20 transition-all cursor-pointer group shadow-[0_0_15px_rgba(168,85,247,0.05)]"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-neutral-800 hover:bg-white/[0.08] hover:border-neutral-700 transition-all cursor-pointer group"
                 title={`${currentUser.displayName || currentUser.email} is Active`}
               >
                 {currentUser.photoURL ? (
                   <img
                     src={currentUser.photoURL}
                     alt="User profile"
-                    className="w-6 h-6 rounded-full border border-purple-500/30 object-cover shrink-0 select-none group-hover:scale-105 transition-transform"
+                    className="w-6 h-6 rounded-full border border-neutral-800 object-cover shrink-0 select-none group-hover:scale-105 transition-transform"
                     referrerPolicy="no-referrer"
                   />
                 ) : (
-                  <div className="w-6 h-6 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-[10px] font-bold text-purple-400 select-none">
+                  <div className="w-6 h-6 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-[10px] font-bold text-neutral-400 select-none">
                     A
                   </div>
                 )}
@@ -98,15 +97,10 @@ export default function Navbar() {
             )}
             <a
               href="#contact"
-              className="relative group overflow-hidden rounded-full p-[1px] focus:outline-none"
+              className="px-6 py-3 bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold text-white hover:opacity-95 text-xs font-mono font-bold tracking-widest uppercase rounded-full transition-all duration-300 flex items-center gap-2 shadow-[0_0_20px_rgba(139,92,246,0.3)]"
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-purple-600 via-rose-500 to-amber-500 rounded-full animate-[gradient-border_3s_infinite_linear] bg-[length:200%_auto]" />
-              <div className="relative px-5 py-2.5 bg-dark-card rounded-full flex items-center gap-2 group-hover:bg-dark-card/80 transition-all duration-300">
-                <span className="text-sm font-semibold text-white tracking-wide uppercase">
-                  START YOUR JOURNEY
-                </span>
-                <PhoneCall className="w-4 h-4 text-rose-400 animate-pulse" />
-              </div>
+              <span>Book Call</span>
+              <ArrowRight className="w-4 h-4 text-white" />
             </a>
           </div>
 
@@ -148,15 +142,15 @@ export default function Navbar() {
                     target="_blank"
                     rel="noreferrer"
                     onClick={(e) => handleMobileNav(e, "https://wa.me/+916392591533", true)}
-                    className="flex items-center justify-center gap-2 py-3 border border-white/10 rounded-full text-neutral-300 hover:bg-white/5 cursor-pointer"
+                    className="flex items-center justify-center gap-2 py-3 border border-neutral-800 text-neutral-300 hover:bg-white/5 cursor-pointer text-xs font-mono uppercase tracking-widest rounded-full"
                   >
-                    <MessageSquare className="w-4 h-4 text-rose-500" />
+                    <MessageSquare className="w-4 h-4 text-white" />
                     <span>WhatsApp Chat</span>
                   </a>
                   <a
                     href="#contact"
                     onClick={(e) => handleMobileNav(e, "#contact")}
-                    className="flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-purple-600 to-rose-500 rounded-full text-white font-semibold uppercase text-sm tracking-wider cursor-pointer"
+                    className="flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold text-white font-semibold text-xs font-mono uppercase tracking-widest cursor-pointer rounded-full shadow-lg"
                   >
                     <span>START YOUR JOURNEY</span>
                     <ArrowRight className="w-4 h-4" />

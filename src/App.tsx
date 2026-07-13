@@ -7,13 +7,11 @@ import LuxuryLoader from "./components/LuxuryLoader";
 import FloatingSocials from "./components/FloatingSocials";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import Vsl from "./components/Vsl";
 import CaseStudies from "./components/CaseStudies";
 import PastWork from "./components/PastWork";
 import WhoWeWorkedWith from "./components/WhoWeWorkedWith";
 import ClientVerdicts from "./components/ClientVerdicts";
 import Faq from "./components/Faq";
-import About from "./components/About";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 
@@ -35,8 +33,8 @@ export default function App() {
       {/* Hero Intro */}
       <Hero />
 
-      {/* VSL Case Explanation section */}
-      <Vsl />
+      {/* Dedicated client testimonials video player and custom review collage */}
+      <ClientVerdicts />
 
       {/* Metric-focused Case Studies */}
       <CaseStudies />
@@ -46,12 +44,6 @@ export default function App() {
 
       {/* Who We Worked With (Infinite Marquee) */}
       <WhoWeWorkedWith />
-
-      {/* Dedicated client testimonials video player and custom review collage */}
-      <ClientVerdicts />
-
-      {/* Dynamic founder background narrative and mission timeline */}
-      <About />
 
       {/* FAQ interactives */}
       <Faq />

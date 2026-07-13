@@ -183,22 +183,85 @@ export const WORK_ITEMS: WorkItem[] = [
     metrics: "+3.2M Fan Retention Velocity"
   },
   {
-    id: "w-3",
-    title: "Finance Mentor - Dynamic Cut System",
+    id: "proj-1780650798356",
+    title: "🔥 This Changes Everything! | Must Watch 😱",
     category: "youtube",
-    thumbnail: "https://picsum.photos/seed/yt1/800/450",
-    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-hand-holding-smartphone-recording-vertical-video-of-a-man-40073-large.mp4",
-    description: "A fast-paced 15-minute documentary cut. Uses high-end vector graphics, stock-trading animations, and sound design.",
-    metrics: "+42m Average Watch Time"
+    thumbnail: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+    videoUrl: "https://youtu.be/LCMDoXDFlcE",
+    description: "Dynamic high-converting creative project launched on premium digital systems.",
+    metrics: "100% Attended Engagement"
   },
   {
-    id: "w-4",
-    title: "D2C Brand Launch: The Unboxing Engine",
-    category: "campaigns",
-    thumbnail: "https://picsum.photos/seed/camp1/800/450",
-    videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-hand-holding-smartphone-recording-vertical-video-of-a-man-40073-large.mp4",
-    description: "An omnichannel social stunt linking 15 top micro-influencers under a matching narrative envelope.",
-    metrics: "Sold out in 22 Hours"
+    id: "proj-1780650909221",
+    title: "Sam edits intro",
+    category: "youtube",
+    thumbnail: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80",
+    videoUrl: "https://youtu.be/UzULROh6Q9w",
+    description: "Dynamic high-converting creative project launched on premium digital systems.",
+    metrics: "100% Attended Engagement"
+  },
+  {
+    id: "proj-1780650993615",
+    title: "Intro",
+    category: "youtube",
+    thumbnail: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80",
+    videoUrl: "https://youtu.be/UcRpReM5kaI",
+    description: "Dynamic high-converting creative project launched on premium digital systems.",
+    metrics: "100% Attended Engagement"
+  },
+  {
+    id: "proj-1780651080177",
+    title: "Apple style intro | the guy behind edits",
+    category: "youtube",
+    thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+    videoUrl: "https://youtu.be/W1HW8nDduQM",
+    description: "Dynamic high-converting creative project launched on premium digital systems.",
+    metrics: "100% Attended Engagement"
+  },
+  {
+    id: "proj-1780651199683",
+    title: "Ambitious person",
+    category: "youtube",
+    thumbnail: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+    videoUrl: "https://youtu.be/JtvUQB0ThAA",
+    description: "Dynamic high-converting creative project launched on premium digital systems.",
+    metrics: "100% Attended Engagement"
+  },
+  {
+    id: "proj-1780651258316",
+    title: "Commercial company trailer",
+    category: "youtube",
+    thumbnail: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80",
+    videoUrl: "https://youtu.be/tPMf7wX2IKQ",
+    description: "Dynamic high-converting creative project launched on premium digital systems.",
+    metrics: "100% Attended Engagement"
+  },
+  {
+    id: "proj-1780651322188",
+    title: "Motivational",
+    category: "youtube",
+    thumbnail: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80",
+    videoUrl: "https://youtu.be/jH6JHr0QHgg",
+    description: "Dynamic high-converting creative project launched on premium digital systems.",
+    metrics: "100% Attended Engagement"
+  },
+  {
+    id: "proj-1780651388228",
+    title: "Proper long video",
+    category: "youtube",
+    thumbnail: "https://images.unsplash.com/photo-1626544827763-d516dce335e2?auto=format&fit=crop&w=800&q=80",
+    videoUrl: "https://youtu.be/xqkas8YGtN8",
+    description: "Dynamic high-converting creative project launched on premium digital systems.",
+    metrics: "100% Attended Engagement"
+  },
+  {
+    id: "proj-1780651443616",
+    title: "Long video",
+    category: "youtube",
+    thumbnail: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=800&q=80",
+    videoUrl: "https://youtu.be/04vvERVKV6g",
+    description: "Dynamic high-converting creative project launched on premium digital systems.",
+    metrics: "100% Attended Engagement"
   }
 ];
 

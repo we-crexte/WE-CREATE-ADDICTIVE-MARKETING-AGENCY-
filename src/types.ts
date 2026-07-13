@@ -133,7 +133,7 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "After Effects — Better than DaVinci",
     category: "shorts",
     thumbnail: aeNotificationMockup,
-    videoUrl: "/AFTER EFFECTS.mp4",
+    videoUrl: `${import.meta.env.BASE_URL}AFTER EFFECTS.mp4`,
     description: "Our signature App Store conversion funnel concept. Utilizes highly persuasive UI notification mechanics, pattern-interrupt screenshots, and high-velocity pacing to maximize installation intent.",
     metrics: "140K+ Reach & Conversion Boost"
   },
@@ -142,7 +142,7 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "90% of Videos Get Buried Instantly",
     category: "shorts",
     thumbnail: buriedVideosMockup,
-    videoUrl: "/BURIED.mp4",
+    videoUrl: `${import.meta.env.BASE_URL}BURIED.mp4`,
     description: "An aggressive pattern-interrupt sequence combatting instant dropoffs. Structured using premium custom visual icons, auditory triggers, and cognitive open loops.",
     metrics: "+92% Audited Watch-Time Boost"
   },
@@ -151,7 +151,7 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "Apple Concept — iOS 26 New Look",
     category: "shorts",
     thumbnail: iosConceptMockup,
-    videoUrl: "/IOS VIDEO.mp4",
+    videoUrl: `${import.meta.env.BASE_URL}IOS VIDEO.mp4`,
     description: "A highly cinematic user-interface reveal conceptualizing the next iOS flight notification and mapping integration under high-energy transition effects.",
     metrics: "2.1M+ Volatile Impressions"
   },
@@ -160,7 +160,7 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "Prosper Scale — $10K/Month to $10K/Day",
     category: "shorts",
     thumbnail: shopifyScaleMockup,
-    videoUrl: "/PROSPER.mp4",
+    videoUrl: `${import.meta.env.BASE_URL}PROSPER.mp4`,
     description: "A financial performance review video detailing Shopify e-commerce scaling secrets. Blends high-pace talking head footage with sleek custom Shopify analytics screenshots.",
     metrics: "+1,077% Sales Velocity Lift"
   },
@@ -169,7 +169,7 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "Agency Blueprint — Over $10,000/Month",
     category: "shorts",
     thumbnail: agencySystemMockup,
-    videoUrl: "/AGENCY BLUEPRINT 10k $.mp4",
+    videoUrl: `${import.meta.env.BASE_URL}AGENCY BLUEPRINT 10k $.mp4`,
     description: "An elite strategic consulting program sequence showing briefcase stacks and problem-solving puzzles to command premium client retainers.",
     metrics: "$84K MRR Deployed Pipeline"
   },
@@ -178,7 +178,7 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "IShowSpeed — From Nothing to Global Icon",
     category: "shorts",
     thumbnail: ishowspeedJourneyMockup,
-    videoUrl: "/ISHOWSPEED.mp4",
+    videoUrl: `${import.meta.env.BASE_URL}ISHOWSPEED.mp4`,
     description: "A comprehensive motivational storytelling documentary short tracking IShowSpeed from a zero-viewer streamer into a global icon.",
     metrics: "+3.2M Fan Retention Velocity"
   },

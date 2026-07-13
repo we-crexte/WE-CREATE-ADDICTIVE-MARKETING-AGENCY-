@@ -134,7 +134,7 @@ export default function Vsl() {
             {/* Real HTML5 Video Component loaded immediately to prevent custom image delays */}
             <video
               ref={videoRef}
-              src="/VSL.mp4"
+              src={`${import.meta.env.BASE_URL}VSL.mp4`}
               loop
               muted={isMuted}
               playsInline

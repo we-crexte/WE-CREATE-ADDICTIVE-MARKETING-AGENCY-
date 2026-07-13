@@ -110,7 +110,7 @@ export default function Hero() {
             {/* HTML5 Video */}
             <video
               ref={videoRef}
-              src="/VSL.mp4"
+              src={`${import.meta.env.BASE_URL}VSL.mp4`}
               loop
               muted={isMuted}
               playsInline

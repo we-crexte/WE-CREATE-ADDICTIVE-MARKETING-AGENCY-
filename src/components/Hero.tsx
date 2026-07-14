@@ -101,7 +101,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="w-full max-w-6xl mt-12 sm:mt-16 rounded-2xl p-0.5 bg-gradient-to-r from-white/5 to-white/0 border border-white/5 shadow-[0_50px_100px_rgba(0,0,0,0.8)] relative group overflow-hidden"
+          className="w-full max-w-6xl mt-12 sm:mt-16 rounded-2xl p-0.5 bg-gradient-to-r from-purple-500/60 to-purple-500/20 border border-purple-500/50 shadow-[0_0_35px_rgba(168,85,247,0.45),0_50px_100px_rgba(0,0,0,0.8)] relative group overflow-hidden"
         >
           <div
             onClick={togglePlay}

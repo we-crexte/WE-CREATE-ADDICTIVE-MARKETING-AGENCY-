@@ -6,6 +6,7 @@ import iosConceptMockup from "./assets/images/ios_concept_mockup_1780317348378.p
 import shopifyScaleMockup from "./assets/images/shopify_scale_mockup_1780317375611.png";
 import agencySystemMockup from "./assets/images/agency_system_mockup_1780317406987.png";
 import ishowspeedJourneyMockup from "./assets/images/ishowspeed_journey_mockup_1780317433540.png";
+import luxuryAgencyWorkspace from "./assets/images/luxury_agency_workspace_1780311831201.png";
 
 export interface CaseStudy {
   id: string;
@@ -178,9 +179,18 @@ export const WORK_ITEMS: WorkItem[] = [
     title: "IShowSpeed — From Nothing to Global Icon",
     category: "shorts",
     thumbnail: ishowspeedJourneyMockup,
-    videoUrl: `${import.meta.env.BASE_URL}ISHOWSPEED.mp4`,
+    videoUrl: `${import.meta.env.BASE_URL}ISHOWSPPEED.mp4`,
     description: "A comprehensive motivational storytelling documentary short tracking IShowSpeed from a zero-viewer streamer into a global icon.",
     metrics: "+3.2M Fan Retention Velocity"
+  },
+  {
+    id: "w-0-7",
+    title: "Client Testimonial — Creative Production Speed",
+    category: "shorts",
+    thumbnail: luxuryAgencyWorkspace,
+    videoUrl: `${import.meta.env.BASE_URL}CLient testimonial.MP4`,
+    description: "An authentic, elite-tier direct creator client testimonial praising the high-velocity execution, supreme design polish, and overall performance lift.",
+    metrics: "+411% Production Output Speed"
   },
   {
     id: "proj-1780650798356",
@@ -275,7 +285,7 @@ export const TESTIMONIALS: Testimonial[] = [
     company: "CCR YouTube Channel",
     messages: [
       { sender: "client", text: "Yo, what's up everybody, this is CCR. Just want to give a quick shoutout to Sam branding, man. Absolutely overdelivered when it came to editing my video!", time: "3:40 PM" },
-      { sender: "client", text: "Video review of the work:", isVideo: true, videoUrl: "/VSL.mp4", time: "3:41 PM" },
+      { sender: "client", text: "Video review of the work:", isVideo: true, videoUrl: `${import.meta.env.BASE_URL}VSL.mp4`, time: "3:41 PM" },
       { sender: "me", text: "Bro! Appreciated! So hyped with the retention metrics we got on this.", time: "3:45 PM" },
       { sender: "client", text: "Sam came in, negotiated the pricing, and took the edit above and beyond what I requested. Tap in with him, he is the real deal!", time: "3:46 PM" }
     ],

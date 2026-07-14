@@ -125,7 +125,7 @@ export default function Vsl() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, cubicBezier: [0.16, 1, 0.3, 1] }}
-          className="max-w-6xl mx-auto rounded-2xl p-0.5 bg-gradient-to-r from-white/5 to-white/0 border border-white/5 shadow-[0_50px_100px_rgba(0,0,0,0.8)] relative group overflow-hidden"
+          className="max-w-6xl mx-auto rounded-2xl p-0.5 bg-gradient-to-r from-purple-500/60 to-purple-500/20 border border-purple-500/50 shadow-[0_0_35px_rgba(168,85,247,0.45),0_50px_100px_rgba(0,0,0,0.8)] relative group overflow-hidden"
         >
           <div 
             onClick={togglePlay}

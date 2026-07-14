@@ -316,7 +316,7 @@ export default function ClientVerdicts() {
               {/* HTML5 Video */}
               <video
                 ref={videoRef}
-                src="/CLient testimonial.MP4"
+                src={`${import.meta.env.BASE_URL}CLient testimonial.MP4`}
                 loop
                 muted={isMuted}
                 playsInline

@@ -29,591 +29,145 @@ const getYouTubeEmbedUrl = (url: string | undefined): string | null => {
   return null;
 };
 
-// Static sub-component defined outside of PastWork to prevent unmounting and scroll resets on state updates.
-const ScrollableRow = ({
-  items,
-  isVertical,
-  playingVideoId,
-  setPlayingVideoId,
-  isMutedGlobal,
-  setIsMutedGlobal
-}: {
-  items: WorkItem[];
+// Helper to extract clean YouTube Video ID
+const getYouTubeId = (url: string | undefined): string | null => {
+  if (!url) return null;
+  const trimmed = url.trim();
+  let videoId = "";
+  if (trimmed.includes("youtu.be/")) {
+    videoId = trimmed.split("youtu.be/")[1]?.split(/[?#]/)[0] || "";
+  } else if (trimmed.includes("youtube.com/shorts/")) {
+    videoId = trimmed.split("youtube.com/shorts/")[1]?.split(/[?#]/)[0] || "";
+  } else if (trimmed.includes("embed/")) {
+    videoId = trimmed.split("embed/")[1]?.split(/[?#]/)[0] || "";
+  } else if (trimmed.includes("v=")) {
+    videoId = trimmed.split("v=")[1]?.split(/[?#&]/)[0] || "";
+  }
+  return videoId || null;
+};
+
+interface VideoCardProps {
+  item: WorkItem;
   isVertical: boolean;
-  playingVideoId: string | null;
-  setPlayingVideoId: (id: string | null) => void;
+  isPlaying: boolean;
+  onPlay: () => void;
   isMutedGlobal: boolean;
   setIsMutedGlobal: (muted: boolean) => void;
+}
+
+// Modern responsive Video Card component with premium hover scale, lift, and custom shadow transitions.
+const VideoCard: React.FC<VideoCardProps> = ({
+  item,
+  isVertical,
+  isPlaying,
+  onPlay,
+  isMutedGlobal,
+  setIsMutedGlobal
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  
-  const isDraggingRef = useRef(false);
-  const isDraggingCardsRef = useRef(false);
-  const startXRef = useRef(0);
-  const startScrollLeftRef = useRef(0);
-  const totalDraggedDistanceRef = useRef(0);
-
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const [activeIndex, setActiveIndex] = useState(0);
-  
-  const [isDragging, setIsDragging] = useState(false);
-  const [isDraggingCards, setIsDraggingCards] = useState(false);
-
-  // Combine dragging states to instantly disable transitions for direct tracking responsiveness
-  const isDraggingAny = isDragging || isDraggingCards;
-
-  const handleScroll = () => {
-    if (isDraggingRef.current) return; // Prevent scroll events from overriding active drag coordinate updates
-    if (containerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
-      const maxScroll = scrollWidth - clientWidth;
-      const progress = maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0;
-      setScrollProgress(progress);
-
-      setCanScrollLeft(scrollLeft > 10);
-      setCanScrollRight(scrollLeft < maxScroll - 10);
-
-      // Dynamically calculate active card index based on viewport position
-      const cards = containerRef.current.children;
-      if (cards.length > 0) {
-        let nearestIndex = 0;
-        let minDiff = Infinity;
-        const containerLeft = containerRef.current.getBoundingClientRect().left;
-
-        for (let i = 0; i < cards.length; i++) {
-          const cardRect = cards[i].getBoundingClientRect();
-          const diff = Math.abs(cardRect.left - containerLeft);
-          if (diff < minDiff) {
-            minDiff = diff;
-            nearestIndex = i;
-          }
-        }
-        setActiveIndex(nearestIndex);
-      }
-    }
-  };
-
-  useEffect(() => {
-    handleScroll();
-    // Handle initial render checks
-    const timer = setTimeout(handleScroll, 100);
-    window.addEventListener("resize", handleScroll);
-    return () => {
-      window.removeEventListener("resize", handleScroll);
-      clearTimeout(timer);
-    };
-  }, [items]);
-
-  // Desktop drag-to-scroll handler for the horizontal cards row itself
-  const handleCardsMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.button !== 0) return; // Handled left clicks only
-    const target = e.target as HTMLElement;
-    if (
-      target.closest("button") || 
-      target.closest("iframe") || 
-      target.closest("video") || 
-      target.closest("a") ||
-      target.closest("input") ||
-      target.closest("textarea")
-    ) {
-      return;
-    }
-
-    const container = containerRef.current;
-    if (!container) return;
-
-    isDraggingCardsRef.current = true;
-    setIsDraggingCards(true);
-    startXRef.current = e.clientX;
-    startScrollLeftRef.current = container.scrollLeft;
-    totalDraggedDistanceRef.current = 0;
-
-    const onPointerMove = (moveEvent: MouseEvent) => {
-      if (!isDraggingCardsRef.current) return;
-      const deltaX = moveEvent.clientX - startXRef.current;
-      totalDraggedDistanceRef.current = Math.abs(deltaX);
-      container.scrollLeft = startScrollLeftRef.current - deltaX * 1.5;
-    };
-
-    const onPointerUp = () => {
-      isDraggingCardsRef.current = false;
-      setTimeout(() => {
-        setIsDraggingCards(false);
-      }, 50);
-      document.removeEventListener("mousemove", onPointerMove);
-      document.removeEventListener("mouseup", onPointerUp);
-    };
-
-    document.addEventListener("mousemove", onPointerMove);
-    document.addEventListener("mouseup", onPointerUp);
-  };
-
-  const handleDragUpdate = (clientX: number) => {
-    const container = containerRef.current;
-    const track = trackRef.current;
-    if (!container || !track) return;
-
-    const rect = track.getBoundingClientRect();
-    const padding = 16; // px-4 padding
-    const innerWidth = rect.width - padding * 2;
-    const clickX = clientX - rect.left - padding;
-    const percentage = Math.max(0, Math.min(1, clickX / innerWidth));
-
-    // Instantly sync the visual slider progress percentage to coordinate cursor coordinate
-    setScrollProgress(percentage * 100);
-
-    const maxScroll = container.scrollWidth - container.clientWidth;
-    if (maxScroll > 0) {
-      container.scrollLeft = percentage * maxScroll;
-    }
-
-    const cards = container.children;
-    if (cards.length > 0) {
-      const targetIndex = Math.round(percentage * (cards.length - 1));
-      setActiveIndex(Math.max(0, Math.min(cards.length - 1, targetIndex)));
-    }
-  };
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.button !== 0) return; // Left Click only
-    isDraggingRef.current = true;
-    setIsDragging(true);
-    handleDragUpdate(e.clientX);
-
-    const onMouseMove = (moveEvent: MouseEvent) => {
-      handleDragUpdate(moveEvent.clientX);
-    };
-
-    const onMouseUp = () => {
-      isDraggingRef.current = false;
-      setIsDragging(false);
-      // Run final scroll update to bind exactly to any final scroll/snap position
-      handleScroll();
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
-    };
-
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseup", onMouseUp);
-  };
-
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    isDraggingRef.current = true;
-    setIsDragging(true);
-    if (e.touches.length > 0) {
-      handleDragUpdate(e.touches[0].clientX);
-    }
-
-    const onTouchMove = (moveEvent: TouchEvent) => {
-      if (moveEvent.cancelable) {
-        moveEvent.preventDefault();
-      }
-      if (moveEvent.touches.length > 0) {
-        handleDragUpdate(moveEvent.touches[0].clientX);
-      }
-    };
-
-    const onTouchEnd = () => {
-      isDraggingRef.current = false;
-      setIsDragging(false);
-      // Run final scroll update to bind exactly to any final scroll/snap position
-      handleScroll();
-      document.removeEventListener("touchmove", onTouchMove);
-      document.removeEventListener("touchend", onTouchEnd);
-    };
-
-    document.addEventListener("touchmove", onTouchMove, { passive: false });
-    document.addEventListener("touchend", onTouchEnd);
-  };
-
-  const scroll = (direction: "left" | "right") => {
-    if (containerRef.current) {
-      const { clientWidth } = containerRef.current;
-      const scrollAmount = direction === "left" ? -clientWidth * 0.75 : clientWidth * 0.75;
-      containerRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
-    }
-  };
+  const ytId = getYouTubeId(item.videoUrl);
 
   return (
-    <div className="relative w-full py-4 group/carousel select-none">
-      {/* Horizontal scroll container with scrollbar completely hidden */}
-      <div
-        ref={containerRef}
-        onScroll={handleScroll}
-        onMouseDown={handleCardsMouseDown}
-        className={`flex gap-6 overflow-x-auto pb-6 pt-2 px-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
-          isDraggingCards ? "cursor-grabbing select-none" : "cursor-grab"
-        } ${
-          isDragging 
-            ? "snap-none scroll-auto select-none" 
-            : "snap-x snap-mandatory scroll-smooth"
-        }`}
-      >
-        {items.map((item) => {
-          const isPlaying = playingVideoId === item.id;
-          
-          if (isVertical) {
-            // SHORT FORM 9:16 FEED: Keep absolute overlay because of vertical height, but optimize for zero congestion
-            return (
-              <div
-                key={item.id}
-                onClick={() => {
-                  if (totalDraggedDistanceRef.current > 10) return;
-                  if (!isPlaying) {
-                    setPlayingVideoId(item.id);
-                  }
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className={`group relative flex flex-col justify-between w-full overflow-hidden bg-[#09090b] rounded-2xl transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.02] ${
+        isVertical 
+          ? "aspect-[9/16] max-w-[290px] mx-auto border border-rose-500/30 shadow-[0_0_20px_rgba(244,63,94,0.15)] hover:border-rose-400 hover:shadow-[0_0_40px_rgba(244,63,94,0.55)]" 
+          : "aspect-[16/9] w-full border border-indigo-500/30 shadow-[0_0_20px_rgba(99,102,241,0.15)] hover:border-indigo-400 hover:shadow-[0_0_40px_rgba(99,102,241,0.55)]"
+      }`}
+    >
+      {/* Video Content Container */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
+        {isPlaying ? (
+          ytId ? (
+            <iframe
+              src={`https://www.youtube.com/embed/${ytId}?autoplay=1&controls=1&rel=0&modestbranding=1`}
+              title={item.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              className="w-full h-full border-0"
+            />
+          ) : (
+            <div className="relative w-full h-full">
+              <video
+                src={item.videoUrl}
+                autoPlay
+                controls
+                loop
+                muted={isMutedGlobal}
+                playsInline
+                className="w-full h-full object-cover"
+              />
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsMutedGlobal(!isMutedGlobal);
                 }}
-                className="group cursor-pointer rounded-none overflow-hidden bg-neutral-950 border border-neutral-900 hover:border-neutral-800 transition-all duration-300 flex flex-col justify-between shrink-0 snap-start relative w-[190px] xs:w-[220px] sm:w-[260px] aspect-[9/16]"
+                className="absolute bottom-3 left-3 p-2 rounded-full bg-black/80 border border-white/10 text-white hover:bg-neutral-900 transition-all z-10"
               >
-                {isPlaying ? (
-                  <div className="absolute inset-0 bg-black w-full h-full z-20 flex items-center justify-center overflow-hidden rounded-none">
-                    {getYouTubeEmbedUrl(item.videoUrl) ? (
-                      <iframe
-                        src={getYouTubeEmbedUrl(item.videoUrl)!}
-                        title={item.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                        className="w-full h-full rounded-none border-0"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                      />
-                    ) : (
-                      <video
-                        src={item.videoUrl}
-                        autoPlay
-                        loop
-                        muted={isMutedGlobal}
-                        playsInline
-                        className="w-full h-full object-cover rounded-none"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                      />
-                    )}
+                {isMutedGlobal ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+              </button>
+            </div>
+          )
+        ) : (
+          <div className="relative w-full h-full cursor-pointer" onClick={onPlay}>
+            {/* Thumbnail */}
+            <img
+              src={item.thumbnail}
+              alt={item.title}
+              className="w-full h-full object-cover filter brightness-[0.7] group-hover:scale-[1.03] group-hover:brightness-[0.8] transition-all duration-700 pointer-events-none"
+              referrerPolicy="no-referrer"
+            />
+            
+            {/* Dark gradient mask */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
 
-                    {/* Minimal Audio & Fullscreen controllers on video overlay */}
-                    {!getYouTubeEmbedUrl(item.videoUrl) && (
-                      <div className="absolute bottom-3 left-3 flex gap-1.5 z-30 pointer-events-auto">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsMutedGlobal(!isMutedGlobal);
-                          }}
-                          className="p-2 rounded-none bg-black border border-neutral-800 text-white hover:bg-neutral-900 transition-all active:scale-95 shadow-md"
-                          title={isMutedGlobal ? "Unmute" : "Mute"}
-                        >
-                          {isMutedGlobal ? <VolumeX className="w-3.5 h-3.5 text-neutral-400" /> : <Volume2 className="w-3.5 h-3.5 text-white" />}
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            const videoEl = e.currentTarget.parentElement?.parentElement?.querySelector('video');
-                            if (videoEl) {
-                              if (videoEl.requestFullscreen) {
-                                videoEl.requestFullscreen().catch(() => {});
-                              } else if ((videoEl as any).webkitEnterFullscreen) {
-                                (videoEl as any).webkitEnterFullscreen();
-                              }
-                            }
-                          }}
-                          className="p-2 rounded-none bg-black border border-neutral-800 text-white hover:bg-neutral-900 transition-all active:scale-95 shadow-md"
-                          title="Fullscreen"
-                        >
-                          <Maximize className="w-3.5 h-3.5 text-neutral-300" />
-                        </button>
-                      </div>
-                    )}
-                    
-                    {/* Inline Close Overlay Button */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setPlayingVideoId(null);
-                      }}
-                      className="absolute top-3 right-3 z-30 p-2 rounded-none bg-black border border-neutral-800 text-white hover:bg-neutral-900 transition-all duration-300 active:scale-95 shadow-lg"
-                      title="Close Player"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                ) : (
-                  <div className="relative w-full h-full overflow-hidden bg-neutral-950 group rounded-none">
-                    <img
-                      src={item.thumbnail}
-                      alt={item.title}
-                      className="w-full h-full object-cover filter brightness-[0.75] group-hover:scale-105 group-hover:brightness-95 transition-all duration-700 pointer-events-none"
-                      referrerPolicy="no-referrer"
-                    />
-                    
-                    {/* Dark gradient shading masks */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent opacity-95 pointer-events-none" />
+            {/* Title and stats card */}
+            <div className="absolute inset-0 p-5 sm:p-6 flex flex-col justify-between z-10 font-sans pointer-events-none">
+              <div className="flex justify-between items-center w-full">
+                <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] text-center uppercase tracking-wider font-mono font-bold text-neutral-300 backdrop-blur-sm">
+                  {item.category}
+                </span>
 
-                    {/* Meta Info Overlays */}
-                    <div className="absolute inset-0 p-3 sm:p-4 flex flex-col justify-between z-10 font-sans pointer-events-none">
-                      <div className="flex justify-between items-center w-full">
-                        <span className="px-2 py-0.5 rounded-none bg-neutral-900 border border-neutral-800 text-[7px] min-w-[45px] text-center uppercase tracking-wider font-mono font-bold text-white">
-                          {item.category}
-                        </span>
-
-                        <span className="text-[7.5px] font-mono font-semibold text-white/50 bg-black px-1.5 py-0.5 rounded-none border border-neutral-900 uppercase">
-                          9:16 FEED
-                        </span>
-                      </div>
-
-                      <div className="space-y-1.5">
-                        <h4 className="font-display font-extrabold text-xs sm:text-sm text-white tracking-tight line-clamp-1 group-hover:text-neutral-400 transition-colors">
-                          {item.title}
-                        </h4>
-                        
-                        <p className="text-[9px] sm:text-[10px] text-neutral-400 font-sans line-clamp-2 leading-snug">
-                          {item.description}
-                        </p>
-
-                        <div className="flex items-center justify-between pt-1.5 border-t border-neutral-900">
-                          <span className="text-[9px] sm:text-[10px] font-mono text-white font-bold flex items-center gap-0.5">
-                            <Flame className="w-3 h-3 fill-current text-white" />
-                            {item.metrics}
-                          </span>
-                          <span className="text-[8px] font-mono text-neutral-400 group-hover:text-white transition-colors flex items-center gap-0.5 font-bold uppercase">
-                            <Play className="w-2 h-2 fill-current text-white" /> PLAY
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Play Hover State Indicator */}
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                      <div className="w-10 h-10 rounded-none bg-black border border-neutral-800 text-white flex items-center justify-center transition-all duration-300">
-                        <Play className="w-4 h-4 fill-current text-white translate-x-0.5" />
-                      </div>
-                    </div>
-                  </div>
-                )}
+                <span className="text-[9px] font-mono font-semibold text-neutral-400 bg-black/40 px-2 py-1 rounded-full border border-white/5 uppercase backdrop-blur-sm">
+                  {isVertical ? "9:16 vertical" : "16:9 horizontal"}
+                </span>
               </div>
-            );
-          } else {
-            // LONG FORM 16:9 SCREEN: Split card structure (Media on top, metadata text below layout) to solve mobile congestion
-            return (
-              <div
-                key={item.id}
-                onClick={() => {
-                  if (totalDraggedDistanceRef.current > 10) return;
-                  if (!isPlaying) {
-                    setPlayingVideoId(item.id);
-                  }
-                }}
-                className="group cursor-pointer rounded-none overflow-hidden bg-neutral-950 border border-neutral-900 hover:border-neutral-800 transition-all duration-300 flex flex-col justify-between shrink-0 snap-start w-[265px] xs:w-[320px] sm:w-[370px] md:w-[410px]"
-              >
-                {/* Media Container on Top of Card */}
-                <div className="relative w-full aspect-[16/9] bg-neutral-950 overflow-hidden">
-                  {isPlaying ? (
-                    <div className="absolute inset-0 bg-black w-full h-full z-20 flex items-center justify-center overflow-hidden">
-                      {getYouTubeEmbedUrl(item.videoUrl) ? (
-                        <iframe
-                          src={getYouTubeEmbedUrl(item.videoUrl)!}
-                          title={item.title}
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          allowFullScreen
-                          className="w-full h-full border-0"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                        />
-                      ) : (
-                        <video
-                          src={item.videoUrl}
-                          autoPlay
-                          loop
-                          muted={isMutedGlobal}
-                          playsInline
-                          className="w-full h-full object-cover"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                        />
-                      )}
 
-                      {/* Video actions overlay inside top Area */}
-                      {!getYouTubeEmbedUrl(item.videoUrl) && (
-                        <div className="absolute bottom-2.5 left-2.5 flex gap-1.5 z-30 pointer-events-auto">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setIsMutedGlobal(!isMutedGlobal);
-                            }}
-                            className="p-1.5 rounded-none bg-black border border-neutral-800 text-white hover:bg-neutral-900 transition-all active:scale-95 shadow"
-                            title={isMutedGlobal ? "Unmute" : "Mute"}
-                          >
-                            {isMutedGlobal ? <VolumeX className="w-3.5 h-3.5 text-neutral-400" /> : <Volume2 className="w-3.5 h-3.5 text-white" />}
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              const videoEl = e.currentTarget.parentElement?.parentElement?.querySelector('video');
-                              if (videoEl) {
-                                if (videoEl.requestFullscreen) {
-                                  videoEl.requestFullscreen().catch(() => {});
-                                } else if ((videoEl as any).webkitEnterFullscreen) {
-                                  (videoEl as any).webkitEnterFullscreen();
-                                }
-                              }
-                            }}
-                            className="p-1.5 rounded-none bg-black border border-neutral-800 text-white hover:bg-neutral-900 transition-all active:scale-95 shadow"
-                            title="Fullscreen"
-                          >
-                            <Maximize className="w-3.5 h-3.5 text-neutral-300" />
-                          </button>
-                        </div>
-                      )}
-                      
-                      {/* Inline Close */}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setPlayingVideoId(null);
-                        }}
-                        className="absolute top-2.5 right-2.5 z-30 p-1.5 rounded-none bg-black border border-neutral-800 text-white hover:bg-neutral-900 transition-all duration-300 active:scale-95 shadow-md"
-                        title="Close Player"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="relative w-full h-full overflow-hidden group">
-                      <img
-                        src={item.thumbnail}
-                        alt={item.title}
-                        className="w-full h-full object-cover filter brightness-[0.80] group-hover:scale-105 group-hover:brightness-100 transition-all duration-700 pointer-events-none"
-                        referrerPolicy="no-referrer"
-                      />
+              <div className="space-y-2">
+                <h4 className="font-display font-extrabold text-base sm:text-lg text-white tracking-tight line-clamp-1 group-hover:text-neutral-200 transition-colors">
+                  {item.title}
+                </h4>
+                
+                <p className="text-xs text-neutral-400 font-sans line-clamp-2 leading-relaxed">
+                  {item.description}
+                </p>
 
-                      {/* Header indicators */}
-                      <div className="absolute top-2.5 inset-x-2.5 z-10 pointer-events-none flex justify-between items-center">
-                        <span className="px-2 py-0.5 rounded-none bg-neutral-900 border border-neutral-800 text-[7px] uppercase tracking-widest font-mono font-bold text-white">
-                          {item.category}
-                        </span>
-                        <span className="text-[7px] font-mono font-semibold text-white/55 bg-black border border-neutral-900 px-1.5 py-0.5 rounded-none uppercase tracking-wider">
-                          16:9 SCREEN
-                        </span>
-                      </div>
-
-                      {/* Hover action circle */}
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                        <div className="w-11 h-11 rounded-none bg-black border border-neutral-800 text-white flex items-center justify-center transition-all duration-300">
-                          <Play className="w-4 h-4 fill-current text-white translate-x-0.5" />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Info Text block below the video, avoiding mobile overlaps absolutely */}
-                <div className="p-3.5 sm:p-5 flex flex-col gap-2 bg-neutral-950 border-t border-neutral-900 w-full">
-                  <h4 className="font-display font-extrabold text-xs sm:text-sm text-white tracking-tight line-clamp-1 group-hover:text-neutral-400 transition-colors">
-                    {item.title}
-                  </h4>
-                  
-                  <p className="text-[9.5px] sm:text-[11px] text-neutral-400 font-sans line-clamp-2 leading-relaxed min-h-[32px] sm:min-h-[38px]">
-                    {item.description}
-                  </p>
-
-                  <div className="flex items-center justify-between pt-2 border-t border-neutral-900 mt-0.5">
-                    <span className="text-[9.5px] sm:text-[10px] font-mono text-white font-bold flex items-center gap-0.5">
-                      <Flame className="w-3 h-3 fill-current text-white" />
-                      {item.metrics}
-                    </span>
-                    <span className="text-[8.5px] sm:text-[9px] font-mono text-neutral-400 group-hover:text-white transition-colors flex items-center gap-0.5 font-bold uppercase">
-                      <Play className="w-2 h-2 fill-current text-white" /> PLAY SHOWCASE
-                    </span>
-                  </div>
+                <div className="flex items-center justify-between pt-3 border-t border-white/5 mt-1">
+                  <span className="text-xs font-mono text-white font-bold flex items-center gap-1.5">
+                    <Flame className="w-4 h-4 fill-current text-amber-500" />
+                    {item.metrics}
+                  </span>
+                  <span className="text-[10px] font-mono text-neutral-400 group-hover:text-white transition-colors flex items-center gap-1 font-bold uppercase">
+                    <Play className="w-3 h-3 fill-current" /> Play
+                  </span>
                 </div>
               </div>
-            );
-          }
-        })}
-      </div>
+            </div>
 
-      {/* Custom Premium Glassmorphic Scrolling Indicator Controller with Dynamic Count */}
-      <div className="flex flex-col items-center gap-3 mt-8">
-        {/* Dynamic Digital Counter Badge */}
-        {items.length > 0 && (
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-neutral-900 border border-neutral-800 rounded-none shadow-sm">
-            <span className="text-[10px] font-mono font-bold tracking-widest text-neutral-300">
-              {(activeIndex + 1).toString().padStart(2, "0")}
-            </span>
-            <span className="text-[8px] font-mono text-neutral-600 font-bold">/</span>
-            <span className="text-[10px] font-mono text-neutral-400 font-bold tracking-widest">
-              {items.length.toString().padStart(2, "0")}
-            </span>
+            {/* Play Button Overlay on Hover */}
+            <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+              <div className="w-14 h-14 rounded-full bg-white text-black flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-2xl">
+                <Play className="w-5 h-5 fill-current text-black translate-x-0.5" />
+              </div>
+            </div>
           </div>
         )}
-
-        <div className="flex items-center justify-between max-w-[340px] w-full mx-auto px-4 py-2 bg-neutral-950 border border-neutral-900 rounded-none transition-all hover:bg-neutral-900 hover:border-neutral-800 group/slider-console">
-          <button
-            onClick={() => scroll("left")}
-            disabled={!canScrollLeft}
-            className={`p-2 rounded-none transition-all duration-300 ${
-              canScrollLeft 
-                ? "text-neutral-300 hover:text-white hover:bg-neutral-800 active:scale-95" 
-                : "text-neutral-700 cursor-not-allowed opacity-40"
-            }`}
-            title="Scroll Left"
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-
-          {/* Draggable Slidebar Track with premium reactive glowing feedback */}
-          <div 
-            ref={trackRef}
-            onMouseDown={handleMouseDown}
-            onTouchStart={handleTouchStart}
-            className="flex-1 px-4 py-3 cursor-grab active:cursor-grabbing relative group/track select-none"
-          >
-            {/* Ambient subtle background glow for the active track section */}
-            <div className="h-[2px] bg-neutral-900 rounded-none w-full relative transition-all duration-300">
-              <div
-                className="absolute left-0 top-0 h-full bg-white"
-                style={{ 
-                  width: `${scrollProgress}%`,
-                  transition: isDraggingAny ? "none" : "width 240ms cubic-bezier(0.25, 1, 0.5, 1)"
-                }}
-              />
-            </div>
-            {/* High-end sliding thumb lens */}
-            <div 
-              className="absolute w-3 h-3 bg-white border border-black rounded-none top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing flex items-center justify-center transition-transform hover:scale-110 focus:scale-110"
-              style={{ 
-                left: `calc(16px + (${scrollProgress}% * (100% - 32px) / 100))`,
-                transform: "translate(-50%, -50%)",
-                transition: isDraggingAny ? "none" : "left 240ms cubic-bezier(0.25, 1, 0.5, 1), transform 150ms ease-out"
-              }}
-            >
-              {/* Core inner dot */}
-              <div className="w-1 h-1 bg-black rounded-none" />
-            </div>
-          </div>
-
-          <button
-            onClick={() => scroll("right")}
-            disabled={!canScrollRight}
-            className={`p-2 rounded-none transition-all duration-300 ${
-              canScrollRight 
-                ? "text-neutral-300 hover:text-white hover:bg-neutral-800 active:scale-95" 
-                : "text-neutral-700 cursor-not-allowed opacity-40"
-            }`}
-            title="Scroll Right"
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -1237,7 +791,11 @@ export default function PastWork() {
             </h2>
           </div>
 
-          <div className="mt-12 flex flex-col items-center gap-3">
+          <p className="mt-6 text-sm sm:text-base text-neutral-400 font-sans tracking-wide max-w-xl mx-auto">
+            A collection of our best-performing edits across multiple platforms.
+          </p>
+
+          <div className="mt-10 flex flex-col items-center gap-3">
             <div className="flex flex-wrap justify-center gap-3">
               {/* Elegant Toggle Button for Client Dashboard */}
               <button
@@ -1846,52 +1404,144 @@ export default function PastWork() {
           </div>
         )}
 
-        {/* SECTION 1: SHORT FORM EDITS */}
-        <div className="space-y-4 mb-20">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 px-2">
-            <div className="flex items-center gap-2">
-              <Film className="w-5 h-5 text-rose-500" />
-              <h3 className="text-xl md:text-2xl font-display font-black text-white tracking-tight">
-                Short Form Edits
+        {/* FIRST CATEGORY: SHORT FORM VIDEOS */}
+        <div className="space-y-8 mb-28">
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 px-2 border-b border-white/5 pb-4">
+            <div className="flex items-center gap-2.5">
+              <Film className="w-6 h-6 text-rose-500" />
+              <h3 className="text-2xl md:text-3xl font-display font-black text-white tracking-tight uppercase">
+                Short Form Videos
               </h3>
             </div>
-            <span className="text-xs font-mono text-neutral-500">
+            <span className="text-xs font-mono text-neutral-400 uppercase tracking-widest">
               OPTIMIZED FOR INSTANT VIEW RETENTION // 9:16 FEED
             </span>
           </div>
           
-          <ScrollableRow 
-            items={shortFormItems} 
-            isVertical={true} 
-            playingVideoId={playingVideoId}
-            setPlayingVideoId={setPlayingVideoId}
-            isMutedGlobal={isMutedGlobal}
-            setIsMutedGlobal={setIsMutedGlobal}
-          />
+          {/* First Row: 4 short-form videos */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-[85rem] mx-auto">
+            {shortFormItems.slice(0, 4).map((item) => (
+              <VideoCard
+                key={item.id}
+                item={item}
+                isVertical={true}
+                isPlaying={playingVideoId === item.id}
+                onPlay={() => setPlayingVideoId(item.id)}
+                isMutedGlobal={isMutedGlobal}
+                setIsMutedGlobal={setIsMutedGlobal}
+              />
+            ))}
+          </div>
+
+          {/* Second Row: 3 short-form videos (or next ones) */}
+          {shortFormItems.length > 4 && (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-[65rem] mx-auto mt-10">
+              {shortFormItems.slice(4, 7).map((item) => (
+                <VideoCard
+                  key={item.id}
+                  item={item}
+                  isVertical={true}
+                  isPlaying={playingVideoId === item.id}
+                  onPlay={() => setPlayingVideoId(item.id)}
+                  isMutedGlobal={isMutedGlobal}
+                  setIsMutedGlobal={setIsMutedGlobal}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Any remaining short-form videos if they add more via dashboard */}
+          {shortFormItems.length > 7 && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-[85rem] mx-auto mt-10">
+              {shortFormItems.slice(7).map((item) => (
+                <VideoCard
+                  key={item.id}
+                  item={item}
+                  isVertical={true}
+                  isPlaying={playingVideoId === item.id}
+                  onPlay={() => setPlayingVideoId(item.id)}
+                  isMutedGlobal={isMutedGlobal}
+                  setIsMutedGlobal={setIsMutedGlobal}
+                />
+              ))}
+            </div>
+          )}
+
+          {shortFormItems.length === 0 && (
+            <div className="text-center py-12 text-neutral-500 font-mono text-sm border border-dashed border-white/5 rounded-2xl bg-neutral-950/20">
+              No short form videos found in database. Add one above!
+            </div>
+          )}
         </div>
 
-        {/* SECTION 2: LONG FORM EDITS */}
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 px-2">
-            <div className="flex items-center gap-2">
-              <Video className="w-5 h-5 text-indigo-500" />
-              <h3 className="text-xl md:text-2xl font-display font-black text-white tracking-tight">
-                Long Form Edits
+        {/* SECOND CATEGORY: LONG FORM VIDEOS */}
+        <div className="space-y-12">
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 px-2 border-b border-white/5 pb-4">
+            <div className="flex items-center gap-2.5">
+              <Video className="w-6 h-6 text-indigo-500" />
+              <h3 className="text-2xl md:text-3xl font-display font-black text-white tracking-tight uppercase">
+                Long Form Videos
               </h3>
             </div>
-            <span className="text-xs font-mono text-neutral-500">
+            <span className="text-xs font-mono text-neutral-400 uppercase tracking-widest">
               OPTIMIZED FOR YOUTUBE SYSTEM ALGORITHMS // 16:9 SCREEN
             </span>
           </div>
 
-          <ScrollableRow 
-            items={longFormItems} 
-            isVertical={false} 
-            playingVideoId={playingVideoId}
-            setPlayingVideoId={setPlayingVideoId}
-            isMutedGlobal={isMutedGlobal}
-            setIsMutedGlobal={setIsMutedGlobal}
-          />
+          {/* First Row: 3 long-form videos */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-[85rem] mx-auto">
+            {longFormItems.slice(0, 3).map((item) => (
+              <VideoCard
+                key={item.id}
+                item={item}
+                isVertical={false}
+                isPlaying={playingVideoId === item.id}
+                onPlay={() => setPlayingVideoId(item.id)}
+                isMutedGlobal={isMutedGlobal}
+                setIsMutedGlobal={setIsMutedGlobal}
+              />
+            ))}
+          </div>
+
+          {/* Next Line: 6 long-form videos (or next ones) */}
+          {longFormItems.length > 3 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-[85rem] mx-auto mt-10">
+              {longFormItems.slice(3, 9).map((item) => (
+                <VideoCard
+                  key={item.id}
+                  item={item}
+                  isVertical={false}
+                  isPlaying={playingVideoId === item.id}
+                  onPlay={() => setPlayingVideoId(item.id)}
+                  isMutedGlobal={isMutedGlobal}
+                  setIsMutedGlobal={setIsMutedGlobal}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Any remaining long-form videos if they add more via dashboard */}
+          {longFormItems.length > 9 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-[85rem] mx-auto mt-10">
+              {longFormItems.slice(9).map((item) => (
+                <VideoCard
+                  key={item.id}
+                  item={item}
+                  isVertical={false}
+                  isPlaying={playingVideoId === item.id}
+                  onPlay={() => setPlayingVideoId(item.id)}
+                  isMutedGlobal={isMutedGlobal}
+                  setIsMutedGlobal={setIsMutedGlobal}
+                />
+              ))}
+            </div>
+          )}
+
+          {longFormItems.length === 0 && (
+            <div className="text-center py-12 text-neutral-500 font-mono text-sm border border-dashed border-white/5 rounded-2xl bg-neutral-950/20">
+              No long form videos found in database. Add one above!
+            </div>
+          )}
         </div>
 
         {/* Dynamic Owner Authenticator Modal in AnimatePresence */}

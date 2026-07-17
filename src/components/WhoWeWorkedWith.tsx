@@ -57,7 +57,7 @@ export default function WhoWeWorkedWith() {
 
       {/* Grid container with responsive layouts */}
       <div className="max-w-[85rem] mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 lg:gap-12">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-12 sm:gap-14 md:gap-16 lg:gap-20">
           {CLIENTS_LIST.map((client, index) => (
             <motion.a
               key={client.id}
@@ -68,18 +68,18 @@ export default function WhoWeWorkedWith() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.05 }}
-              className="group flex flex-col items-center justify-center p-6 sm:p-8 rounded-2xl bg-[#09090b]/40 border border-emerald-500/10 backdrop-blur-sm shadow-md transition-all duration-300 hover:scale-[1.05] hover:-translate-y-1.5 hover:shadow-[0_0_30px_rgba(16,185,129,0.2)] hover:border-emerald-500/30 cursor-pointer w-full aspect-square text-center"
+              className="group flex flex-col items-center justify-center cursor-pointer w-full text-center"
             >
-              {/* Profile image container */}
-              <div className="relative w-24 h-24 sm:w-32 md:w-36 lg:w-40 xl:w-44 aspect-square rounded-full overflow-hidden border-2 border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)] group-hover:border-emerald-400 group-hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] transition-all duration-500">
+              {/* Profile image container (Large standalone perfect circle with emerald highlights) */}
+              <div className="relative w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 lg:w-40 lg:h-40 xl:w-44 xl:h-44 aspect-square rounded-full overflow-hidden border-2 border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)] group-hover:border-emerald-400 group-hover:shadow-[0_0_30px_rgba(16,185,129,0.4)] transition-all duration-500 group-hover:scale-105 flex-shrink-0">
                 <img 
                   src={client.image} 
                   alt={client.name} 
-                  className="w-full h-full object-cover filter brightness-[0.8] grayscale group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-500" 
+                  className="w-full h-full object-cover filter brightness-[0.9] transition-all duration-500 group-hover:brightness-100" 
                   referrerPolicy="no-referrer" 
                 />
               </div>
-              {/* Client name below image */}
+              {/* Client/Team member name below image (Sans-serif or Mono styled perfectly) */}
               <span className="mt-5 text-sm sm:text-base font-bold tracking-widest text-neutral-300 group-hover:text-emerald-400 transition-colors duration-300 uppercase font-mono">
                 {client.name}
               </span>

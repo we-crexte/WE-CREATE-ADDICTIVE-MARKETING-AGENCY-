@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { motion } from "motion/react";
-import { Play, Pause, Volume2, VolumeX, Maximize, Flame } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Maximize, Flame, ChevronRight } from "lucide-react";
 
 export default function Hero() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -77,7 +77,7 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center pt-28 sm:pt-36 pb-16 sm:pb-24 overflow-hidden bg-dark-bg bg-grid">
+    <section id="hero" className="relative min-h-screen md:min-h-[auto] flex flex-col items-center justify-start pt-28 sm:pt-36 md:pt-24 lg:pt-28 pb-16 sm:pb-24 md:pb-12 lg:pb-16 overflow-hidden bg-dark-bg bg-grid">
       {/* Background flares */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] purple-glow opacity-15 pointer-events-none" />
       <div className="absolute bottom-1/4 left-1/3 w-[500px] h-[500px] orange-glow opacity-10 pointer-events-none" />
@@ -88,12 +88,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-black tracking-tight leading-[1.15] text-white max-w-5xl"
+          className="text-[5.2vw] xs:text-[5vw] sm:text-[4.5vw] md:text-[2.8rem] lg:text-[3.5rem] xl:text-[4rem] font-display md:font-sans font-black md:font-extrabold tracking-tight md:tracking-[-0.03em] leading-[1.15] md:leading-[1.1] text-white max-w-6xl mx-auto"
         >
-          We will build a Done-For-You YouTube Strategy that adds <br />
-          <span className="relative bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold bg-clip-text text-transparent font-black mt-4 inline-block">
-            3-10+ High Ticket Clients Within 90 Days (Guaranteed)
-          </span>
+          We Build you a Done-For-You YouTube <br />
+          Client Acquisition System That Brings You <br />
+          <span className="bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold bg-clip-text text-transparent font-extrabold">5+ High-Ticket Clients in 90 Days</span>
         </motion.h1>
 
         {/* Video Player Section with premium styling */}
@@ -101,11 +100,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="w-full max-w-6xl mt-12 sm:mt-16 rounded-2xl p-0.5 bg-gradient-to-r from-purple-500/60 to-purple-500/20 border border-purple-500/50 shadow-[0_0_35px_rgba(168,85,247,0.45),0_50px_100px_rgba(0,0,0,0.8)] relative group overflow-hidden"
+          className="w-full max-w-5xl md:max-w-[780px] lg:max-w-[830px] xl:max-w-[850px] mt-12 sm:mt-16 md:mt-8 lg:mt-9 rounded-2xl p-0.5 bg-gradient-to-r from-purple-500/60 to-purple-500/20 border border-purple-500/50 shadow-[0_0_35px_rgba(168,85,247,0.45),0_50px_100px_rgba(0,0,0,0.8)] relative group overflow-hidden"
         >
           <div
             onClick={togglePlay}
-            className="relative rounded-2xl overflow-hidden aspect-[4/3] xs:aspect-video bg-black flex flex-col justify-between cursor-pointer"
+            className="relative rounded-2xl overflow-hidden aspect-video bg-black flex flex-col justify-between cursor-pointer"
           >
             {/* HTML5 Video */}
             <video
@@ -203,14 +202,18 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="mt-12 sm:mt-16 w-full max-w-sm"
+          className="mt-12 sm:mt-16 md:mt-8 lg:mt-10 w-full max-w-sm px-4"
         >
           <a
             href="#contact"
-            className="group flex items-center justify-center gap-3 px-8 py-4 sm:py-5 bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold text-white font-mono font-bold text-sm uppercase tracking-widest rounded-full transition-all hover:scale-105 active:scale-95 duration-300 shadow-[0_0_30px_rgba(249,115,22,0.3)] border border-white/10"
+            className="group relative overflow-hidden flex items-center justify-center gap-3 px-10 py-5 sm:py-6 bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold text-white font-sans font-black text-base sm:text-lg uppercase tracking-wider rounded-full transition-all hover:scale-105 active:scale-95 duration-300 shadow-[0_0_35px_rgba(249,115,22,0.45)] hover:shadow-[0_0_50px_rgba(168,85,247,0.65),0_0_30px_rgba(249,115,22,0.55)] border border-white/20"
           >
-            <Flame className="w-5 h-5 text-white animate-pulse" />
-            <span>Book A Call</span>
+            {/* Glossy sheen overlay sweep */}
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
+            
+            <Flame className="w-6 h-6 text-white animate-bounce group-hover:scale-110 transition-transform duration-300" />
+            <span className="relative z-10 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">Book A Call</span>
+            <ChevronRight className="w-5 h-5 text-white transition-transform duration-300 group-hover:translate-x-1.5" />
           </a>
         </motion.div>
       </div>

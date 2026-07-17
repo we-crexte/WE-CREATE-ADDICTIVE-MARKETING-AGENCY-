@@ -46,9 +46,34 @@ const getYouTubeId = (url: string | undefined): string | null => {
   return videoId || null;
 };
 
+const getCardLabel = (type: "tall" | "wide" | "portrait" | "square") => {
+  switch (type) {
+    case "tall": return "9:16 vertical";
+    case "wide": return "16:9 horizontal";
+    case "portrait": return "3:4 portrait";
+    case "square": return "1:1 square";
+    default: return "";
+  }
+};
+
+const getCardType = (item: WorkItem, index: number): "tall" | "wide" | "portrait" | "square" => {
+  // Deterministic mapping for cohesive asymmetrical layout
+  if (item.category === "shorts" || item.category === "reels" || item.category === "ads") {
+    const mod = index % 3;
+    if (mod === 0) return "tall";
+    if (mod === 1) return "portrait";
+    return "square";
+  } else {
+    const mod = index % 3;
+    if (mod === 0) return "wide";
+    if (mod === 1) return "square";
+    return "portrait";
+  }
+};
+
 interface VideoCardProps {
   item: WorkItem;
-  isVertical: boolean;
+  cardType: "tall" | "wide" | "portrait" | "square";
   isPlaying: boolean;
   onPlay: () => void;
   isMutedGlobal: boolean;
@@ -58,7 +83,7 @@ interface VideoCardProps {
 // Modern responsive Video Card component with premium hover scale, lift, and custom shadow transitions.
 const VideoCard: React.FC<VideoCardProps> = ({
   item,
-  isVertical,
+  cardType,
   isPlaying,
   onPlay,
   isMutedGlobal,
@@ -66,17 +91,22 @@ const VideoCard: React.FC<VideoCardProps> = ({
 }) => {
   const ytId = getYouTubeId(item.videoUrl);
 
+  const themeClasses = "border-2 border-purple-500/50 shadow-[0_0_20px_rgba(168,85,247,0.2)] hover:border-purple-400 hover:shadow-[0_0_35px_rgba(168,85,247,0.45)]";
+
+  const aspectClasses = {
+    tall: "aspect-[9/16]",
+    wide: "aspect-[16/9]",
+    portrait: "aspect-[3/4]",
+    square: "aspect-square"
+  }[cardType];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`group relative flex flex-col justify-between w-full overflow-hidden bg-[#09090b] rounded-2xl transition-all duration-500 ease-out hover:-translate-y-2 hover:scale-[1.02] ${
-        isVertical 
-          ? "aspect-[9/16] max-w-[290px] mx-auto border border-rose-500/30 shadow-[0_0_20px_rgba(244,63,94,0.15)] hover:border-rose-400 hover:shadow-[0_0_40px_rgba(244,63,94,0.55)]" 
-          : "aspect-[16/9] w-full border border-indigo-500/30 shadow-[0_0_20px_rgba(99,102,241,0.15)] hover:border-indigo-400 hover:shadow-[0_0_40px_rgba(99,102,241,0.55)]"
-      }`}
+      className={`group relative flex flex-col justify-between w-full overflow-hidden bg-[#09090b] rounded-2xl transition-all duration-500 ease-out hover:scale-[1.03] cursor-pointer ${aspectClasses} ${themeClasses}`}
     >
       {/* Video Content Container */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
@@ -118,49 +148,13 @@ const VideoCard: React.FC<VideoCardProps> = ({
             <img
               src={item.thumbnail}
               alt={item.title}
-              className="w-full h-full object-cover filter brightness-[0.7] group-hover:scale-[1.03] group-hover:brightness-[0.8] transition-all duration-700 pointer-events-none"
+              className="w-full h-full object-cover filter brightness-[0.8] group-hover:scale-[1.02] transition-all duration-700 pointer-events-none"
               referrerPolicy="no-referrer"
             />
             
-            {/* Dark gradient mask */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent pointer-events-none" />
-
-            {/* Title and stats card */}
-            <div className="absolute inset-0 p-5 sm:p-6 flex flex-col justify-between z-10 font-sans pointer-events-none">
-              <div className="flex justify-between items-center w-full">
-                <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[9px] text-center uppercase tracking-wider font-mono font-bold text-neutral-300 backdrop-blur-sm">
-                  {item.category}
-                </span>
-
-                <span className="text-[9px] font-mono font-semibold text-neutral-400 bg-black/40 px-2 py-1 rounded-full border border-white/5 uppercase backdrop-blur-sm">
-                  {isVertical ? "9:16 vertical" : "16:9 horizontal"}
-                </span>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="font-display font-extrabold text-base sm:text-lg text-white tracking-tight line-clamp-1 group-hover:text-neutral-200 transition-colors">
-                  {item.title}
-                </h4>
-                
-                <p className="text-xs text-neutral-400 font-sans line-clamp-2 leading-relaxed">
-                  {item.description}
-                </p>
-
-                <div className="flex items-center justify-between pt-3 border-t border-white/5 mt-1">
-                  <span className="text-xs font-mono text-white font-bold flex items-center gap-1.5">
-                    <Flame className="w-4 h-4 fill-current text-amber-500" />
-                    {item.metrics}
-                  </span>
-                  <span className="text-[10px] font-mono text-neutral-400 group-hover:text-white transition-colors flex items-center gap-1 font-bold uppercase">
-                    <Play className="w-3 h-3 fill-current" /> Play
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Play Button Overlay on Hover */}
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-              <div className="w-14 h-14 rounded-full bg-white text-black flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-2xl">
+            {/* Centered Play Button Overlay */}
+            <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors duration-300">
+              <div className="w-14 h-14 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_20px_rgba(139,92,246,0.3)] transition-transform duration-300 group-hover:scale-110">
                 <Play className="w-5 h-5 fill-current text-black translate-x-0.5" />
               </div>
             </div>
@@ -182,6 +176,56 @@ export default function PastWork() {
   });
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const [isMutedGlobal, setIsMutedGlobal] = useState(true);
+
+  const [columnsCount, setColumnsCount] = useState(1);
+
+  // Mobile horizontal slider refs and helper
+  const shortScrollRef = useRef<HTMLDivElement>(null);
+  const longScrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollRow = (ref: React.RefObject<HTMLDivElement | null>, direction: "left" | "right") => {
+    if (ref.current) {
+      const scrollAmount = ref.current.clientWidth * 0.75;
+      ref.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth"
+      });
+    }
+  };
+
+  useEffect(() => {
+    const updateColumns = () => {
+      const width = window.innerWidth;
+      if (width >= 1536) { // 2xl
+        setColumnsCount(5);
+      } else if (width >= 1280) { // xl
+        setColumnsCount(4);
+      } else if (width >= 1024) { // lg
+        setColumnsCount(3);
+      } else if (width >= 768) { // md
+        setColumnsCount(2);
+      } else {
+        setColumnsCount(1);
+      }
+    };
+
+    updateColumns();
+    window.addEventListener("resize", updateColumns);
+    return () => window.removeEventListener("resize", updateColumns);
+  }, []);
+
+  // Filter out any soft-deleted items from the display lists
+  const displayedWorkItems = useMemo(() => {
+    return allWorkItems.filter(item => !localDeletedSet.has(item.id));
+  }, [allWorkItems, localDeletedSet]);
+
+  const columns = useMemo(() => {
+    const cols: { item: WorkItem; index: number }[][] = Array.from({ length: columnsCount }, () => []);
+    displayedWorkItems.forEach((item, index) => {
+      cols[index % columnsCount].push({ item, index });
+    });
+    return cols;
+  }, [displayedWorkItems, columnsCount]);
   
   // Owner Authentication States
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -602,11 +646,6 @@ export default function PastWork() {
     }
     setTimeout(() => setSuccessMsg(""), 6000);
   };
-
-  // Filter out any soft-deleted items from the display lists
-  const displayedWorkItems = useMemo(() => {
-    return allWorkItems.filter(item => !localDeletedSet.has(item.id));
-  }, [allWorkItems, localDeletedSet]);
 
   // Divide work items into short-form and long-form
   const shortFormItems = useMemo(() => {
@@ -1404,142 +1443,171 @@ export default function PastWork() {
           </div>
         )}
 
-        {/* FIRST CATEGORY: SHORT FORM VIDEOS */}
-        <div className="space-y-8 mb-28">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 px-2 border-b border-white/5 pb-4">
-            <div className="flex items-center gap-2.5">
-              <Film className="w-6 h-6 text-rose-500" />
-              <h3 className="text-2xl md:text-3xl font-display font-black text-white tracking-tight uppercase">
-                Short Form Videos
-              </h3>
-            </div>
-            <span className="text-xs font-mono text-neutral-400 uppercase tracking-widest">
-              OPTIMIZED FOR INSTANT VIEW RETENTION // 9:16 FEED
-            </span>
-          </div>
-          
-          {/* First Row: 4 short-form videos */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-[85rem] mx-auto">
-            {shortFormItems.slice(0, 4).map((item) => (
-              <VideoCard
-                key={item.id}
-                item={item}
-                isVertical={true}
-                isPlaying={playingVideoId === item.id}
-                onPlay={() => setPlayingVideoId(item.id)}
-                isMutedGlobal={isMutedGlobal}
-                setIsMutedGlobal={setIsMutedGlobal}
-              />
-            ))}
-          </div>
+        {/* Mobile-Optimized Swiper View (Visible on mobile/tablet screen widths < 768px) */}
+        <div className="block md:hidden space-y-12">
+          {displayedWorkItems.length > 0 ? (
+            <>
+              {/* Row 1: Short-Form Reels & Shorts (Vertical portrait layout) */}
+              {shortFormItems.length > 0 && (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between px-1">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                        <Sparkles className="w-4 h-4 text-emerald-400" />
+                      </div>
+                      <div>
+                        <h3 className="text-xs sm:text-sm font-display font-black tracking-wider text-white uppercase">
+                          Short-Form Reels
+                        </h3>
+                        <p className="text-[9px] text-neutral-400 font-sans font-light">Vertical cuts & high retention</p>
+                      </div>
+                    </div>
 
-          {/* Second Row: 3 short-form videos (or next ones) */}
-          {shortFormItems.length > 4 && (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-[65rem] mx-auto mt-10">
-              {shortFormItems.slice(4, 7).map((item) => (
-                <VideoCard
-                  key={item.id}
-                  item={item}
-                  isVertical={true}
-                  isPlaying={playingVideoId === item.id}
-                  onPlay={() => setPlayingVideoId(item.id)}
-                  isMutedGlobal={isMutedGlobal}
-                  setIsMutedGlobal={setIsMutedGlobal}
-                />
-              ))}
-            </div>
-          )}
+                    {/* Smooth Arrow Navigation buttons */}
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => scrollRow(shortScrollRef, "left")}
+                        className="w-8 h-8 rounded-full border border-white/5 bg-neutral-950/80 flex items-center justify-center text-neutral-400 hover:text-white hover:border-white/10 active:scale-95 transition-all cursor-pointer"
+                        title="Scroll Left"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => scrollRow(shortScrollRef, "right")}
+                        className="w-8 h-8 rounded-full border border-white/5 bg-neutral-950/80 flex items-center justify-center text-neutral-400 hover:text-white hover:border-white/10 active:scale-95 transition-all cursor-pointer"
+                        title="Scroll Right"
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
 
-          {/* Any remaining short-form videos if they add more via dashboard */}
-          {shortFormItems.length > 7 && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-[85rem] mx-auto mt-10">
-              {shortFormItems.slice(7).map((item) => (
-                <VideoCard
-                  key={item.id}
-                  item={item}
-                  isVertical={true}
-                  isPlaying={playingVideoId === item.id}
-                  onPlay={() => setPlayingVideoId(item.id)}
-                  isMutedGlobal={isMutedGlobal}
-                  setIsMutedGlobal={setIsMutedGlobal}
-                />
-              ))}
-            </div>
-          )}
+                  {/* Horizontal Scroll Track */}
+                  <div
+                    ref={shortScrollRef}
+                    className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 px-1 scroll-smooth"
+                  >
+                    {shortFormItems.map((item) => (
+                      <div
+                        key={item.id}
+                        className="w-[200px] shrink-0 snap-center"
+                      >
+                        <VideoCard
+                          item={item}
+                          cardType="tall"
+                          isPlaying={playingVideoId === item.id}
+                          onPlay={() => setPlayingVideoId(item.id)}
+                          isMutedGlobal={isMutedGlobal}
+                          setIsMutedGlobal={setIsMutedGlobal}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="text-center">
+                    <span className="text-[9px] font-mono text-neutral-500 uppercase tracking-widest">
+                      ← Swipe horizontally to explore ({shortFormItems.length} videos) →
+                    </span>
+                  </div>
+                </div>
+              )}
 
-          {shortFormItems.length === 0 && (
-            <div className="text-center py-12 text-neutral-500 font-mono text-sm border border-dashed border-white/5 rounded-2xl bg-neutral-950/20">
-              No short form videos found in database. Add one above!
+              {/* Row 2: Long-Form & Commercial YouTube Campaigns (Landscape wide layout) */}
+              {longFormItems.length > 0 && (
+                <div className="space-y-4 pt-8 border-t border-white/5">
+                  <div className="flex items-center justify-between px-1">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                        <Video className="w-4 h-4 text-purple-400" />
+                      </div>
+                      <div>
+                        <h3 className="text-xs sm:text-sm font-display font-black tracking-wider text-white uppercase">
+                          YouTube & Long-Form
+                        </h3>
+                        <p className="text-[9px] text-neutral-400 font-sans font-light">Cinematics & brand integrations</p>
+                      </div>
+                    </div>
+
+                    {/* Smooth Arrow Navigation buttons */}
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => scrollRow(longScrollRef, "left")}
+                        className="w-8 h-8 rounded-full border border-white/5 bg-neutral-950/80 flex items-center justify-center text-neutral-400 hover:text-white hover:border-white/10 active:scale-95 transition-all cursor-pointer"
+                        title="Scroll Left"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => scrollRow(longScrollRef, "right")}
+                        className="w-8 h-8 rounded-full border border-white/5 bg-neutral-950/80 flex items-center justify-center text-neutral-400 hover:text-white hover:border-white/10 active:scale-95 transition-all cursor-pointer"
+                        title="Scroll Right"
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Horizontal Scroll Track */}
+                  <div
+                    ref={longScrollRef}
+                    className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 px-1 scroll-smooth"
+                  >
+                    {longFormItems.map((item) => (
+                      <div
+                        key={item.id}
+                        className="w-[280px] shrink-0 snap-center"
+                      >
+                        <VideoCard
+                          item={item}
+                          cardType="wide"
+                          isPlaying={playingVideoId === item.id}
+                          onPlay={() => setPlayingVideoId(item.id)}
+                          isMutedGlobal={isMutedGlobal}
+                          setIsMutedGlobal={setIsMutedGlobal}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="text-center">
+                    <span className="text-[9px] font-mono text-neutral-500 uppercase tracking-widest">
+                      ← Swipe horizontally to explore ({longFormItems.length} videos) →
+                    </span>
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="text-center py-12 text-neutral-500 font-mono text-xs border border-dashed border-white/5 rounded-2xl bg-neutral-950/20 max-w-xl mx-auto">
+              No video portfolio items found.
             </div>
           )}
         </div>
 
-        {/* SECOND CATEGORY: LONG FORM VIDEOS */}
-        <div className="space-y-12">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-4 px-2 border-b border-white/5 pb-4">
-            <div className="flex items-center gap-2.5">
-              <Video className="w-6 h-6 text-indigo-500" />
-              <h3 className="text-2xl md:text-3xl font-display font-black text-white tracking-tight uppercase">
-                Long Form Videos
-              </h3>
-            </div>
-            <span className="text-xs font-mono text-neutral-400 uppercase tracking-widest">
-              OPTIMIZED FOR YOUTUBE SYSTEM ALGORITHMS // 16:9 SCREEN
-            </span>
-          </div>
-
-          {/* First Row: 3 long-form videos */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-[85rem] mx-auto">
-            {longFormItems.slice(0, 3).map((item) => (
-              <VideoCard
-                key={item.id}
-                item={item}
-                isVertical={false}
-                isPlaying={playingVideoId === item.id}
-                onPlay={() => setPlayingVideoId(item.id)}
-                isMutedGlobal={isMutedGlobal}
-                setIsMutedGlobal={setIsMutedGlobal}
-              />
-            ))}
-          </div>
-
-          {/* Next Line: 6 long-form videos (or next ones) */}
-          {longFormItems.length > 3 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-[85rem] mx-auto mt-10">
-              {longFormItems.slice(3, 9).map((item) => (
-                <VideoCard
-                  key={item.id}
-                  item={item}
-                  isVertical={false}
-                  isPlaying={playingVideoId === item.id}
-                  onPlay={() => setPlayingVideoId(item.id)}
-                  isMutedGlobal={isMutedGlobal}
-                  setIsMutedGlobal={setIsMutedGlobal}
-                />
+        {/* Desktop & Tablet Collage / Masonry Portfolio Grid (Hidden on mobile < 768px) */}
+        <div className="hidden md:block space-y-8">
+          {displayedWorkItems.length > 0 ? (
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-6 max-w-[105rem] mx-auto">
+              {columns.map((columnItems, colIdx) => (
+                <div key={colIdx} className="flex flex-col gap-4 sm:gap-6">
+                  {columnItems.map(({ item, index }) => {
+                    const cardType = getCardType(item, index);
+                    return (
+                      <VideoCard
+                        key={item.id}
+                        item={item}
+                        cardType={cardType}
+                        isPlaying={playingVideoId === item.id}
+                        onPlay={() => setPlayingVideoId(item.id)}
+                        isMutedGlobal={isMutedGlobal}
+                        setIsMutedGlobal={setIsMutedGlobal}
+                      />
+                    );
+                  })}
+                </div>
               ))}
             </div>
-          )}
-
-          {/* Any remaining long-form videos if they add more via dashboard */}
-          {longFormItems.length > 9 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 xl:gap-12 max-w-[85rem] mx-auto mt-10">
-              {longFormItems.slice(9).map((item) => (
-                <VideoCard
-                  key={item.id}
-                  item={item}
-                  isVertical={false}
-                  isPlaying={playingVideoId === item.id}
-                  onPlay={() => setPlayingVideoId(item.id)}
-                  isMutedGlobal={isMutedGlobal}
-                  setIsMutedGlobal={setIsMutedGlobal}
-                />
-              ))}
-            </div>
-          )}
-
-          {longFormItems.length === 0 && (
-            <div className="text-center py-12 text-neutral-500 font-mono text-sm border border-dashed border-white/5 rounded-2xl bg-neutral-950/20">
-              No long form videos found in database. Add one above!
+          ) : (
+            <div className="text-center py-20 text-neutral-500 font-mono text-sm border border-dashed border-white/5 rounded-2xl bg-neutral-950/20 max-w-4xl mx-auto">
+              No video portfolio items found in the database. Add one above!
             </div>
           )}
         </div>

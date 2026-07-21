@@ -1,14 +1,14 @@
 import { motion } from "motion/react";
 import { Sparkles } from "lucide-react";
 
-import inoxtagImg from "../assets/images/inoxtag_avatar_1784030562139.jpg";
-import lethamyrImg from "../assets/images/lethamyr_avatar_1784030576156.jpg";
-import ofekImg from "../assets/images/ofek_avatar_1784030588469.jpg";
-import saifShawafImg from "../assets/images/saif_shawaf_avatar_1784030602678.jpg";
-import tellyImg from "../assets/images/telly_avatar_1784030613579.jpg";
-import paulImg from "../assets/images/paul_avatar_1784030624735.jpg";
-import nathanImg from "../assets/images/nathan_avatar_1784030637356.jpg";
-import timmyImg from "../assets/images/timmy_avatar_1784030647981.jpg";
+import inoxtagImg from "../assets/images/INOXTAG.jpg";
+import lethamyrImg from "../assets/images/LETHAMYR.jpg";
+import ofekImg from "../assets/images/OFEK.jpg";
+import saifShawafImg from "../assets/images/SAIFSHAW.jpg";
+import tellyImg from "../assets/images/TELLY.jpg";
+import paulImg from "../assets/images/PAUL.jpg";
+import nathanImg from "../assets/images/nathan.jpg";
+import timmyImg from "../assets/images/TIMMY.jpg";
 
 interface Client {
   id: string;
@@ -100,17 +100,6 @@ export default function WhoWeWorkedWith() {
           <Sparkles className="w-4 h-4 text-emerald-500 group-hover:animate-pulse" />
           Plus many more elite partners... Join them now
         </motion.a>
-      </div>
-
-      {/* Rolling banner ticker of keywords under logo wall */}
-      <div className="max-w-6xl mx-auto px-6 text-center mt-16 sm:mt-24 relative z-10">
-        <div className="flex justify-center flex-wrap gap-x-6 sm:gap-x-12 gap-y-4 text-[9px] sm:text-xs md:text-sm font-mono text-neutral-400 tracking-[0.15em] uppercase font-bold">
-          <span className="flex items-center gap-1.5 sm:gap-2"><Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500" /> organic growth systems</span>
-          <span>•</span>
-          <span className="flex items-center gap-1.5 sm:gap-2"><Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500" /> customer acquisition optimization</span>
-          <span>•</span>
-          <span className="flex items-center gap-1.5 sm:gap-2"><Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500" /> premium brand authority anchoring</span>
-        </div>
       </div>
     </section>
   );

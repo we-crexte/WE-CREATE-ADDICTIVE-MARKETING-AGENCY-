@@ -1,12 +1,21 @@
 // types.ts for Addictive Marketing Agency Website
 
-import aeNotificationMockup from "./assets/images/ae_notification_mockup_1780316409386.png";
-import buriedVideosMockup from "./assets/images/buried_videos_mockup_1780316859908.png";
-import iosConceptMockup from "./assets/images/ios_concept_mockup_1780317348378.png";
-import shopifyScaleMockup from "./assets/images/shopify_scale_mockup_1780317375611.png";
-import agencySystemMockup from "./assets/images/agency_system_mockup_1780317406987.png";
-import ishowspeedJourneyMockup from "./assets/images/ishowspeed_journey_mockup_1780317433540.png";
-import luxuryAgencyWorkspace from "./assets/images/luxury_agency_workspace_1780311831201.png";
+import aeNotificationMockup from "./assets/images/after_effects_thumb.jpg";
+import buriedVideosMockup from "./assets/images/buried_thumb.jpg";
+import iosConceptMockup from "./assets/images/ios_video_thumb.jpg";
+import shopifyScaleMockup from "./assets/images/prosper_thumb.jpg";
+import agencySystemMockup from "./assets/images/agency_blueprint_thumb.jpg";
+import ishowspeedJourneyMockup from "./assets/images/ishowspeed_thumb.jpg";
+
+import ytLcmThumb from "./assets/images/yt_LCMDoXDFlcE_max.jpg";
+import ytUzulThumb from "./assets/images/yt_UzULROh6Q9w_max.jpg";
+import ytUcrpThumb from "./assets/images/yt_UcRpReM5kaI_max.jpg";
+import ytW1hwThumb from "./assets/images/yt_W1HW8nDduQM_max.jpg";
+import ytJtvuThumb from "./assets/images/yt_JtvUQB0ThAA_max.jpg";
+import ytTpmfThumb from "./assets/images/yt_tPMf7wX2IKQ_max.jpg";
+import ytJh6jThumb from "./assets/images/yt_jH6JHr0QHgg_max.jpg";
+import ytXqkaThumb from "./assets/images/yt_xqkas8YGtN8_max.jpg";
+import yt04vvThumb from "./assets/images/yt_04vvERVKV6g_max.jpg";
 
 export interface CaseStudy {
   id: string;
@@ -184,19 +193,10 @@ export const WORK_ITEMS: WorkItem[] = [
     metrics: "+3.2M Fan Retention Velocity"
   },
   {
-    id: "w-0-7",
-    title: "Client Testimonial — Creative Production Speed",
-    category: "shorts",
-    thumbnail: luxuryAgencyWorkspace,
-    videoUrl: `${import.meta.env.BASE_URL}CLient testimonial.MP4`,
-    description: "An authentic, elite-tier direct creator client testimonial praising the high-velocity execution, supreme design polish, and overall performance lift.",
-    metrics: "+411% Production Output Speed"
-  },
-  {
     id: "proj-1780650798356",
     title: "🔥 This Changes Everything! | Must Watch 😱",
     category: "youtube",
-    thumbnail: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+    thumbnail: ytLcmThumb,
     videoUrl: "https://youtu.be/LCMDoXDFlcE",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -205,7 +205,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780650909221",
     title: "Sam edits intro",
     category: "youtube",
-    thumbnail: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=800&q=80",
+    thumbnail: ytUzulThumb,
     videoUrl: "https://youtu.be/UzULROh6Q9w",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -214,7 +214,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780650993615",
     title: "Intro",
     category: "youtube",
-    thumbnail: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80",
+    thumbnail: ytUcrpThumb,
     videoUrl: "https://youtu.be/UcRpReM5kaI",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -223,7 +223,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780651080177",
     title: "Apple style intro | the guy behind edits",
     category: "youtube",
-    thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+    thumbnail: ytW1hwThumb,
     videoUrl: "https://youtu.be/W1HW8nDduQM",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -232,7 +232,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780651199683",
     title: "Ambitious person",
     category: "youtube",
-    thumbnail: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+    thumbnail: ytJtvuThumb,
     videoUrl: "https://youtu.be/JtvUQB0ThAA",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -241,7 +241,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780651258316",
     title: "Commercial company trailer",
     category: "youtube",
-    thumbnail: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80",
+    thumbnail: ytTpmfThumb,
     videoUrl: "https://youtu.be/tPMf7wX2IKQ",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -250,7 +250,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780651322188",
     title: "Motivational",
     category: "youtube",
-    thumbnail: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80",
+    thumbnail: ytJh6jThumb,
     videoUrl: "https://youtu.be/jH6JHr0QHgg",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -259,7 +259,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780651388228",
     title: "Proper long video",
     category: "youtube",
-    thumbnail: "https://images.unsplash.com/photo-1626544827763-d516dce335e2?auto=format&fit=crop&w=800&q=80",
+    thumbnail: ytXqkaThumb,
     videoUrl: "https://youtu.be/xqkas8YGtN8",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -268,7 +268,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780651443616",
     title: "Long video",
     category: "youtube",
-    thumbnail: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=800&q=80",
+    thumbnail: yt04vvThumb,
     videoUrl: "https://youtu.be/04vvERVKV6g",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"

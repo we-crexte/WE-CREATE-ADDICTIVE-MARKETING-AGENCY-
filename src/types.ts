@@ -1,21 +1,11 @@
 // types.ts for Addictive Marketing Agency Website
 
-import aeNotificationMockup from "./assets/images/after_effects_thumb.jpg";
-import buriedVideosMockup from "./assets/images/buried_thumb.jpg";
-import iosConceptMockup from "./assets/images/ios_video_thumb.jpg";
-import shopifyScaleMockup from "./assets/images/prosper_thumb.jpg";
-import agencySystemMockup from "./assets/images/agency_blueprint_thumb.jpg";
-import ishowspeedJourneyMockup from "./assets/images/ishowspeed_thumb.jpg";
-
-import ytLcmThumb from "./assets/images/yt_LCMDoXDFlcE_max.jpg";
-import ytUzulThumb from "./assets/images/yt_UzULROh6Q9w_max.jpg";
-import ytUcrpThumb from "./assets/images/yt_UcRpReM5kaI_max.jpg";
-import ytW1hwThumb from "./assets/images/yt_W1HW8nDduQM_max.jpg";
-import ytJtvuThumb from "./assets/images/yt_JtvUQB0ThAA_max.jpg";
-import ytTpmfThumb from "./assets/images/yt_tPMf7wX2IKQ_max.jpg";
-import ytJh6jThumb from "./assets/images/yt_jH6JHr0QHgg_max.jpg";
-import ytXqkaThumb from "./assets/images/yt_xqkas8YGtN8_max.jpg";
-import yt04vvThumb from "./assets/images/yt_04vvERVKV6g_max.jpg";
+import aeNotificationMockup from "./assets/images/ae_notification_mockup_new_1784642279876.jpg";
+import buriedVideosMockup from "./assets/images/buried_videos_mockup_1780316859908.png";
+import iosConceptMockup from "./assets/images/ios_concept_mockup_1780317348378.png";
+import shopifyScaleMockup from "./assets/images/shopify_scale_mockup_1780317375611.png";
+import agencySystemMockup from "./assets/images/agency_system_mockup_1780317406987.png";
+import ishowspeedJourneyMockup from "./assets/images/ishowspeed_journey_mockup_1780317433540.png";
 
 export interface CaseStudy {
   id: string;
@@ -196,7 +186,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780650798356",
     title: "🔥 This Changes Everything! | Must Watch 😱",
     category: "youtube",
-    thumbnail: ytLcmThumb,
+    thumbnail: "https://img.youtube.com/vi/LCMDoXDFlcE/hqdefault.jpg",
     videoUrl: "https://youtu.be/LCMDoXDFlcE",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -205,7 +195,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780650909221",
     title: "Sam edits intro",
     category: "youtube",
-    thumbnail: ytUzulThumb,
+    thumbnail: "https://img.youtube.com/vi/UzULROh6Q9w/hqdefault.jpg",
     videoUrl: "https://youtu.be/UzULROh6Q9w",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -214,7 +204,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780650993615",
     title: "Intro",
     category: "youtube",
-    thumbnail: ytUcrpThumb,
+    thumbnail: "https://img.youtube.com/vi/UcRpReM5kaI/hqdefault.jpg",
     videoUrl: "https://youtu.be/UcRpReM5kaI",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -223,7 +213,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780651080177",
     title: "Apple style intro | the guy behind edits",
     category: "youtube",
-    thumbnail: ytW1hwThumb,
+    thumbnail: "https://img.youtube.com/vi/W1HW8nDduQM/hqdefault.jpg",
     videoUrl: "https://youtu.be/W1HW8nDduQM",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -232,7 +222,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780651199683",
     title: "Ambitious person",
     category: "youtube",
-    thumbnail: ytJtvuThumb,
+    thumbnail: "https://img.youtube.com/vi/JtvUQB0ThAA/hqdefault.jpg",
     videoUrl: "https://youtu.be/JtvUQB0ThAA",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -241,7 +231,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780651258316",
     title: "Commercial company trailer",
     category: "youtube",
-    thumbnail: ytTpmfThumb,
+    thumbnail: "https://img.youtube.com/vi/tPMf7wX2IKQ/hqdefault.jpg",
     videoUrl: "https://youtu.be/tPMf7wX2IKQ",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -250,7 +240,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780651322188",
     title: "Motivational",
     category: "youtube",
-    thumbnail: ytJh6jThumb,
+    thumbnail: "https://img.youtube.com/vi/jH6JHr0QHgg/hqdefault.jpg",
     videoUrl: "https://youtu.be/jH6JHr0QHgg",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -259,7 +249,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780651388228",
     title: "Proper long video",
     category: "youtube",
-    thumbnail: ytXqkaThumb,
+    thumbnail: "https://img.youtube.com/vi/xqkas8YGtN8/hqdefault.jpg",
     videoUrl: "https://youtu.be/xqkas8YGtN8",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"
@@ -268,7 +258,7 @@ export const WORK_ITEMS: WorkItem[] = [
     id: "proj-1780651443616",
     title: "Long video",
     category: "youtube",
-    thumbnail: yt04vvThumb,
+    thumbnail: "https://img.youtube.com/vi/04vvERVKV6g/hqdefault.jpg",
     videoUrl: "https://youtu.be/04vvERVKV6g",
     description: "Dynamic high-converting creative project launched on premium digital systems.",
     metrics: "100% Attended Engagement"

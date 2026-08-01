@@ -22,7 +22,7 @@ export const auth = getAuth(app);
 let sandboxDbInstance: any = null;
 try {
   const sandboxApp = initializeApp(sandboxConfig, "sandboxApp");
-  sandboxDbInstance = getFirestore(sandboxApp, sandboxConfig.firestoreDatabaseId || undefined);
+  sandboxDbInstance = getFirestore(sandboxApp, (sandboxConfig as any).firestoreDatabaseId || undefined);
 } catch (err) {
   console.warn("Could not load playground Firestore backup engine:", err);
 }

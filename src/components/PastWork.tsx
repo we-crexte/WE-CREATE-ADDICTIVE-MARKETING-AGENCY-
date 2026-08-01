@@ -46,6 +46,23 @@ const VideoCard: React.FC<VideoCardProps> = ({
   cardType,
   onPlay
 }) => {
+  const [imgSrc, setImgSrc] = useState<string>(item.thumbnail);
+
+  useEffect(() => {
+    setImgSrc(item.thumbnail);
+  }, [item.thumbnail]);
+
+  const handleImgError = () => {
+    const ytId = getYouTubeId(item.videoUrl);
+    if (ytId) {
+      if (!imgSrc.includes("hqdefault.jpg") && !imgSrc.includes("mqdefault.jpg")) {
+        setImgSrc(`https://img.youtube.com/vi/${ytId}/hqdefault.jpg`);
+      } else if (!imgSrc.includes("mqdefault.jpg")) {
+        setImgSrc(`https://img.youtube.com/vi/${ytId}/mqdefault.jpg`);
+      }
+    }
+  };
+
   const themeClasses = "border-2 border-purple-500/50 shadow-[0_0_20px_rgba(168,85,247,0.2)] hover:border-purple-400 hover:shadow-[0_0_35px_rgba(168,85,247,0.45)]";
 
   const aspectClasses = {
@@ -66,8 +83,9 @@ const VideoCard: React.FC<VideoCardProps> = ({
     >
       {/* Thumbnail */}
       <img
-        src={item.thumbnail}
+        src={imgSrc}
         alt={item.title}
+        onError={handleImgError}
         className="w-full h-full object-cover filter brightness-[0.8] group-hover:brightness-[0.6] group-hover:scale-[1.02] transition-all duration-700 pointer-events-none"
         referrerPolicy="no-referrer"
       />

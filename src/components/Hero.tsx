@@ -88,11 +88,13 @@ export default function Hero() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-[5.2vw] xs:text-[5vw] sm:text-[4.5vw] md:text-[2.8rem] lg:text-[3.5rem] xl:text-[4rem] font-display md:font-sans font-black md:font-extrabold tracking-tight md:tracking-[-0.03em] leading-[1.15] md:leading-[1.1] text-white max-w-6xl mx-auto"
+          className="text-[3.8vw] xs:text-[3.6vw] sm:text-[3.3vw] md:text-[2.3rem] lg:text-[2.9rem] xl:text-[3.4rem] font-display md:font-sans font-black md:font-extrabold tracking-tight md:tracking-[-0.03em] leading-[1.2] md:leading-[1.15] text-white max-w-7xl mx-auto flex flex-col items-center space-y-1 sm:space-y-0"
         >
-          We Build you a Done-For-You YouTube <br />
-          Client Acquisition System That Brings You <br />
-          <span className="bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold bg-clip-text text-transparent font-extrabold">5+ High-Ticket Clients in 90 Days</span>
+          <span className="block whitespace-nowrap">We Build you a Done-For-You YouTube</span>
+          <span className="block whitespace-nowrap">Client Acquisition System That Brings You</span>
+          <span className="block whitespace-nowrap bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold bg-clip-text text-transparent font-extrabold">
+            5+ High-Ticket Clients in 90 Days
+          </span>
         </motion.h1>
 
         {/* Video Player Section with premium styling */}

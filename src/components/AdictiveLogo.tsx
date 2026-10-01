@@ -55,21 +55,21 @@ export default function AdictiveLogo({
       {/* Brand Text Stack */}
       <div className="flex flex-col text-left justify-center">
         <span className={`font-display font-black leading-none tracking-wider text-purple-500 ${textSize} uppercase`}>
-          ADDICTIVE
+          ADICTIVE
         </span>
         <span className={`${isNavbarSmall ? "text-[7.5px] tracking-[0.22em] -mt-0.5" : "text-[9px] tracking-[0.32em] -mt-0.5"} uppercase font-mono text-white font-bold leading-none`}>
           MARKETING
         </span>
       </div>
 
-      {/* Optional Brand Slogan (Strategic Thinking | Viral Content | Addictive Growth) */}
+      {/* Optional Brand Slogan (Strategic Thinking | Viral Content | Adictive Growth) */}
       {showSlogan && (
         <div className="hidden lg:flex items-center gap-2 ml-4 pl-4 border-l border-white/10 text-[9px] font-mono tracking-widest uppercase">
           <span className="text-neutral-400">Strategic Thinking</span>
           <span className="text-purple-500/55">|</span>
           <span className="text-neutral-400">Viral Content</span>
           <span className="text-purple-500/55">|</span>
-          <span className="text-purple-400 font-bold">Addictive Growth</span>
+          <span className="text-purple-400 font-bold">Adictive Growth</span>
         </div>
       )}
     </div>

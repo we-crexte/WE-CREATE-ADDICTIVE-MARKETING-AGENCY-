@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { PhoneCall, Sparkles, ArrowRight, Flame } from "lucide-react";
+import { MessageCircle, ArrowRight, Flame } from "lucide-react";
 
 export default function CtaSection() {
   return (
@@ -44,7 +44,7 @@ export default function CtaSection() {
           transition={{ duration: 0.8, delay: 0.15 }}
           className="text-neutral-400 text-sm sm:text-base md:text-lg font-light font-sans max-w-2xl mx-auto leading-relaxed mb-10"
         >
-          Stop wasting budget on uninspired strategies. Partner with Addictive Marketing to deploy proven content systems built exclusively to capture attention and scale your brand.
+          Stop wasting budget on uninspired strategies. Partner with Adictive Marketing to deploy proven content systems built exclusively to capture attention and scale your brand.
         </motion.p>
 
         {/* Call to action group */}
@@ -60,8 +60,8 @@ export default function CtaSection() {
             href="#contact"
             className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold text-white font-mono font-bold text-xs uppercase tracking-widest rounded-full transition-transform hover:scale-105 active:scale-95 duration-300 flex items-center justify-center gap-2.5 shadow-[0_0_30px_rgba(139,92,246,0.3)] border border-white/10"
           >
-            <PhoneCall className="w-4 h-4 text-white" />
-            <span>Book A Free Strategy Call</span>
+            <MessageCircle className="w-4 h-4 text-white" />
+            <span>Chat on WhatsApp</span>
           </a>
           
           {/* Secondary Watch Masterclass button */}

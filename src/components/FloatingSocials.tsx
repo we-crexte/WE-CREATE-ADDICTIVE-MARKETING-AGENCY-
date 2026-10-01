@@ -1,5 +1,8 @@
 import { Instagram, MessageCircle, Twitter } from "lucide-react";
 
+// WhatsApp business number (configurable via VITE_WHATSAPP_NUMBER in .env)
+const WHATSAPP_CONTACT = import.meta.env.VITE_WHATSAPP_NUMBER || "916392591533";
+
 export default function FloatingSocials() {
   const socialLinks = [
     {
@@ -12,11 +15,11 @@ export default function FloatingSocials() {
     },
     {
       name: "WhatsApp",
-      url: "https://wa.me/+916392591533",
+      url: WHATSAPP_CONTACT ? `https://wa.me/${WHATSAPP_CONTACT}` : "#contact",
       icon: MessageCircle,
       color: "from-emerald-500 to-teal-600",
       glowColor: "rgba(16,185,129,0.4)",
-      label: "+91 63925 91533"
+      label: WHATSAPP_CONTACT ? "Direct Chat" : "Book Call"
     },
     {
       name: "X (Twitter)",
@@ -32,12 +35,13 @@ export default function FloatingSocials() {
     <div id="floating-socials" className="fixed right-4 md:right-6 bottom-6 md:bottom-auto md:top-1/2 md:-translate-y-1/2 z-50 flex flex-col gap-3.5">
       {socialLinks.map((social) => {
         const IconComponent = social.icon;
+        const isExternal = social.url.startsWith("http");
         return (
           <a
             key={social.name}
             href={social.url}
-            target="_blank"
-            rel="noreferrer"
+            target={isExternal ? "_blank" : undefined}
+            rel={isExternal ? "noopener noreferrer" : undefined}
             className="group relative flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-black/60 backdrop-blur-xl border border-white/10 text-neutral-400 hover:text-white transition-all duration-500 hover:scale-110"
             style={{
               boxShadow: "0 8px 32px rgba(0,0,0,0.5)"

@@ -1,4 +1,4 @@
-// types.ts for Addictive Marketing Agency Website
+// types.ts for Adictive Marketing Agency Website
 
 import aeNotificationMockup from "./assets/images/ae_notification_mockup_new_1784642279876.jpg";
 import buriedVideosMockup from "./assets/images/buried_videos_mockup_1780316859908.png";

@@ -1,8 +1,10 @@
 import React, { useState, useRef } from "react";
 import { motion } from "motion/react";
 import { Play, Pause, Volume2, VolumeX, Maximize, Flame, ChevronRight } from "lucide-react";
+import { VSL_VIDEO_URL, getGoogleDriveEmbedUrl } from "./Vsl";
 
 export default function Hero() {
+  const driveEmbedUrl = getGoogleDriveEmbedUrl(VSL_VIDEO_URL);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -105,13 +107,23 @@ export default function Hero() {
           className="w-full max-w-5xl md:max-w-[780px] lg:max-w-[830px] xl:max-w-[850px] mt-12 sm:mt-16 md:mt-8 lg:mt-9 rounded-2xl p-0.5 bg-gradient-to-r from-purple-500/60 to-purple-500/20 border border-purple-500/50 shadow-[0_0_35px_rgba(168,85,247,0.45),0_50px_100px_rgba(0,0,0,0.8)] relative group overflow-hidden"
         >
           <div
-            onClick={togglePlay}
+            onClick={driveEmbedUrl ? undefined : togglePlay}
             className="relative rounded-2xl overflow-hidden aspect-video bg-black flex flex-col justify-between cursor-pointer"
           >
-            {/* HTML5 Video */}
-            <video
-              ref={videoRef}
-              src={`${import.meta.env.BASE_URL}VSL.mp4`}
+            {driveEmbedUrl ? (
+              <iframe
+                src={driveEmbedUrl}
+                className="absolute inset-0 w-full h-full border-0 rounded-2xl z-20"
+                allow="autoplay; fullscreen"
+                allowFullScreen
+                title="VSL Video Player"
+              />
+            ) : (
+              <>
+                {/* HTML5 Video */}
+                <video
+                  ref={videoRef}
+                  src={VSL_VIDEO_URL}
               loop
               muted={isMuted}
               playsInline
@@ -191,11 +203,13 @@ export default function Hero() {
                     <span className="font-mono text-[10px] uppercase tracking-wider">{isPlaying ? "Pause" : "Play"}</span>
                   </button>
                   <span className="text-[10px] sm:text-xs text-neutral-400 font-sans truncate max-w-[200px] sm:max-w-xs md:max-w-none">
-                    Addictive Content Blueprint Breakdown (HD)
+                    Adictive Content Blueprint Breakdown (HD)
                   </span>
                 </div>
               </div>
             </div>
+              </>
+            )}
           </div>
         </motion.div>
 

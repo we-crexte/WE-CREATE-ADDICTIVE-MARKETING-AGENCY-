@@ -2,7 +2,25 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Play, Pause, RefreshCw, Volume2, VolumeX, Sparkles, Trophy, Maximize } from "lucide-react";
 
+// ============================================================================
+// 🎬 PASTE YOUR VSL VIDEO LINK HERE:
+// You can paste:
+// 1. A Google Drive link (e.g., https://drive.google.com/file/d/YOUR_FILE_ID/view?usp=sharing)
+// 2. A direct video file URL or path (e.g., "/VSL.mp4")
+// ============================================================================
+export const VSL_VIDEO_URL = "https://drive.google.com/file/d/1wscElYjz4kFOPOFDPLmw_biHe1YfV3YY/view?usp=sharing";
+
+export function getGoogleDriveEmbedUrl(url: string): string | null {
+  if (!url) return null;
+  const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (match && match[1]) {
+    return `https://drive.google.com/file/d/${match[1]}/preview`;
+  }
+  return null;
+}
+
 export default function Vsl() {
+  const driveEmbedUrl = getGoogleDriveEmbedUrl(VSL_VIDEO_URL);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [progress, setProgress] = useState(0);
@@ -128,13 +146,23 @@ export default function Vsl() {
           className="max-w-6xl mx-auto rounded-2xl p-0.5 bg-gradient-to-r from-purple-500/60 to-purple-500/20 border border-purple-500/50 shadow-[0_0_35px_rgba(168,85,247,0.45),0_50px_100px_rgba(0,0,0,0.8)] relative group overflow-hidden"
         >
           <div 
-            onClick={togglePlay}
+            onClick={driveEmbedUrl ? undefined : togglePlay}
             className="relative rounded-2xl overflow-hidden aspect-[4/3] xs:aspect-video bg-black flex flex-col justify-between cursor-pointer"
           >
-            {/* Real HTML5 Video Component loaded immediately to prevent custom image delays */}
-            <video
-              ref={videoRef}
-              src={`${import.meta.env.BASE_URL}VSL.mp4`}
+            {driveEmbedUrl ? (
+              <iframe
+                src={driveEmbedUrl}
+                className="absolute inset-0 w-full h-full border-0 rounded-2xl z-20"
+                allow="autoplay; fullscreen"
+                allowFullScreen
+                title="VSL Video Player"
+              />
+            ) : (
+              <>
+                {/* Real HTML5 Video Component loaded immediately to prevent custom image delays */}
+                <video
+                  ref={videoRef}
+                  src={VSL_VIDEO_URL}
               loop
               muted={isMuted}
               playsInline
@@ -206,7 +234,7 @@ export default function Vsl() {
                   </button>
                   
                   <span className="text-[10px] sm:text-xs text-neutral-400 font-sans truncate max-w-[140px] sm:max-w-xs md:max-w-none">
-                    Addictive Content Blueprint Breakdown (HD)
+                    Adictive Content Blueprint Breakdown (HD)
                   </span>
                 </div>
 
@@ -216,6 +244,8 @@ export default function Vsl() {
                 </div>
               </div>
             </div>
+              </>
+            )}
 
           </div>
         </motion.div>

@@ -38,7 +38,7 @@ export default function About() {
               <div className="aspect-[3/4] relative rounded-none overflow-hidden border border-neutral-900">
                 <img
                   src="/FOUNDER.png"
-                  alt="Addictive Marketing Founder"
+                  alt="Adictive Marketing Founder"
                   className="w-full h-full object-cover filter brightness-95 grayscale hover:grayscale-0 transition-all duration-700"
                   referrerPolicy="no-referrer"
                 />
@@ -87,7 +87,7 @@ export default function About() {
             <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-extrabold tracking-tight text-white leading-tight">
               The Team Behind <br />
               <span className="text-white">
-                Addictive Marketing
+                Adictive Marketing
               </span>
             </h2>
 
@@ -121,7 +121,7 @@ export default function About() {
                   className="space-y-4"
                 >
                   <p className="text-neutral-300 text-sm md:text-base leading-relaxed font-light">
-                    I started Addictive Marketing because I saw too many businesses struggling to find a content strategy that actually works. Most traditional agencies focus on vanity metrics like follower counts or charge high retainers for generic posts that don't drive real business growth.
+                    I started Adictive Marketing because I saw too many businesses struggling to find a content strategy that actually works. Most traditional agencies focus on vanity metrics like follower counts or charge high retainers for generic posts that don't drive real business growth.
                   </p>
                   <p className="text-neutral-300 text-sm md:text-base leading-relaxed font-light">
                     We believe great content must be backed by a clear strategy and consistent execution. That's why we focus on creating meaningful content that keeps people engaged and builds long-term trust, turning viewers into loyal clients and customers.

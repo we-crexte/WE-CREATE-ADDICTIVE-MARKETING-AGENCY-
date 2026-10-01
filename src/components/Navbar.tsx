@@ -1,14 +1,11 @@
 import { useState, useEffect, MouseEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowRight, Menu, X, MessageSquare, PhoneCall } from "lucide-react";
+import { ArrowRight, Menu, X, MessageSquare } from "lucide-react";
 import AdictiveLogo from "./AdictiveLogo";
-import { auth } from "../firebase";
-import { onAuthStateChanged, User } from "firebase/auth";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,13 +15,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-    });
-    return () => unsub();
-  }, []);
-
   const menuItems = [
     { label: "Testimonials", href: "#testimonials" },
     { label: "Case Studies", href: "#case-studies" },
@@ -32,9 +22,7 @@ export default function Navbar() {
     { label: "FAQ", href: "#faq" },
   ];
 
-  const handleMobileNav = (e: MouseEvent<HTMLAnchorElement>, href: string, isExternal = false) => {
-    // Let standard HTML anchor link navigation work naturally.
-    // Simply close the mobile menu immediately to allow seamless scroll orchestration.
+  const handleMobileNav = () => {
     setMobileMenuOpen(false);
   };
 
@@ -72,29 +60,6 @@ export default function Navbar() {
 
           {/* CTAs */}
           <div className="hidden md:flex items-center gap-4">
-            {currentUser && (
-              <a
-                href="#portfolio"
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-neutral-800 hover:bg-white/[0.08] hover:border-neutral-700 transition-all cursor-pointer group"
-                title={`${currentUser.displayName || currentUser.email} is Active`}
-              >
-                {currentUser.photoURL ? (
-                  <img
-                    src={currentUser.photoURL}
-                    alt="User profile"
-                    className="w-6 h-6 rounded-full border border-neutral-800 object-cover shrink-0 select-none group-hover:scale-105 transition-transform"
-                    referrerPolicy="no-referrer"
-                  />
-                ) : (
-                  <div className="w-6 h-6 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-[10px] font-bold text-neutral-400 select-none">
-                    A
-                  </div>
-                )}
-                <span className="text-[10px] font-mono text-neutral-400 group-hover:text-white transition-colors tracking-tight font-bold pr-1">
-                  ADMIN ACTIVE
-                </span>
-              </a>
-            )}
             <a
               href="#contact"
               className="px-6 py-3 bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold text-white hover:opacity-95 text-xs font-mono font-bold tracking-widest uppercase rounded-full transition-all duration-300 flex items-center gap-2 shadow-[0_0_20px_rgba(139,92,246,0.3)]"
@@ -129,7 +94,7 @@ export default function Navbar() {
                   <a
                     key={item.label}
                     href={item.href}
-                    onClick={(e) => handleMobileNav(e, item.href)}
+                    onClick={handleMobileNav}
                     className="text-lg font-display font-medium text-neutral-300 hover:text-white transition-colors py-1 block cursor-pointer"
                   >
                     {item.label}
@@ -138,18 +103,8 @@ export default function Navbar() {
                 <hr className="border-white/5 my-2" />
                 <div className="flex flex-col gap-4">
                   <a
-                    href="https://wa.me/+916392591533"
-                    target="_blank"
-                    rel="noreferrer"
-                    onClick={(e) => handleMobileNav(e, "https://wa.me/+916392591533", true)}
-                    className="flex items-center justify-center gap-2 py-3 border border-neutral-800 text-neutral-300 hover:bg-white/5 cursor-pointer text-xs font-mono uppercase tracking-widest rounded-full"
-                  >
-                    <MessageSquare className="w-4 h-4 text-white" />
-                    <span>WhatsApp Chat</span>
-                  </a>
-                  <a
                     href="#contact"
-                    onClick={(e) => handleMobileNav(e, "#contact")}
+                    onClick={handleMobileNav}
                     className="flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold text-white font-semibold text-xs font-mono uppercase tracking-widest cursor-pointer rounded-full shadow-lg"
                   >
                     <span>START YOUR JOURNEY</span>

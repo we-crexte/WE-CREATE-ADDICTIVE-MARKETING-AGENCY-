@@ -60,7 +60,7 @@ export default function Footer() {
             <div className="p-6 rounded-2xl bg-dark-card border border-white/5 relative overflow-hidden shadow-xl">
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold opacity-40" />
               <p className="text-xs text-neutral-300 font-sans leading-relaxed font-light">
-                Addictive Marketing is an execution-focused content agency. We partner with selected creators and brands to deliver predictable growth.
+                Adictive Marketing is an execution-focused content agency. We partner with selected creators and brands to deliver predictable growth.
               </p>
               <a
                 href="#contact"
@@ -77,7 +77,7 @@ export default function Footer() {
         {/* Lower tier: copyright and indicators */}
         <div className="pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-neutral-500 gap-4">
           <span>
-            © {currentYear} Addictive Marketing. All rights reserved.
+            © {currentYear} Adictive Marketing. All rights reserved.
           </span>
           <div className="flex gap-6">
             <a href="#" className="hover:text-white transition-colors">TERMS OF USE</a>

@@ -1,10 +1,10 @@
 # Security Specification (`security_spec.md`)
 
-This security specification implements attribute-based access control for the Addictive Marketing showcase project database. It enforces high-integrity zero-trust boundaries to ensure only the verified owner can alter database records, while granting public viewing rights for visitors.
+This security specification implements attribute-based access control for the Adictive Marketing showcase project database. It enforces high-integrity zero-trust boundaries to ensure only the verified owner can alter database records, while granting public viewing rights for visitors.
 
 ## 1. Data Invariants
 - **Showcase Items are Public-Read**: Any visitor can list and read the portfolio showcases.
-- **Admin-Only Modification**: Only the verified owner (`vedantssane2008@gmail.com` with a verified email) can perform CRUD operations on target projects.
+- **Admin-Only Modification**: Only the verified owner (authenticated with admin claim/role) can perform CRUD operations on target projects.
 - **Strict Schema Enforcement**: A work item must match the 8 defined schema keys exactly. No excess or shadow keys (e.g., tags, roles) are allowed on the objects.
 - **ID Safety**: Every document ID must match `^[a-zA-Z0-9_\-]+$` and be under 128 characters.
 - **Immutable Timestamp**: The `createdAt` property represents server time and must be unmodifiable post-creation.
@@ -20,8 +20,8 @@ Guest user attempts to upload a project with no auth token.
 An authenticated Google user with email `hacker@mischief.com` attempts to create a showcase.
 * **Result**: `PERMISSION_DENIED`
 
-### Payload 3: Spoofed Verified-Email Attack
-A user attempts to write with email `vedantssane2008@gmail.com` but with `email_verified: false` token.
+### Payload 3: Spoofed Token Attack
+A non-admin user attempts to write with an unverified or forged token.
 * **Result**: `PERMISSION_DENIED`
 
 ### Payload 4: Guest Project Delete
@@ -69,7 +69,7 @@ Here is the conceptual validation script designed for mock-testing these gates:
 // firestore.rules.test.ts
 import { assertFails, assertSucceeds, initializeTestEnvironment } from "@firebase/rules-unit-testing";
 
-describe("Addictive Agency Rules Suite", () => {
+describe("Adictive Agency Rules Suite", () => {
   it("prevents anonymous writes", async () => {
     const db = (await initializeTestEnvironment({ projectId: "test-app" })).unauthenticatedContext().firestore();
     await assertFails(db.collection("projects").add({ title: "Hack" }));
@@ -84,7 +84,7 @@ describe("Addictive Agency Rules Suite", () => {
 
   it("permits verified executive owner writes", async () => {
     const db = (await initializeTestEnvironment({ projectId: "test-app" }))
-      .authenticatedContext("owner-admin", { email: "vedantssane2008@gmail.com", email_verified: true })
+      .authenticatedContext("owner-admin", { admin: true })
       .firestore();
     // Valid object including strict server-time rules passed...
   });

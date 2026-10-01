@@ -47,7 +47,7 @@ export default function Process() {
             transition={{ delay: 0.1 }}
             className="text-3xl sm:text-4xl md:text-5xl font-display font-black tracking-tight text-white leading-tight"
           >
-            The Addictive Growth Process. <br />
+            The Adictive Growth Process. <br />
             <span className="bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold bg-clip-text text-transparent">
               Zero Guesswork. Just Content Systems.
             </span>

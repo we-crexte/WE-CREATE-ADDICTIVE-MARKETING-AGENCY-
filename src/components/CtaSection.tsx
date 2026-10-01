@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { MessageCircle, ArrowRight, Flame } from "lucide-react";
+import { Calendar, ArrowRight, Flame } from "lucide-react";
 
 export default function CtaSection() {
   return (
@@ -60,8 +60,8 @@ export default function CtaSection() {
             href="#contact"
             className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-accent-purple via-accent-orange to-accent-gold text-white font-mono font-bold text-xs uppercase tracking-widest rounded-full transition-transform hover:scale-105 active:scale-95 duration-300 flex items-center justify-center gap-2.5 shadow-[0_0_30px_rgba(139,92,246,0.3)] border border-white/10"
           >
-            <MessageCircle className="w-4 h-4 text-white" />
-            <span>Chat on WhatsApp</span>
+            <Calendar className="w-4 h-4 text-white" />
+            <span>Book Discovery Call</span>
           </a>
           
           {/* Secondary Watch Masterclass button */}
